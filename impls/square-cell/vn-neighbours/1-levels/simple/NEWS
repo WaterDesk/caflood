@@ -1,0 +1,63 @@
+### Overview Changes in Simple 1L VN Square Grid CAAPI implementation version 120 **(2018 Mar)** ###
+
+ 1. Major features:
+
+  - Abstracted the AsciiGrid to be implementation specific due to the for
+	hexagonal grid variations to square grids, therefore implementates ESRI_ascii_grid
+
+  
+ 2. Minor items:
+
+  - The primary storage has been migrated from and SVN to a GIT repository git.exeter.ac.uk
+  - This version is derived from the internal commit 151
+
+ 3. Known missing features & problems:
+
+  - 
+### Overview Changes in Simple 1L VN Square Grid CAAPI implementation version 110 **(2015 April)** ###
+
+ 1. Major features:
+
+  - Alarms functions isActivate and areAllActivate have changed name
+    to isActivated and areAllActivated
+
+  - Added caActivateAlarmMask function in caapi
+
+  - Increase the number of arguments to 17 for CA function
+
+ 2. Minor items:
+
+  - This version is derived from the internal revision 971
+
+  - Fixed a bug in caBoxStatus function
+
+  - Fixed a bug on the way the sequential operation was working.
+
+  - Updated the code to compile using clang 3.5 and gcc 4.8
+  
+  - Fixed small implementation error of the CAAPI 100 in ca?RealArray
+    where ? is Ceil/Raound/Floor/Trunc
+
+  - Added the possibility to dump Table object
+
+ 3. Known missing features & problems:
+
+  - 
+
+### Overview Changes in Simple 1L VN Square Grid CAAPI implementation Version 100 **(2014 February)** ###
+
+ 1. Major features:
+
+  - Simple implementation of the CAAPI that uses a square grid with
+    one single level of von Neumann neighbourhood that run on a single CPU.
+
+  - Implement the version 100 of the CAAPI
+
+ 2. Minor items:
+
+  - This version is derived from the internal revision 801
+
+ 3. Known missing features & problems:
+
+  - 
+

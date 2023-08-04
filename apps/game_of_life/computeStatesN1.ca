@@ -1,0 +1,86 @@
+/*
+    
+Copyright (c) 2013 Centre for Water Systems,
+                   University of Exeter
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+// Computes the states of the next generation of the game of life.
+// using the 'states' as the current generation/iteration,
+// and depositing the result in to 'statesN1'
+
+CA_FUNCTION computeStatesN1(CA_GRID grid, CA_CELLBUFF_STATE_I states,
+	    	            CA_CELLBUFF_STATE_IO statesN1){
+  // Initialise the grid
+  CA_GRID_INIT(grid);
+
+  // Create an arrays which will contain the values of States for
+  // each neighbours cell.
+  CA_ARRAY_CREATE(grid, CA_STATE, statesA,  caNeighbours+1);
+
+  // Read the states of the current generation/iteration of the 
+  // neighbourhood cells, into the array.
+  caReadCellBuffStateCellArray(grid,states ,statesA);
+
+  // set counter to zero.
+  unsigned int totalCellsCount = 0;
+
+  // loop through the neighbouring cell(ignoring the first, and main cell
+  // of the NH), and count the number of cells, as per game of life rules.
+  for(unsigned int e = 1; e < caNeighbours+1; ++e){
+
+     if(statesA[e] == 1){
+        ++totalCellsCount;
+     }
+
+  }
+
+  // a private/function local variable, to contain the value of the NH-main
+  // cell for the next generation/iteration. Based on curren value,
+  // then changing if rules say so.
+  CA_STATE newState = statesA[0];
+
+  //game of life rules : B3/S23
+
+  if(newState == 1){
+    // if alive, can surive, or die
+    if(!(totalCellsCount == 2 || totalCellsCount == 3)){
+      // so if it doesn't have 3 or 2 NH then should die.
+      newState = 0;      
+    }
+    
+    // this else, we need, incase cell was dead.
+  }else{ //otherwise is, dead and could become alive, or not
+    
+    if(totalCellsCount == 3){
+      // become alive(born from death)
+      newState = 1;
+    }
+  }
+
+  // write the new value of the current cell(main-NH cell) to the new grid.
+  // since a CA FUNCTION is performed for each cell in the grid, this will
+  // wholey populate the next generation into the 'statesN1' grid...
+
+  caWriteCellBuffState(grid,statesN1,newState);
+
+}
+//==============================================================================

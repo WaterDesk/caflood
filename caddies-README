@@ -1,0 +1,32 @@
+CADDIES - README
+===================
+
+Table of Contents 
+-----------------
+
+1. About CADDIES and CAAPI
+2. References
+
+
+### 1. About CADDIES and the CAAPI###
+
+The CA Application Programming Interface (API) (Guidolin et~al., 2012)
+of the CADDIES framework defines a standard set of methods, data
+structures and variables that can be used to develop parallel CA
+algorithms. The main idea of the CA API is that a developer needs to
+write the code of the CA model only once. After that, the CA API give
+the flexibility to produce the same CA model for any type of CA grid,
+square/hexagonal/triangular grid, and to use different high
+performance acceleration techniques without changing the code or with
+minimum effort.
+
+
+### 2. References ###
+
+ * Guidolin, M., Duncan, A., Ghimire, B., Gibson, M., Keedwell, E.,
+   Chen, A.S., Djordjevic, S., Savic, D., 2012. CADDIES: A New
+   Framework for Rapid Development of Parallel Cellular Automata
+   Algorithms for Flood Simulation. Presented at the 10th
+   International Conference on Hydroinformatics (HIC 2012), IWA
+   (International Water Association), Hamburg, Germany.
+ 

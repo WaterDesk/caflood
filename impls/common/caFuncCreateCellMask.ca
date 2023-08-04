@@ -1,0 +1,96 @@
+/*
+    
+Copyright (c) 2013 Centre for Water Systems,
+                   University of Exeter
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+
+*/
+
+// Compute a Mask from a real buffer.
+// The mask is divided in different bits which represents: 
+// bit 0 : true  (1) if the main cell has data, 
+//         false (0) if the main cell has nodata.
+// bit 1 : true  (1) if the neighbour cell 1 has data,
+//         false (0) if the neighbour cell 1 has nodata.
+// bit 2 : true  (1) if the neighbour cell 2 has data,
+//         false (0) if the neighbour cell 2 has nodata.
+// bit 3 : true  (1) if the neighbour cell 3 has data,
+//         false (0) if the neighbour cell 3 has nodata.
+// .....
+// bit 30: true  (1) if the main cell has data and a neighbour cell with nodata,
+//         false (0) if the main cell has nodata or all the cell in the neighbourhood has data.
+// bit 31: true  (1) if the main cell has nodata and a neighbour cell with data,
+//         false (0) if the main cell has data or all the cell in the neighbourhood has nodata.
+
+CA_FUNCTION caFuncCreateCellMask(CA_GRID grid,CA_CELLBUFF_REAL_I SRC,CA_CELLBUFF_STATE_IO MASK,CA_GLOB_REAL_I nd)
+{
+  // Initialise the grid		
+  CA_GRID_INIT(grid);
+
+  // Create an array which contains the values of the neighbours.
+  CA_ARRAY_CREATE(grid, CA_REAL, src,caNeighbours+1);		
+
+  // Read the values of the neighbourhood cells.
+  caReadCellBuffRealCellArray(grid,SRC,src);
+
+  // The value to insert into the mask buffer.
+  CA_STATE mask = 0;
+
+  // Local variables which are true respectively if at least a
+  // neighbour cell has nodata and if at least a neighbour cell has
+  // data.
+  CA_STATE nb_nodata=0;
+  CA_STATE nb_data  =0;
+
+  // Loop through each cell in the neighbourhood, included the main
+  // cell. Check if the cell has data and write the value in the
+  // correspondent bit of the mask.
+  int i=0;
+  while(i<=caNeighbours && i<=31)
+  {
+    if(src[i]!=nd)
+    {
+      // Set the respective single (hence the +1 into stop) bit of the
+      // mask to one.
+      mask = caWriteBitsState(1,mask,i,i+1);
+      
+      // At least a neighbour cell or main cell has data.
+      nb_data = 1;
+    }
+    else
+    {
+      // At least a nieghbour cell of main cell has nodata.
+      nb_nodata = 1;
+    }
+    i++;
+  }
+
+  // If the main cell has data and at least a neighbour cell has nodata
+  // set bit 30 to 1.
+  mask = caWriteBitsState(( (src[0]!=nd) & nb_nodata ), mask, 30, 31);
+
+  // If the main cell has nodata and at least a neighbour cell has data
+  // set bit 31 to 1.
+  mask = caWriteBitsState(( (src[0]==nd) & nb_data ),   mask, 31, 32);
+
+  // Write the mask into the buffer.
+  caWriteCellBuffState(grid,MASK,mask);
+}
+

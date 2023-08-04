@@ -1,0 +1,16 @@
+Platform Name		, NVIDIA
+Device Type		, GPU
+Warp Size		, 32
+Device Number		, 0
+CA Function Range	, outflowWCA2Dv1, 32, 4
+CA Function Range	, outflowWCA2Dv2, 32, 4
+CA Function Range	, outflowWCA2Dv2GEO, 32, 4
+CA Function Range	, waterdepthWCA2Dv1, 32, 4
+CA Function Range	, waterdepthWCA2Dv2, 32, 4
+CA Function Range	, waterdepthWCA2Dv2GEO, 32, 4
+CA Function Range	, velocityWCA2Dv1, 32, 4
+CA Function Range	, velocityWCA2Dv2, 32, 4
+CA Function Range	, velocityWCA2Dv2GEO, 32, 4
+CA Function Range	, updatePEAKC, 32, 4
+CA Function Range	, updatePEAKE, 32, 4
+CA Function Range	, addRain, 32, 4

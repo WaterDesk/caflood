@@ -1,0 +1,16 @@
+### Overview Changes in CAAPI Game Of Life Version 100 **(2014 February)** ###
+
+ 1. Major features:
+
+  - A simple Game of Life cellular automata that uses a double
+    buffer technique.  
+
+  - Read the initial status of the grid from a ASCII/GRID type file.
+
+ 2. Minor items:
+
+  - This version is derived from the internal revision 801
+
+ 3. Known missing features & problems:
+
+  - 

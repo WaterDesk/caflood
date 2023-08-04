@@ -1,0 +1,70 @@
+### Overview Changes in CAAPI Base Framework version 120 **(2018 Mar)** ###
+
+ 1. Major features:
+
+  - Abstracted the AsciiGrid to be implementation specific due to the for
+	hexagonal grid variations to square grids
+
+  - Experimental version 010 of	Hexagonal grid
+
+  - 
+  
+ 2. Minor items:
+
+  - The primary storage has been migrated from and SVN to a GIT repository git.exeter.ac.uk
+  - This version is derived from the internal commit 151
+
+  - Change internal layout for common files which are device specific
+
+ 3. Known missing features & problems:
+
+  - 
+
+
+
+### Overview Changes in CAAPI Base Framework version 110 **(2015 April)** ###
+
+ 1. Major features:
+
+  - Alarms functions isActivate and areAllActivate have changed name
+    to isActivated and areAllActivated
+
+  - Added caActivateAlarmMask function in caapi
+
+  - Increase the number of arguments to 17 for CA function
+
+ 2. Minor items:
+
+  - This version is derived from the internal revision 971
+
+  - Updated the CMAKE and the code to compile using clang 3.5 and gcc 4.8
+
+ 3. Known missing features & problems:
+
+  - 
+
+
+### Overview Changes in CAAPI Base Framework Version 100 **(2014 February)** ###
+
+ 1. Major features:
+
+  - Added the possibility to build multiple applications. These must
+    reside in the apps sub-directory. All the compilation of these
+    apps must be managed by CMAKE in order to us the CAAPI framework.
+
+  - Added the possibility to have multiple implementations of CA
+    API. These implementations must reside in the impl
+    sub-directory. The specific implementation that is going to be
+    used to compile the apps is set by the variable
+    `CAAPI_SPECIFIC_IMPL_DIR.`
+
+  - Added the possibility to create multiple packages using CPACK
+    components. It is important to remeber to add all the files using
+    the INSTALL macro of CMAKE. It is important that each packge
+    contains its own LICENSE, NEWS, AUTHORS, Version.txt files.
+
+ 2. Minor items:
+
+  - This version is derived from the internal revision 801
+
+ 3. Known missing features & problems:

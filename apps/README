@@ -1,0 +1,23 @@
+### APPS - directory ###
+
+The "apps" directory contains the all applications that need to use
+the CAAPI in order to be build.
+
+There should be one sub-directory for each application,
+i.e. game_of_life sub-directory. Only apps that have their code as
+sub-directory can be build with the CAAPI.
+
+Howver, it is possible to have an external application in a different
+directory, i.e. reside in a different location of the hard disk.  In
+order to compile this external app with CAAPI, a symbolic link into the
+app sub-directory that link to the "apps" directory must exist.
+
+In a Windows operating system you can use the following command with
+PowerShell as administrator (notice the use of /J to create a
+junction):
+
+PS > cmd /c mklink /J "link" target
+
+In a Unix operating system (Linux) you can use the follwoing command:
+
+$ ln -s target link

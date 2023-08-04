@@ -1,0 +1,84 @@
+### Overview Changes in OpenCL 1L VN Square Grid CAAPI implementation version 120 **(2018 Mar)** ###
+
+ 1. Major features:
+
+  - Abstracted the AsciiGrid to be implementation specific due to the for
+	hexagonal grid variations to square grids, therefore implementates ESRI_ascii_grid
+
+  
+ 2. Minor items:
+
+  - The primary storage has been migrated from and SVN to a GIT repository git.exeter.ac.uk
+  - This version is derived from the internal commit 151
+
+ 3. Known missing features & problems:
+
+  - 
+
+### Overview Changes in OpenCL 1L VN Square Grid CAAPI implementation version 110 **(2015 April)** ###
+
+ 1. Major features:
+
+  - Added the possibility to use native math function in kernels
+
+  - Alarms functions isActivate and areAllActivate have changed name
+    to isActivated and areAllActivated
+
+  - Added caActivateAlarmMask function in caapi
+
+  - Increase the number of arguments to 17 for CA function
+
+ 2. Minor items:
+
+  - This version is derived from the internal revision 971
+
+  - Updated the code to compile using clang 3.5 and gcc 4.8
+
+  - Added the possibility to dump Table object
+
+  - Changed the way OpenCL events are managed to reduce memory leaks.
+
+  - It is possible to choose between OpenCL constant or global memory
+    for the Table object
+
+  - Improved device fission between OpenCL 1.1 and 1.2 versions.
+  
+ 3. Known missing features & problems:
+
+  - 
+
+### Overview Changes in OpenCL 1L VN Square Grid CAAPI implementation Version 100 **(2014 February)** ###
+
+ 1. Major features:
+
+  - OpenCL implementation of the CAAPI that uses a square grid with
+    one single level of von Neumann neighbourhood that can run on
+    multi-core CPU or GPU.
+
+  - Implement the version 100 of the CAAPI
+
+  - It is possible to choose which OpenCL platform and devices to run
+    the execution by using the implementation option config-file. This
+    file and other options can be used to set up various other OpenCL
+    parameters.
+
+  - There are two example files (config_INTEL_CPU.csv and
+    config_NVIDIA_GPU.csv) that are used to run an execution into an
+    INTEL CPU and an NVIDIA GPU.
+
+  - The implementation contains two extra executable (convertCATOHPP
+    and clinfo) which respectively convert a CA function into a header
+    with OpenCL code and return various information about the OpenCL
+    platform and devices available.
+
+ 2. Minor items:
+
+  - This version is derived from the internal revision 801
+
+ 3. Known missing features & problems:
+
+  - This implementation has only been tested on NVIDA GPUs and INTEL
+    CPUs. No test was performed on AMD CPU and GPUs. 
+
+  - It need the FULL_PROFILE implementation of OpenCL. It has not been
+    tested on an embadded profile.

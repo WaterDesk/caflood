@@ -1,0 +1,5 @@
+Platform Name		, INTEL
+Device Type		, CPU
+Device Number		, 0
+Warp Size		, 8
+Device CU		, 6
