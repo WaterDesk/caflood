@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -28,32 +28,32 @@ THE SOFTWARE.
 // indicate that there where not any water movement over that
 // elevation.
 
-CA_FUNCTION removeUpstr(CA_GRID grid, CA_CELLBUFF_STATE_IO MASK, CA_CELLBUFF_REAL_I ELV, 
-			CA_GLOB_REAL_I upstr_elv)
+CA_FUNCTION removeUpstr(CA_GRID grid, CA_CELLBUFF_STATE_IO MASK, CA_CELLBUFF_REAL_I ELV,
+    CA_GLOB_REAL_I upstr_elv)
 {
-  // Initialise the grid
-  CA_GRID_INIT(grid);
+    // Initialise the grid
+    CA_GRID_INIT(grid);
 
-  // Read Mask.
-  CA_STATE mask  = caReadCellBuffState(grid,MASK,0);
+    // Read Mask.
+    CA_STATE mask = caReadCellBuffState(grid, MASK, 0);
 
-  // Read bit 0  (false the main cell has nodata)
-  CA_STATE bit0  = caReadBitsState(mask,0,1);
+    // Read bit 0  (false the main cell has nodata)
+    CA_STATE bit0 = caReadBitsState(mask, 0, 1);
 
-  // If the main cell has no data 
-  // then do nothing.
-  if(bit0 == 0)
-    return;
-  
-  // Retrieve the elevation of the main cell.
-  CA_REAL  elv = caReadCellBuffReal(grid,ELV,0);
+    // If the main cell has no data 
+    // then do nothing.
+    if (bit0 == 0)
+        return;
 
-  // If the elevation is over the threshould set the bit0 of the mask
-  // to false and write back the mask.
-  if(elv>upstr_elv)
-  {
-    bit0 = 0;
-    mask = caWriteBitsState(bit0,mask,0,1);
-    caWriteCellBuffState(grid,MASK,mask);      
-  }
+    // Retrieve the elevation of the main cell.
+    CA_REAL  elv = caReadCellBuffReal(grid, ELV, 0);
+
+    // If the elevation is over the threshould set the bit0 of the mask
+    // to false and write back the mask.
+    if (elv > upstr_elv)
+    {
+        bit0 = 0;
+        mask = caWriteBitsState(bit0, mask, 0, 1);
+        caWriteCellBuffState(grid, MASK, mask);
+    }
 }

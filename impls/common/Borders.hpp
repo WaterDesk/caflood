@@ -41,177 +41,160 @@ THE SOFTWARE.
 
 
 namespace CA {
-  
-  //! Enum which identifies the four borders of a square regolar grid.
-  enum Border
-  {
-    Right  = 1,
-    Top    = 2,
-    Left   = 3,
-    Bottom = 4    
-  };
 
-  //! Enum which identifies the four corners of a square regolar grid.
-  enum Corner
-  {
-    TopLeft,
-    TopRight,
-    BottomLeft,
-    BottomRight
-  };
- 
-
-  //! Global variable which identify that a segment include all the borders.
-  const Unsigned caBStart = 0;
-  const Unsigned caBStop  = std::numeric_limits<Unsigned>::max();
-  
-
-  //! Border class Identifies a single or multiple segments of the
-  //! borders of the grid. Furthemore, it can identify corners of
-  //! the border.  These segments and corners can then be used to perform a
-  //! border action such as set a value, wrap values, etc.
-
-  //! A segment is identified by:
-  //! 1) the border which can be the top, bottom, righ or left border
-
-  //! 2) the starting and end point which can have value from 0 to the
-  //! number of cells in the border. 
-
-  //! In order to indentify a segment that take all the border,
-  //! caBStart and caBStop values can be used.
-
-  //! \attention A segment cannot include a corner of a border. A special
-  //! method is needed to add a corner in the border.
-  
-  //! \warning The position (0,0) in the Grid correspond to the
-  //! top-left corner of the grid.
-
-  class Borders
-  {
-
-  public:
-
-    //! Identifies a segment in a border.
-    struct Segment
+    //! Enum which identifies the four borders of a square regolar grid.
+    enum Border
     {
-      Border type;		// One of the fourn border.
-      Unsigned     start;		// The starting position.
-      Unsigned     stop;		// The stopping position.
-
-      Segment(Border t, Unsigned b, Unsigned e):type(t), start(b), stop(e){}
-      ~Segment(){}
+        Right = 1,
+        Top = 2,
+        Left = 3,
+        Bottom = 4
     };
-    
-    //! Define the type of a container of Segments.
-    typedef std::vector<Segment> SegmentsList;
 
-    //! Define the type of a container of Corner.
-    typedef std::vector<Corner>  CornersList;
+    //! Enum which identifies the four corners of a square regolar grid.
+    enum Corner
+    {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    };
 
-
-    //! Create a empty borders
-    Borders();
-
-
-    //! Destroy the borders.
-    ~Borders();
-
-
-    //! Return the number of segments in the borders.
-    int numSegments() const;
+    //! Global variable which identify that a segment include all the borders.
+    const Unsigned caBStart = 0;
+    const Unsigned caBStop = std::numeric_limits<Unsigned>::max();
 
 
-    //! Return the number of corner in the borders.
-    int numCorners() const;
+    //! Border class Identifies a single or multiple segments of the
+    //! borders of the grid. Furthemore, it can identify corners of
+    //! the border.  These segments and corners can then be used to perform a
+    //! border action such as set a value, wrap values, etc.
+
+    //! A segment is identified by:
+    //! 1) the border which can be the top, bottom, righ or left border
+
+    //! 2) the starting and end point which can have value from 0 to the
+    //! number of cells in the border. 
+
+    //! In order to indentify a segment that take all the border,
+    //! caBStart and caBStop values can be used.
+
+    //! \attention A segment cannot include a corner of a border. A special
+    //! method is needed to add a corner in the border.
+
+    //! \warning The position (0,0) in the Grid correspond to the
+    //! top-left corner of the grid.
+
+    class Borders
+    {
+    public:
+
+        //! Identifies a segment in a border.
+        struct Segment
+        {
+            Border type;        // One of the fourn border.
+            Unsigned     start; // The starting position.
+            Unsigned     stop;  // The stopping position.
+
+            Segment(Border t, Unsigned b, Unsigned e) :type(t), start(b), stop(e) {}
+            ~Segment() {}
+        };
+
+        //! Define the type of a container of Segments.
+        typedef std::vector<Segment> SegmentsList;
+
+        //! Define the type of a container of Corner.
+        typedef std::vector<Corner>  CornersList;
+
+        //! Create a empty borders
+        Borders();
+
+        //! Destroy the borders.
+        ~Borders();
+
+        //! Return the number of segments in the borders.
+        int numSegments() const;
+
+        //! Return the number of corner in the borders.
+        int numCorners() const;
+
+        //! Return the given segment of the border.
+        const Segment& segment(int num) const;
+
+        //! Return the given corner of the border.
+        Corner  corner(int num) const;
+
+        //! Add a segment into the borders.
+
+        //! \attention If start and stop are not passed, the default is to
+        //! create a segment a big as the border.
+        //! \param border One of the four border.
+        //! \param start    The starting point.
+        //! \param stop     The stoppping point.
+        void addSegment(Border border, Unsigned start = caBStart, Unsigned stop = caBStop);
+
+        //! Add a corner into the borders.
+        void addCorner(Corner c);
+
+    private:
+
+        //! List of segments in the borders.
+        SegmentsList _segments;
+
+        //! List of corner in the borders.
+        CornersList  _corners;
+    };
 
 
-    //! Return the given segment of the border.
-    const Segment& segment(int num) const;
-
-    
-    //! Return the given corner of the border.
-    Corner  corner(int num) const;
-    
-
-    //! Add a segment into the borders.
-
-    //! \attention If start and stop are not passed, the default is to
-    //! create a segment a big as the border.
-    //! \param border One of the four border.
-    //! \param start    The starting point.
-    //! \param stop     The stoppping point.
-    void addSegment(Border border, Unsigned start = caBStart, Unsigned stop = caBStop);
-
-    //! Add a corner into the borders.
-    void addCorner(Corner c);
+    /// ----- Inline implementation ----- ///
 
 
-  private:
-
-    //! List of segments in the borders.
-    SegmentsList _segments;
-    
-    //! List of corner in the borders.
-    CornersList  _corners;
-  };
+    inline Borders::Borders() :
+        _segments(), _corners()
+    {
+    }
 
 
-  /// ----- Inline implementation ----- ///
-  
-
-  inline Borders::Borders():
-    _segments(), _corners()
-  {    
-  }
+    inline Borders::~Borders()
+    {
+    }
 
 
-  inline Borders::~Borders()
-  {
-  }
+    inline int Borders::numSegments() const
+    {
+        return static_cast<int>(_segments.size());
+    }
 
 
-
-  inline int Borders::numSegments() const
-  {
-    return static_cast<int>(_segments.size());
-  }
-
-
-  inline int Borders::numCorners() const
-  {
-    return static_cast<int>(_corners.size());
-  }
+    inline int Borders::numCorners() const
+    {
+        return static_cast<int>(_corners.size());
+    }
 
 
-
-  inline const Borders::Segment& Borders::segment(int num) const
-  {
-    return _segments[num];
-  }
-
-    
-
-  inline Corner Borders::corner(int num) const
-  {
-    return _corners[num];
-  }
-    
+    inline const Borders::Segment& Borders::segment(int num) const
+    {
+        return _segments[num];
+    }
 
 
-  inline void Borders::addSegment(Border border, Unsigned start, Unsigned stop)
-  {
-    _segments.push_back(Segment(border,start,stop));
-  }
+    inline Corner Borders::corner(int num) const
+    {
+        return _corners[num];
+    }
 
 
-  inline void Borders::addCorner(Corner c)
-  {
-    _corners.push_back(c);
-  }
+    inline void Borders::addSegment(Border border, Unsigned start, Unsigned stop)
+    {
+        _segments.push_back(Segment(border, start, stop));
+    }
 
+
+    inline void Borders::addCorner(Corner c)
+    {
+        _corners.push_back(c);
+    }
 
 } // CA
 
-
-
-#endif	// _CA_BORDERS_HPP_
+#endif  // _CA_BORDERS_HPP_

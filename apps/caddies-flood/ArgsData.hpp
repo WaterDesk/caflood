@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -39,39 +39,39 @@ THE SOFTWARE.
 #include<string>
 #include<vector>
 
-#define READ_TOKEN(_test,_var,_tok,_sect)				\
-   {									\
-   if(!CA::fromString(_var,_tok))					\
-   {									\
+#define READ_TOKEN(_test,_var,_tok,_sect)   \
+   {                                        \
+   if(!CA::fromString(_var,_tok))           \
+   {                                        \
      std::cerr<<"Error reading '"<<CA::trimToken(_sect)<<"' element"<<std::endl; \
-     return 1;								\
-   }									\
-   _test = true;							\
+     return 1;                              \
+   }                                        \
+   _test = true;                            \
    }
 
 
 //! Remove file extension
-inline std::string removeExtension(const std::string& filename) 
+inline std::string removeExtension(const std::string& filename)
 {
-  size_t lastdot = filename.find_last_of(".");
-  if (lastdot == std::string::npos) return filename;
-  return filename.substr(0, lastdot); 
+    size_t lastdot = filename.find_last_of(".");
+    if (lastdot == std::string::npos) return filename;
+    return filename.substr(0, lastdot);
 }
 
 //! Identifies the model to use in the CADDIES2D flood modelling
 struct MODEL
 {
-  enum Type
-  {
-    UNKNOWN = 0,
-    WCA2Dv1,
-    WCA2Dv2
-  };
+    enum Type
+    {
+        UNKNOWN = 0,
+        WCA2Dv1,
+        WCA2Dv2
+    };
 };
 
 
 //! Transform an input string into a physical variable enum.
-std::istream& operator>>(std::istream& in,  MODEL::Type& m);
+std::istream& operator>>(std::istream& in, MODEL::Type& m);
 //! Transform a physical variable enum into an output string.
 std::ostream& operator<<(std::ostream& out, MODEL::Type& m);
 
@@ -80,89 +80,87 @@ std::ostream& operator<<(std::ostream& out, MODEL::Type& m);
 //! arguments.
 struct ArgsData
 {
+    // Create the arguments list and define the prefix which identifies
+    // the arguments that are optional. This prefix differs between
+    // windows and unix.
+    CA::Arguments args;
 
-  // Create the arguments list and define the prefix which identifies
-  // the arguments that are optional. This prefix differs between
-  // windows and unix.
-  CA::Arguments args;
+    //! The working directory where the data and the configuration
+    //! files are located.
+    std::string working_dir;
 
-  //! The working directory where the data and the configuration
-  //! files are located.
-  std::string working_dir;
+    //! The setup file which contain the initial configuration of the ca
+    //! algorithm.
+    std::string setup_file;
 
-  //! The setup file which contain the initial configuration of the ca
-  //! algorithm.
-  std::string setup_file;
+    //! The output directory where the output data files are saved.
+    std::string output_dir;
 
-  //! The output directory where the output data files are saved.
-  std::string output_dir;
+    //! Contain the string used as separator of directory.
+    std::string sdir;
 
-  //! Contain the string used as separator of directory.
-  std::string sdir;
+    //! The direcotry where temporary GRID/BUFFER data is saved/loaded.
+    std::string data_dir;
 
-  //! The direcotry where temporary GRID/BUFFER data is saved/loaded.
-  std::string data_dir;
+    //! If true, print any information into console.
+    bool info;
 
-  //! If true, print any information into console.
-  bool info;		
+    //! If true, perform preprocessing.
+    bool pre_proc;
 
-  //! If true, perform preprocessing.
-  bool pre_proc;		
+    //! If true, do not perform the preprocessing. This take precedence
+    //! over pre-proc argument.
+    bool no_pre_proc;
 
-  //! If true, do not perform the preprocessing. This take precedence
-  //! over pre-proc argument.
-  bool no_pre_proc;
+    //! If true, perform postprocessing.
+    bool post_proc;
 
-  //! If true, perform postprocessing.
-  bool post_proc;
+    //! Which Model (is a string).
+    std::string model;
 
-  //! Which Model (is a string).
-  std::string model;
+    //! If true, display the terrrain info and exit.
+    bool terrain_info;
 
-  //! If true, display the terrrain info and exit.
-  bool terrain_info;
-
-  // Constructor
-  ArgsData():
+    // Constructor
+    ArgsData() :
 #if defined _WIN32 || defined __CYGWIN__   
-    args("/"),
+        args("/"),
 #else
-    args("-"),
+        args("-"),
 #endif
-    working_dir("."),
+        working_dir("."),
 #if defined _WIN32 || defined __CYGWIN__   
-    sdir("\\"),
+        sdir("\\"),
 #else
-    sdir("/"),
+        sdir("/"),
 #endif
-    data_dir(),
-    info(false),
-    pre_proc(false),
-    no_pre_proc(false),
-    post_proc(false),
-    model(),
-    terrain_info(false)
-  {}
-  
-  ~ArgsData(){}
-  
+        data_dir(),
+        info(false),
+        pre_proc(false),
+        no_pre_proc(false),
+        post_proc(false),
+        model(),
+        terrain_info(false)
+    {}
+
+    ~ArgsData() {}
 };
 
 
 //! Identifies different physical variables, i.e. the buffer of data.
 struct PV
 {
-  enum Type
-  {
-    UNKNOWN = 0,
-    WD,				//!< The water depth. 
-    WL,				//!< The water level (depth + elv).
-    VEL,			//!< The velocity saved as Vertical, Horizonatl.
-  };
+    enum Type
+    {
+        UNKNOWN = 0,
+        WD,             //!< The water depth. 
+        WL,             //!< The water level (depth + elv).
+        VEL,            //!< The velocity saved as Vertical, Horizonatl.
+    };
 };
 
 //! Transform an input string into a physical variable enum.
-std::istream& operator>>(std::istream& in,  PV::Type& pv);
+std::istream& operator>>(std::istream& in, PV::Type& pv);
 //! Transform a physical variable enum into an output string.
 std::ostream& operator<<(std::ostream& out, PV::Type& pv);
 

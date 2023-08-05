@@ -25,20 +25,20 @@ THE SOFTWARE.
 
 // Set the real buffer to one if the cell is a data cell.
 
-CA_FUNCTION computeDataCells(CA_GRID grid, CA_CELLBUFF_REAL_IO TMP,CA_CELLBUFF_STATE_I MASK)
+CA_FUNCTION computeDataCells(CA_GRID grid, CA_CELLBUFF_REAL_IO TMP, CA_CELLBUFF_STATE_I MASK)
 {
-  // Initialise the grid
-  CA_GRID_INIT(grid);
+    // Initialise the grid
+    CA_GRID_INIT(grid);
 
-  // Read Mask.
-  CA_STATE mask  = caReadCellBuffState(grid,MASK,0);
+    // Read Mask.
+    CA_STATE mask = caReadCellBuffState(grid, MASK, 0);
 
-  // Read bit 0  (false the main cell has nodata)
-  CA_STATE bit0  = caReadBitsState(mask,0,1);
+    // Read bit 0  (false the main cell has nodata)
+    CA_STATE bit0 = caReadBitsState(mask, 0, 1);
 
-  // Set the value to one if the cell has data, otherwise to zero.
-  CA_REAL value = (bit0 == 1)?1.0:0.0;
-  
-  // Write the are in the buffer
-  caWriteCellBuffReal(grid,TMP,value);
+    // Set the value to one if the cell has data, otherwise to zero.
+    CA_REAL value = (bit0 == 1) ? 1.0 : 0.0;
+
+    // Write the are in the buffer
+    caWriteCellBuffReal(grid, TMP, value);
 }

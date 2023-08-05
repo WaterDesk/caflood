@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -48,24 +48,22 @@ class TSPlot
 {
 public:
 
-  //! Construct a TimeSteps Plot manager
-  //! \param name This is the name of the file.
-  TSPlot(std::string name,bool plot);
+    //! Construct a TimeSteps Plot manager
+    //! \param name This is the name of the file.
+    TSPlot(std::string name, bool plot);
 
-  //! Destroy a Time Steps Plot Manager.
-  ~TSPlot();
-  
+    //! Destroy a Time Steps Plot Manager.
+    ~TSPlot();
 
-  //! Output the time plots.
-  //! \params t       The simulation time.
-  //! \param  dt      The last dt
-  void output(CA::Real t, CA::Real dt);
+    //! Output the time plots.
+    //! \params t       The simulation time.
+    //! \param  dt      The last dt
+    void output(CA::Real t, CA::Real dt);
 
 private:
 
-  cpp11::shared_ptr<std::ofstream> _file;   //!< The file where to output the time plot data.
+    cpp11::shared_ptr<std::ofstream> _file;   //!< The file where to output the time plot data.
 
 };
-
 
 #endif

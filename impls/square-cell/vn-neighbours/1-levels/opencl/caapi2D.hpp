@@ -80,11 +80,9 @@ const int caVersion = CAAPI_VERSION;
 
 //! The string with the version of the caAPI implemented.
 static const char* caVersionStr = CA_QUOTE_MACRO(CAAPI_VERSION);
-    
 
 //! The string with implementation name.
 static const char* caImplName = CA_QUOTE_MACRO(CAAPI_IMPL_NAME);
-
 
 //! The string with implementation short name.
 static const char* caImplShortName = CA_QUOTE_MACRO(CAAPI_IMPL_SHORTNAME);
@@ -132,18 +130,14 @@ typedef cl_double           _caReal;
 //! Define the type of state values.
 typedef cl_int             _caState;
 
-
 //! Define the type of a size value.
 typedef cl_ulong           _caUnsigned;
-
 
 //! Define the type of a integer value.
 typedef cl_int             _caInt;
 
-
 //! Define the type that contains two size values.
 typedef cl_ulong2          _caUnsigned2;
-
 
 //! Define the numebr of neighbours
 #define CA2D_NEIGHBOURS 4
@@ -153,18 +147,14 @@ typedef cl_ulong2          _caUnsigned2;
 //! number of neighbours. 
 const int caNeighbours = 4;
 
-
 //! Number of edges of a cell. 
 const int caEdges = 4;
-
 
 //! Number of vertices of a cell. 
 const int caVertices = 4;
 
-
 //! Number of neighbours' levels in the neighbourhood. 
 const int caLevels = 1;
-
 
 //! Maximum number of neighbours in a level
 const int caMaxNeighboursLevel = 4;
@@ -175,118 +165,96 @@ const int caMaxNeighboursLevel = 4;
 //! corner.
 struct _caGrid
 {
-  //! The size in the X dimension of the grid (num cells).
-  _caUnsigned x_size;	
+    //! The size in the X dimension of the grid (num cells).
+    _caUnsigned x_size;
 
+    //! The size in the Y dimension of the grid (num cells).
+    _caUnsigned y_size;
 
-  //! The size in the Y dimension of the grid (num cells).
-  _caUnsigned y_size;	
+    //! The lenght of an edge of the cell in the X/Y dimension.
+    _caReal length;
 
+    //! The x coordinate of the bottom-left corner
+    _caReal x_coo;
 
-  //! The lenght of an edge of the cell in the X/Y dimension.
-  _caReal length;
+    //! The y coordinate of the bottom-left corner
+    _caReal y_coo;
 
+    //! The area of a cell;
+    _caReal area;
 
-  //! The x coordinate of the bottom-left corner
-  _caReal x_coo;
+    //! The left x position to the top left corner of the
+    //! rectangular box.
+    _caUnsigned bx_lx;
 
+    //! The top y position to the top left corner of the
+    //! rectangular box.
+    _caUnsigned bx_ty;
 
-  //! The y coordinate of the bottom-left corner
-  _caReal y_coo;
+    //! The right x position to the bottom righ corner of the
+    //! rectangular box.
+    _caUnsigned bx_rx;
 
+    //! The bottom y position to the bottom righ corner of the
+    //! rectangular box.
+    _caUnsigned bx_by;
 
-  //! The area of a cell;
-  _caReal area;		
-  
+    //! The size of a cell buffer on the X dimension with the border
+    //! cells.
+    _caUnsigned cb_x_size;
 
-  //! The left x position to the top left corner of the
-  //! rectangular box.
-  _caUnsigned bx_lx;
-  
+    //! The size of a cell buffer on the Y dimension with the border
+    //! cells.
+    _caUnsigned cb_y_size;
 
-  //! The top y position to the top left corner of the
-  //! rectangular box.
-  _caUnsigned bx_ty;
+    //! Border size in one side of a cell buffer. It depends on the
+    //! number of neighbours's levels chosen.
+    _caUnsigned cb_border;
 
+    //! The offset in the X dimension of a cell buffer. 
+    _caUnsigned cb_x_offset;
 
-  //! The right x position to the bottom righ corner of the
-  //! rectangular box.
-  _caUnsigned bx_rx;
-  
+    //! The stride in the X dimension of a cell buffer. It represent the
+    //! alligned X dimension which is used to improve the performance on
+    //! GPU. \attention This is the X dimenesnison that the buffer is
+    //! allocated.
+    _caUnsigned cb_stride;
 
-  //! The bottom y position to the bottom righ corner of the
-  //! rectangular box.
-  _caUnsigned bx_by;
+    //! The size of the north/sourth sub-buffer of an edge buffer on
+    //! the X and Y dimensions with the border edges.
+    _caUnsigned eb_ns_x_size;
+    _caUnsigned eb_ns_y_size;
 
+    //! The size of the west/east sub-buffer of an edge buffer on the X and
+    //! Y dimensions with the border edges.
+    _caUnsigned eb_we_x_size;
+    _caUnsigned eb_we_y_size;
 
-  //! The size of a cell buffer on the X dimension with the border
-  //! cells.
-  _caUnsigned cb_x_size;
-  
-  
-  //! The size of a cell buffer on the Y dimension with the border
-  //! cells.
-  _caUnsigned cb_y_size;
+    //! Border size in the Y direction for the north/south sub-buffer
+    //! of an edge buffer. It depends on the number of neighbours's
+    //! levels chosen.
+    _caUnsigned eb_ns_y_border;
 
-    
-  //! Border size in one side of a cell buffer. It depends on the
-  //! number of neighbours's levels chosen.
-  _caUnsigned cb_border; 
+    //! Border size in the X direction for the west/east sub-buffer of
+    //! an edge buffer. It depends on the number of neighbours's levels
+    //! chosen.
+    _caUnsigned eb_we_x_border;
 
+    //! The offset in the X dimension of the west/east sub-buffers of the edge buffer. 
+    _caUnsigned eb_we_x_offset;
 
-  //! The offset in the X dimension of a cell buffer. 
-  _caUnsigned cb_x_offset;       
+    //! The stride in the X dimension of north/south west/east
+    //! sub-buffers of a edge buffer. It represent the alligned X
+    //! dimension which is used to improve the performance on
+    //! GPU. \attention This is the X dimenesnison that the buffer is
+    //! allocated.
+    _caUnsigned eb_ns_stride;
+    _caUnsigned eb_we_stride;
 
-
-  //! The stride in the X dimension of a cell buffer. It represent the
-  //! alligned X dimension which is used to improve the performance on
-  //! GPU. \attention This is the X dimenesnison that the buffer is
-  //! allocated.
-  _caUnsigned cb_stride;       
-
-
-  //! The size of the north/sourth sub-buffer of an edge buffer on
-  //! the X and Y dimensions with the border edges.
-  _caUnsigned eb_ns_x_size;
-  _caUnsigned eb_ns_y_size;
-    
-
-  //! The size of the west/east sub-buffer of an edge buffer on the X and
-  //! Y dimensions with the border edges.
-  _caUnsigned eb_we_x_size;
-  _caUnsigned eb_we_y_size;
-  
-  
-  //! Border size in the Y direction for the north/south sub-buffer
-  //! of an edge buffer. It depends on the number of neighbours's
-  //! levels chosen.
-  _caUnsigned eb_ns_y_border; 
-  
-  
-  //! Border size in the X direction for the west/east sub-buffer of
-  //! an edge buffer. It depends on the number of neighbours's levels
-  //! chosen.
-  _caUnsigned eb_we_x_border; 
-
-
-  //! The offset in the X dimension of the west/east sub-buffers of the edge buffer. 
-  _caUnsigned eb_we_x_offset;       
-
-
-  //! The stride in the X dimension of north/south west/east
-  //! sub-buffers of a edge buffer. It represent the alligned X
-  //! dimension which is used to improve the performance on
-  //! GPU. \attention This is the X dimenesnison that the buffer is
-  //! allocated.
-  _caUnsigned eb_ns_stride;   
-  _caUnsigned eb_we_stride;    
-
-  
-  //! Since the main buffer is divided in two sub buffers, this the
-  //! the starting point of the two sub-buffers in the main buffer.
-  _caUnsigned eb_ns_start;
-  _caUnsigned eb_we_start;
-
+    //! Since the main buffer is divided in two sub buffers, this the
+    //! the starting point of the two sub-buffers in the main buffer.
+    _caUnsigned eb_ns_start;
+    _caUnsigned eb_we_start;
 };
 
 
@@ -296,106 +264,93 @@ struct _caGrid
 //! corner.
 struct _caGrid_short
 {
-  //! The lenght of an edge of the cell in the X/Y dimension.
-  _caReal length;
+    //! The lenght of an edge of the cell in the X/Y dimension.
+    _caReal length;
 
+    //! The area of a cell;
+    _caReal area;
 
-  //! The area of a cell;
-  _caReal area;		
-  
+    //! The x coordinate of the bottom-left corner
+    _caReal x_coo_top;
 
-  //! The x coordinate of the bottom-left corner
-  _caReal x_coo_top;
+    //! The y coordinate of the top-left corner
+    _caReal y_coo_top;
 
+    //! The left x position to the top left corner of the
+    //! rectangular box.
+    _caUnsigned bx_lx;
 
-  //! The y coordinate of the top-left corner
-  _caReal y_coo_top;
+    //! The top y position to the top left corner of the
+    //! rectangular box.
+    _caUnsigned bx_ty;
 
+    //! The right x position to the bottom righ corner of the
+    //! rectangular box.
+    _caUnsigned bx_rx;
 
-  //! The left x position to the top left corner of the
-  //! rectangular box.
-  _caUnsigned bx_lx;
-  
+    //! The bottom y position to the bottom righ corner of the
+    //! rectangular box.
+    _caUnsigned bx_by;
 
-  //! The top y position to the top left corner of the
-  //! rectangular box.
-  _caUnsigned bx_ty;
+    //! The offset in the X dimension of a cell buffer. 
+    _caUnsigned cb_x_offset;
 
+    //! The stride in the X dimension of a cell buffer. It represent the
+    //! alligned X dimension which is used to improve the performance on
+    //! GPU. \attention This is the X dimenesnison that the buffer is
+    //! allocated.
+    _caUnsigned cb_stride;
 
-  //! The right x position to the bottom righ corner of the
-  //! rectangular box.
-  _caUnsigned bx_rx;
-  
+    //! The offset in the X dimension of the west/east sub-buffers of
+    //! the edge buffer + starting point of the we buffer.
+    _caUnsigned eb_we_offset;
 
-  //! The bottom y position to the bottom righ corner of the
-  //! rectangular box.
-  _caUnsigned bx_by;
+    //! The stride in the X dimension of north/south west/east
+    //! sub-buffers of a edge buffer. It represent the alligned X
+    //! dimension which is used to improve the performance on
+    //! GPU. \attention This is the X dimenesnison that the buffer is
+    //! allocated.
+    _caUnsigned eb_ns_stride;
+    _caUnsigned eb_we_stride;
 
+    /*
+    //! This are the offset of the index for the cell buffers.
+    //! They are precalculated.
+    _caUnsigned cb_offset[5];
+    */
 
-  //! The offset in the X dimension of a cell buffer. 
-  _caUnsigned cb_x_offset;       
-
-
-  //! The stride in the X dimension of a cell buffer. It represent the
-  //! alligned X dimension which is used to improve the performance on
-  //! GPU. \attention This is the X dimenesnison that the buffer is
-  //! allocated.
-  _caUnsigned cb_stride;       
-  
-    
-  //! The offset in the X dimension of the west/east sub-buffers of
-  //! the edge buffer + starting point of the we buffer.
-  _caUnsigned eb_we_offset;       
-
-
-  //! The stride in the X dimension of north/south west/east
-  //! sub-buffers of a edge buffer. It represent the alligned X
-  //! dimension which is used to improve the performance on
-  //! GPU. \attention This is the X dimenesnison that the buffer is
-  //! allocated.
-  _caUnsigned eb_ns_stride;   
-  _caUnsigned eb_we_stride;    
-
-
-  /*
-  //! This are the offset of the index for the cell buffers.
-  //! They are precalculated.
-  _caUnsigned cb_offset[5];
-  */
-
-  //! This contains the index of the central cell in the "CellBuffers"
-  //! considerd as 1D buffers. This value should change in each
-  //! thread.
-  _caUnsigned cb_index;
-
+    //! This contains the index of the central cell in the "CellBuffers"
+    //! considerd as 1D buffers. This value should change in each
+    //! thread.
+    _caUnsigned cb_index;
 };
 
 
 inline void initGridShort(const _caGrid& _cagrid, _caGrid_short& _cagrid_short)
 {
-  _cagrid_short.length         = _cagrid.length;
-  _cagrid_short.area           = _cagrid.area;
-  _cagrid_short.x_coo_top      = _cagrid.x_coo;
-  _cagrid_short.y_coo_top      = _cagrid.y_coo+_cagrid.y_size*_cagrid.length;
-  _cagrid_short.bx_lx          = _cagrid.bx_lx;
-  _cagrid_short.bx_ty          = _cagrid.bx_ty;
-  _cagrid_short.bx_rx          = _cagrid.bx_rx;
-  _cagrid_short.bx_by          = _cagrid.bx_by;
-  _cagrid_short.cb_x_offset    = _cagrid.cb_x_offset;
-  _cagrid_short.cb_stride      = _cagrid.cb_stride;
-  _cagrid_short.eb_we_offset   = _cagrid.eb_we_x_offset + _cagrid.eb_we_start;
-  _cagrid_short.eb_ns_stride   = _cagrid.eb_ns_stride;
-  _cagrid_short.eb_we_stride   = _cagrid.eb_we_stride;
-  
-  /*
-  _cagrid_short.cb_offset[0]   = 0;
-  _cagrid_short.cb_offset[1]   = +1;
-  _cagrid_short.cb_offset[2]   = -_cagrid.cb_stride;
-  _cagrid_short.cb_offset[3]   = -1;
-  _cagrid_short.cb_offset[4]   = +_cagrid.cb_stride;
-  */
+    _cagrid_short.length = _cagrid.length;
+    _cagrid_short.area = _cagrid.area;
+    _cagrid_short.x_coo_top = _cagrid.x_coo;
+    _cagrid_short.y_coo_top = _cagrid.y_coo + _cagrid.y_size*_cagrid.length;
+    _cagrid_short.bx_lx = _cagrid.bx_lx;
+    _cagrid_short.bx_ty = _cagrid.bx_ty;
+    _cagrid_short.bx_rx = _cagrid.bx_rx;
+    _cagrid_short.bx_by = _cagrid.bx_by;
+    _cagrid_short.cb_x_offset = _cagrid.cb_x_offset;
+    _cagrid_short.cb_stride = _cagrid.cb_stride;
+    _cagrid_short.eb_we_offset = _cagrid.eb_we_x_offset + _cagrid.eb_we_start;
+    _cagrid_short.eb_ns_stride = _cagrid.eb_ns_stride;
+    _cagrid_short.eb_we_stride = _cagrid.eb_we_stride;
 
-  _cagrid_short.cb_index        = 0;
+    /*
+    _cagrid_short.cb_offset[0]   = 0;
+    _cagrid_short.cb_offset[1]   = +1;
+    _cagrid_short.cb_offset[2]   = -_cagrid.cb_stride;
+    _cagrid_short.cb_offset[3]   = -1;
+    _cagrid_short.cb_offset[4]   = +_cagrid.cb_stride;
+    */
+
+    _cagrid_short.cb_index = 0;
 }
 
 
@@ -409,9 +364,9 @@ inline void initGridShort(const _caGrid& _cagrid, _caGrid_short& _cagrid_short)
 // ---- UTILITY FUNCTIONS ----
 
 // Compute an alligned stride given a buffer size.
-inline _caUnsigned computeStride(_caUnsigned size, _caUnsigned alignment=32)
+inline _caUnsigned computeStride(_caUnsigned size, _caUnsigned alignment = 32)
 {
-  return alignment * ((size + alignment - 1)/ alignment);
+    return alignment * ((size + alignment - 1) / alignment);
 }
 
 //! Write the value to store in the selected bits of the given buffer
@@ -419,19 +374,19 @@ inline _caUnsigned computeStride(_caUnsigned size, _caUnsigned alignment=32)
 //! method.
 inline _caState caWriteBitsState(_caState value, _caState buffer, int start, int stop)
 {
-	int mask = 0;
-	int bits = 0;
-	int b = 0;
-	int s = 0;
+    int mask = 0;
+    int bits = 0;
+    int b = 0;
+    int s = 0;
 
-	for (b = 0, s = start; s<stop;b++, s++)
-	{
-		mask |= (1 << s);
-		bits |= (((1 << b)&value) >> b) << s;
-		buffer = (buffer&(~mask)) ^ bits;
-	}
-	return buffer;
+    for (b = 0, s = start; s < stop; b++, s++)
+    {
+        mask |= (1 << s);
+        bits |= (((1 << b)&value) >> b) << s;
+        buffer = (buffer&(~mask)) ^ bits;
+    }
+    return buffer;
 }
 
 
-#endif	// _CAAPI2D_HPP_
+#endif  // _CAAPI2D_HPP_

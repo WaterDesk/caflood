@@ -35,7 +35,7 @@ THE SOFTWARE.
 
 
 #ifndef NOMINMAX
-#define NOMINMAX          //!< This macro stop a name clash.		
+#define NOMINMAX          //!< This macro stop a name clash.
 #endif
 
 
@@ -54,7 +54,7 @@ THE SOFTWARE.
 #if defined _WIN32 
 namespace cpp11 = std;
 #else //GCC
-namespace cpp11 = std::tr1; 
+namespace cpp11 = std::tr1;
 #endif
 
 
@@ -72,56 +72,55 @@ namespace cpp11 = std::tr1;
 //! methods used to generate the CA algorithm.
 namespace CA {
 
+    //! Define the type of a string.
+    typedef std::string   String;
 
-  //! Define the type of a string.
-  typedef std::string   String; 
-
-  //! Define the type of real values (floating point).
+    //! Define the type of real values (floating point).
 #if     CA_REAL_PRECISION == CA_REAL_FLOAT
-  typedef float         Real;
+    typedef float         Real;
 #elif CA_REAL_PRECISION == CA_REAL_DOUBLE
-  typedef double        Real;
+    typedef double        Real;
 #else
 #error Undefined Real precision 
 #endif
 
   //! Define the type of state values (discrite states).
-  typedef int           State;
+    typedef int           State;
 
-  //! Define the type of an unsigned large  quantity.
-  typedef std::size_t   Unsigned;
-  //typedef unsigned int   Unsigned;
+    //! Define the type of an unsigned large  quantity.
+    typedef std::size_t   Unsigned;
+    //typedef unsigned int   Unsigned;
 
-  //! Define the type of a byte.
-  typedef char          Byte;
+    //! Define the type of a byte.
+    typedef char          Byte;
 
 
-  namespace Bdr {
-    //! Enum which identifies the possible operators that can be used on
-    //! setting a border value.
-    enum Operator
-      {
-	Equal,
-	Add,
-	Sub,
-	Mul,
-	Div
-      };
-  }
+    namespace Bdr {
+        //! Enum which identifies the possible operators that can be used on
+        //! setting a border value.
+        enum Operator
+        {
+            Equal,
+            Add,
+            Sub,
+            Mul,
+            Div
+        };
+    }
 
-  namespace Seq {
-    //! Enum which identifies the possible operators that can be used on
-    //! a sequential operation.
-    enum Operator
-      {
-	Add,
-	Mul,
-	Min,    
-	MinAbs,
-	Max,
-	MaxAbs
-      };
-  }
+    namespace Seq {
+        //! Enum which identifies the possible operators that can be used on
+        //! a sequential operation.
+        enum Operator
+        {
+            Add,
+            Mul,
+            Min,
+            MinAbs,
+            Max,
+            MaxAbs
+        };
+    }
 }
 
 #endif// _CA_BASETYPES_HPP_

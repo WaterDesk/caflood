@@ -64,43 +64,40 @@ THE SOFTWARE.
 
 namespace CA {
 
-  
-  //! Initialise the 2D caAPI environment. This method must be called as
-  //! soon as possible in the main file.
-  inline void init2D(int *argc, char ***argv)
-  {
-    
-  }
+    //! Initialise the 2D caAPI environment. This method must be called as
+    //! soon as possible in the main file.
+    inline void init2D(int *argc, char ***argv)
+    {
+    }
 
 
-  //! Terminates the 2D caAPI environment. This method must be called
-  //! before closing the main file.
-  inline void finalise2D()
-  {
+    //! Terminates the 2D caAPI environment. This method must be called
+    //! before closing the main file.
+    inline void finalise2D()
+    {
+    }
 
-  }
 
+    /// ----- Tools ----- ///
 
-  /// ----- Tools ----- ///
-  
-  //! Compute a possible domain decomposition and data partitioning
-  //! using a CellBuffer and a given nodata value.
-  //! This method do not decomposed the Grid.
-  //!\param[in]  box      Identifies the region of the grid to decomposed
-  //!\param[in]  cellbuff The buffer to analyse.
-  //!\param[in]  nodata   The value that identifies the non-domain cells.
-  //!\param[in]  thrd     The efficiency threshould (number of domain points/ number of points).
-  //!\param[in]  nlmin    Define the minimum nuber of lines in a side of the box.
-  //!\param[out] bl       The boxlist with the decomposed domain. Any previous
-  //!                     values in the list are removed.
-  inline void domainDecomposition(const Box& box, CellBuffReal& cb, Real nodata, Real thrd, Unsigned nlmin, 
-				  BoxList& bl)
-  {
-    // It uses the common split/block method. Different implementation
-    // can use different methods.
-    splitBlockDecomposition<Real>(box, cb, nodata, thrd, nlmin, bl);
-  }
-  
+    //! Compute a possible domain decomposition and data partitioning
+    //! using a CellBuffer and a given nodata value.
+    //! This method do not decomposed the Grid.
+    //!\param[in]  box      Identifies the region of the grid to decomposed
+    //!\param[in]  cellbuff The buffer to analyse.
+    //!\param[in]  nodata   The value that identifies the non-domain cells.
+    //!\param[in]  thrd     The efficiency threshould (number of domain points/ number of points).
+    //!\param[in]  nlmin    Define the minimum nuber of lines in a side of the box.
+    //!\param[out] bl       The boxlist with the decomposed domain. Any previous
+    //!                     values in the list are removed.
+    inline void domainDecomposition(const Box& box, CellBuffReal& cb, Real nodata, Real thrd, Unsigned nlmin,
+        BoxList& bl)
+    {
+        // It uses the common split/block method. Different implementation
+        // can use different methods.
+        splitBlockDecomposition<Real>(box, cb, nodata, thrd, nlmin, bl);
+    }
+
 } // Namespace CA
 
 
@@ -109,4 +106,4 @@ namespace CA {
 #include"endca2D.hpp"
 
 
-#endif	// _CA2D_HPP_
+#endif  // _CA2D_HPP_

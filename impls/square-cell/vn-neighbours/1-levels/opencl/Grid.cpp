@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -37,44 +37,44 @@ THE SOFTWARE.
 
 namespace CA {
 
-  /// ----- Static variables ----- ///
+    /// ----- Static variables ----- ///
 
 
-	/*
+      /*
 
 
-	// instansiate these in the constructors
+      // instansiate these in the constructors
 
-  bool         Grid::initcl(false);
-  _caUnsigned Grid::_warp = 32;
-  cl::Context Grid::_context;
-  std::vector<cl::Platform>  Grid::_platforms;
-  _caUnsigned  Grid::_platforms_num;
-  std::vector<cl::Device> Grid::_devices;
-  std::string Grid::_platform_name;
-  cl_device_type Grid::_device_type = CL_DEVICE_TYPE_GPU;
-  int Grid::_devices_num=0;
-  bool Grid::_device_fission=false;
-  cl_device_partition_property_ext Grid::_device_cu=0;
-  cl::CommandQueue Grid::_queue;
-  cl::Program Grid::_kernels_program;
-  std::string Grid::_building_options;
-  cl_command_queue_properties Grid::_queue_properties=0;
-  bool       Grid::_build_info(false);
-  cl::Kernel Grid::_kernel_setValueReal;
-  cl::Kernel Grid::_kernel_setValueState;
-  cl::Kernel Grid::_kernel_opValueReal;
-  cl::Kernel Grid::_kernel_opValueState;
-  cl::Kernel Grid::_kernel_reduceReal;
-  cl::Kernel Grid::_kernel_reduceState;
-  cl::Kernel Grid::_kernel_copyHLineReal;
-  cl::Kernel Grid::_kernel_copyVLineReal;
-  cl::Kernel Grid::_kernel_copyHLineState;
-  cl::Kernel Grid::_kernel_copyVLineState;
-  cl::Kernel Grid::_kernel_copyPointReal;
-  cl::Kernel Grid::_kernel_copyPointState;
-  std::string Grid::_config_filename("");
-  std::map<std::string,cl::NDRange> Grid::_hash_ranges;
-  */
-  
+    bool         Grid::initcl(false);
+    _caUnsigned Grid::_warp = 32;
+    cl::Context Grid::_context;
+    std::vector<cl::Platform>  Grid::_platforms;
+    _caUnsigned  Grid::_platforms_num;
+    std::vector<cl::Device> Grid::_devices;
+    std::string Grid::_platform_name;
+    cl_device_type Grid::_device_type = CL_DEVICE_TYPE_GPU;
+    int Grid::_devices_num=0;
+    bool Grid::_device_fission=false;
+    cl_device_partition_property_ext Grid::_device_cu=0;
+    cl::CommandQueue Grid::_queue;
+    cl::Program Grid::_kernels_program;
+    std::string Grid::_building_options;
+    cl_command_queue_properties Grid::_queue_properties=0;
+    bool       Grid::_build_info(false);
+    cl::Kernel Grid::_kernel_setValueReal;
+    cl::Kernel Grid::_kernel_setValueState;
+    cl::Kernel Grid::_kernel_opValueReal;
+    cl::Kernel Grid::_kernel_opValueState;
+    cl::Kernel Grid::_kernel_reduceReal;
+    cl::Kernel Grid::_kernel_reduceState;
+    cl::Kernel Grid::_kernel_copyHLineReal;
+    cl::Kernel Grid::_kernel_copyVLineReal;
+    cl::Kernel Grid::_kernel_copyHLineState;
+    cl::Kernel Grid::_kernel_copyVLineState;
+    cl::Kernel Grid::_kernel_copyPointReal;
+    cl::Kernel Grid::_kernel_copyPointState;
+    std::string Grid::_config_filename("");
+    std::map<std::string,cl::NDRange> Grid::_hash_ranges;
+    */
+
 }

@@ -1,8 +1,8 @@
 /*
 
 Copyright (c) 2016 - Centre for Water Systems,
-					 University of Exeter
-				   - EAWAG - Swiss Federal Institute of Water Science
+                     University of Exeter
+                   - EAWAG - Swiss Federal Institute of Water Science
                            and Technology
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -41,12 +41,12 @@ THE SOFTWARE.
 namespace CA {
 
 
-  //! Return a list of implementation specific Options  
-  inline Options options()
-  {
-    return Options();
-  }
+    //! Return a list of implementation specific Options  
+    inline Options options()
+    {
+        return Options();
+    }
 
 }
 
-#endif// _CA_BASETYPES_HPP_
+#endif  // _CA_OPTIONS_HPP_

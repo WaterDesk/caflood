@@ -38,40 +38,39 @@ THE SOFTWARE.
 
 namespace CA {
 
+    //! Return a list of implementation specific Options  
+    inline Options options()
+    {
+        Options options;
 
-  //! Return a list of implementation specific Options  
-  inline Options options()
-  {
-    Options options;
+        // Add the optional arguments. The tag start from 1000 for safety
+        // reason.
+        CA::Unsigned na = 1000;
 
-    // Add the optional arguments. The tag start from 1000 for safety
-    // reason.
-    CA::Unsigned na = 1000;
+        options.push_back(new Arguments::Arg(na++, "config-file",
+            "Select the OpenCL config CSV file.", "", true, true, false));
 
-    options.push_back(new Arguments::Arg(na++,"config-file",
-					 "Select the OpenCL config CSV file.","",true, true, false));
+        options.push_back(new Arguments::Arg(na++, "device-type",
+            "Select the OpenCL device type (CPU/GPU).", "GPU", true, true, false));
 
-    options.push_back(new Arguments::Arg(na++,"device-type",
-					 "Select the OpenCL device type (CPU/GPU).","GPU",true, true, false));
+        options.push_back(new Arguments::Arg(na++, "device-number",
+            "Select the OpenCL device from many available.", "0", true, true, false));
 
-    options.push_back(new Arguments::Arg(na++,"device-number",
-					 "Select the OpenCL device from many available.","0",true, true, false));
+        options.push_back(new Arguments::Arg(na++, "platform-name",
+            "Select the OpenCL specific platform", "", true, true, false));
 
-    options.push_back(new Arguments::Arg(na++,"platform-name",
-					 "Select the OpenCL specific platform","",true, true, false));
+        options.push_back(new Arguments::Arg(na++, "warp-size",
+            "Select the OpenCL warp size (32).", "", true, true, false));
 
-    options.push_back(new Arguments::Arg(na++,"warp-size",
-					 "Select the OpenCL warp size (32).","",true, true, false));
+        options.push_back(new Arguments::Arg(na++, "out-of-order",
+            "Uses an out of order execution.", "", true, false, false));
 
-    options.push_back(new Arguments::Arg(na++,"out-of-order",
-					 "Uses an out of order execution.","",true, false, false));
+        options.push_back(new Arguments::Arg(na++, "build-info",
+            "Show in standard error the OpenCl buidl info", "", true, false, false));
 
-    options.push_back(new Arguments::Arg(na++,"build-info",
-					 "Show in standard error the OpenCl buidl info","",true, false, false));
-
-    return options;
-  }
+        return options;
+    }
 
 }
 
-#endif// _CA_BASETYPES_HPP_
+#endif  // _CA_BASETYPES_HPP_

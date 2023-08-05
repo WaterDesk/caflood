@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -26,33 +26,33 @@ THE SOFTWARE.
 // Zeroed Velocity and Angle  when water depth is less than tolerance. 
 
 CA_FUNCTION zeroedVA(CA_GRID grid, CA_CELLBUFF_REAL_IO V, CA_CELLBUFF_REAL_IO A,
-		     CA_CELLBUFF_REAL_I WD, CA_CELLBUFF_STATE_I MASK, CA_GLOB_REAL_I tol)
+    CA_CELLBUFF_REAL_I WD, CA_CELLBUFF_STATE_I MASK, CA_GLOB_REAL_I tol)
 {
-  // Initialise the grid
-  CA_GRID_INIT(grid);
+    // Initialise the grid
+    CA_GRID_INIT(grid);
 
-  // Read Mask of the main cell.
-  CA_STATE mask  = caReadCellBuffState(grid,MASK,0);
+    // Read Mask of the main cell.
+    CA_STATE mask = caReadCellBuffState(grid, MASK, 0);
 
-  // Read bit 0  (false the main cell has nodata)
-  CA_STATE bit0  = caReadBitsState(mask,0,1);
+    // Read bit 0  (false the main cell has nodata)
+    CA_STATE bit0 = caReadBitsState(mask, 0, 1);
 
-  // If the main cell has no data 
-  // then do nothing.
-  if(bit0 == 0)
-    return;
-  
-  // Retrieve the water depth of the main cell.
-  CA_REAL  wdmain = caReadCellBuffReal(grid,WD,0);
+    // If the main cell has no data 
+    // then do nothing.
+    if (bit0 == 0)
+        return;
 
-  // Set the multiplier to zero if water depth is less then tolerance.
-  CA_REAL  mul = caStepReal(wdmain,tol);
+    // Retrieve the water depth of the main cell.
+    CA_REAL  wdmain = caReadCellBuffReal(grid, WD, 0);
 
-  // Retrieve the V and A of the main cell and use the multiplier.
-  CA_REAL  v = mul*caReadCellBuffReal(grid,V,0);
-  CA_REAL  a = mul*caReadCellBuffReal(grid,A,0);
+    // Set the multiplier to zero if water depth is less then tolerance.
+    CA_REAL  mul = caStepReal(wdmain, tol);
 
-  // Update the V and A.
-  caWriteCellBuffReal(grid,V,v);  
-  caWriteCellBuffReal(grid,A,a);  
+    // Retrieve the V and A of the main cell and use the multiplier.
+    CA_REAL  v = mul * caReadCellBuffReal(grid, V, 0);
+    CA_REAL  a = mul * caReadCellBuffReal(grid, A, 0);
+
+    // Update the V and A.
+    caWriteCellBuffReal(grid, V, v);
+    caWriteCellBuffReal(grid, A, a);
 }

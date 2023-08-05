@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -51,14 +51,14 @@ THE SOFTWARE.
 //! previous and next values.
 struct IEvent
 {
-  std::string    name;		//!< Name of the event. 
+    std::string    name;        //!< Name of the event. 
 
-  std::vector<CA::Real> ins;	//!< The list of inflows in cubic meters per second.
-  std::vector<CA::Real> times;	//!< The times in seconds.
-  std::vector<CA::Real> area;	//!< The area (tl,tr,bl,br) where the inflow will heppen in the border.
-  std::vector<CA::Real> zone;	//!< The zone (x,y,w,h) where the inflow will heppen in the border.
-  CA::Real              u;	//!< Used to compute the Analytical solution.
-  CA::Real              n;	//!< Used to compute the Analytical solution.
+    std::vector<CA::Real> ins;  //!< The list of inflows in cubic meters per second.
+    std::vector<CA::Real> times;    //!< The times in seconds.
+    std::vector<CA::Real> area; //!< The area (tl,tr,bl,br) where the inflow will heppen in the border.
+    std::vector<CA::Real> zone; //!< The zone (x,y,w,h) where the inflow will heppen in the border.
+    CA::Real              u;    //!< Used to compute the Analytical solution.
+    CA::Real              n;    //!< Used to compute the Analytical solution.
 };
 
 
@@ -77,89 +77,88 @@ int initIEventFromCSV(const std::string& filename, IEvent& ie);
 class InflowManager
 {
 private:
-  
-  //! The structure used during the model computation to store the inflow
-  //! event data.
-  struct Data
-  {
-    size_t   index;	        //!< The index of the inflow data (ins/times).
-    CA::Box  box_area;	 	//!< The box of the area where the inflow is set.
-    CA::Real grid_area;		//!< Compute the exact grid area, it used for volume checking. 
 
-    CA::Real volume;	        //!< Compute the total volume of inflow of the last update period.
+    //! The structure used during the model computation to store the inflow
+    //! event data.
+    struct Data
+    {
+        size_t   index;         //!< The index of the inflow data (ins/times).
+        CA::Box  box_area;      //!< The box of the area where the inflow is set.
+        CA::Real grid_area;     //!< Compute the exact grid area, it used for volume checking. 
 
-    // These next variable are used to solve the problem of different
-    // volume when using float type for Real. The idea is to compute
-    // the amount of missing/extra inflow  in comparison to the
-    // one expected and add/subtract this `one-off` inflow. 
+        CA::Real volume;        //!< Compute the total volume of inflow of the last update period.
 
-    double   total_inflow;	//!< The total inflow added during a update period.
-    double   expected_inflow;	//!< The expected inflow added during a update period.
+        // These next variable are used to solve the problem of different
+        // volume when using float type for Real. The idea is to compute
+        // the amount of missing/extra inflow  in comparison to the
+        // one expected and add/subtract this `one-off` inflow. 
 
-    double   one_off_inflow;	//!< The inflow to add/subtract.
+        double   total_inflow;  //!< The total inflow added during a update period.
+        double   expected_inflow;   //!< The expected inflow added during a update period.
 
-    
-    Data():
-      index(0), box_area(CA::Box::Empty()), grid_area(0.0), volume(0.0),
-      total_inflow(0.0), expected_inflow(0.0), one_off_inflow(0.0)
-    {}
-    
-    ~Data()
-  {}
-  };
+        double   one_off_inflow;    //!< The inflow to add/subtract.
+
+
+        Data() :
+            index(0), box_area(CA::Box::Empty()), grid_area(0.0), volume(0.0),
+            total_inflow(0.0), expected_inflow(0.0), one_off_inflow(0.0)
+        {}
+
+        ~Data()
+        {}
+    };
 
 public:
 
-  //! Construct a Inflow manager
-  InflowManager(CA::Grid&  GRID, const std::vector<IEvent>& ies);
+    //! Construct a Inflow manager
+    InflowManager(CA::Grid&  GRID, const std::vector<IEvent>& ies);
 
-  //! Destroy a Inflow Manager.
-  ~InflowManager();
+    //! Destroy a Inflow Manager.
+    ~InflowManager();
 
-  //! Add the computational domain of the inflow events into the given domain.
-  void addDomain(CA::BoxList& compdomain);
+    //! Add the computational domain of the inflow events into the given domain.
+    void addDomain(CA::BoxList& compdomain);
 
-  //! Analyse the area where the various inflow event will heppen.
-  void analyseArea(CA::CellBuffReal& TMP, CA::CellBuffState& MASK, CA::BoxList&  domain);
+    //! Analyse the area where the various inflow event will heppen.
+    void analyseArea(CA::CellBuffReal& TMP, CA::CellBuffState& MASK, CA::BoxList&  domain);
 
-  //! Prepare the inflow events for the next update step considering the
-  //! simulation time, the lenght of the update step and the next time
-  //! step.
-  void prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_dt);
+    //! Prepare the inflow events for the next update step considering the
+    //! simulation time, the lenght of the update step and the next time
+    //! step.
+    void prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_dt);
 
-  //! Return the volume of inflow of the last period_time_dt. 
-  //! \attention This is the PERIOD volume.
-  CA::Real volume();
+    //! Return the volume of inflow of the last period_time_dt. 
+    //! \attention This is the PERIOD volume.
+    CA::Real volume();
 
-  //! Add the amount of inflow 
-  void add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real t, CA::Real next_dt);
+    //! Add the amount of inflow 
+    void add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real t, CA::Real next_dt);
 
-  //! Compute the potential velocity that could happen in the next
-  //! update/period step.
-  //! This is used to limit the time step.
-  CA::Real potentialVA(CA::Real t, CA::Real period_time_dt); 
+    //! Compute the potential velocity that could happen in the next
+    //! update/period step.
+    //! This is used to limit the time step.
+    CA::Real potentialVA(CA::Real t, CA::Real period_time_dt);
 
-  //! Return the simulation time when the events will not add any
-  //! further water.
-  CA::Real endTime();
-  
+    //! Return the simulation time when the events will not add any
+    //! further water.
+    CA::Real endTime();
+
 protected:
 
-  //! Initialise a single inflow event data that is used during the
-  //! computation from the inflow event configuration.
-  int initData(const IEvent& ie, Data& iedata);
+    //! Initialise a single inflow event data that is used during the
+    //! computation from the inflow event configuration.
+    int initData(const IEvent& ie, Data& iedata);
 
 private:
 
-  //! Reference to the grid.
-  CA::Grid& _grid;
+    //! Reference to the grid.
+    CA::Grid& _grid;
 
-  //! Reference to the List of inflow events
-  const std::vector<IEvent>& _ies;
+    //! Reference to the List of inflow events
+    const std::vector<IEvent>& _ies;
 
-  //! List of inflow event data.
-  std::vector<Data> _datas;
-
+    //! List of inflow event data.
+    std::vector<Data> _datas;
 };
 
 #endif

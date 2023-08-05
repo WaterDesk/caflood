@@ -24,7 +24,6 @@ THE SOFTWARE.
 */
 
 
-
 //! \file AsciiGrid.hpp
 //! Contains the structures and methods to read a ARC/INFO ASCII GRID
 //! format file.
@@ -36,4 +35,3 @@ THE SOFTWARE.
 #include "AsciiGrid.hpp"
 
 #include "../simple/ESRI_ASCIIGrid.hpp"
-

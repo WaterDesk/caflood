@@ -34,6 +34,5 @@ THE SOFTWARE.
 // We must first include the caapi2D implementation for this specific grid.
 #include"caapi2D.hpp"
 
-
 // This class is the same of simple implementation
 #include"../simple/Grid.hpp"

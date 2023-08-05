@@ -38,13 +38,12 @@ THE SOFTWARE.
 
 namespace CA {
 
-
-  //! Return a list of implementation specific Options  
-  inline Options options()
-  {
-    return Options();
-  }
+    //! Return a list of implementation specific Options  
+    inline Options options()
+    {
+        return Options();
+    }
 
 }
 
-#endif// _CA_BASETYPES_HPP_
+#endif  // _CA_BASETYPES_HPP_

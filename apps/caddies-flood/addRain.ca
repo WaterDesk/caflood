@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -29,23 +29,23 @@ THE SOFTWARE.
 
 CA_FUNCTION addRain(CA_GRID grid, CA_CELLBUFF_REAL_IO BUFF, CA_CELLBUFF_STATE_I MASK, CA_GLOB_REAL_I rain)
 {
-  // Initialise the grid
-  CA_GRID_INIT(grid);
+    // Initialise the grid
+    CA_GRID_INIT(grid);
 
-  // Retrive the value of the buffer
-  CA_REAL  value = caReadCellBuffReal(grid,BUFF,0);
+    // Retrive the value of the buffer
+    CA_REAL  value = caReadCellBuffReal(grid, BUFF, 0);
 
-  // Read Mask.
-  CA_STATE mask  = caReadCellBuffState(grid,MASK,0);
+    // Read Mask.
+    CA_STATE mask = caReadCellBuffState(grid, MASK, 0);
 
-  // Read bit 0  (false the main cell is nodata)
-  CA_STATE bit0  = caReadBitsState(mask,0,1);
+    // Read bit 0  (false the main cell is nodata)
+    CA_STATE bit0 = caReadBitsState(mask, 0, 1);
 
-  // If the main cell has no data. Do
-  // nothing.
-  if(bit0 == 0)
-    return;
+    // If the main cell has no data. Do
+    // nothing.
+    if (bit0 == 0)
+        return;
 
-  // Add the rain value+rain*dt/3600
-  caWriteCellBuffReal(grid,BUFF,value+rain);
+    // Add the rain value+rain*dt/3600
+    caWriteCellBuffReal(grid, BUFF, value + rain);
 }

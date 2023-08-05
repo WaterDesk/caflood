@@ -46,97 +46,81 @@ THE SOFTWARE.
 
 namespace CA {
 
-	//! structure to contian various diiferent error metrics and measures
-	struct Errors {
+    //! structure to contian various diiferent error metrics and measures
+    struct Errors {
 
-		double RMSE;
-		double RMSE_wet_both;
-		double RMSE_wet_either;
+        double RMSE;
+        double RMSE_wet_both;
+        double RMSE_wet_either;
 
-		double meanError;
-		double meanError_wet_both;
-		double meanError_wet_either;
+        double meanError;
+        double meanError_wet_both;
+        double meanError_wet_either;
 
+        double accuracy;
+        double sensitivity;
+        double precision;
+        double precentage;
 
-		double accuracy;
-		double sensitivity;
-		double precision;
-		double precentage;
+        double nashSutcliffe;
 
-		double nashSutcliffe;
+        int truePositive;
+        int falsePositive;
+        int trueNegative;
+        int falseNegative;
 
-		int truePositive;
-		int falsePositive;
-		int trueNegative;
-		int falseNegative;
+        int thisWettedCount;
+        int thatWettedCount;
 
-		int thisWettedCount;
-		int thatWettedCount;
+        int combinedWettedCount;
+        int allDataCells;
+        int eitherWetted;
+    };
 
-		int combinedWettedCount;
-		int allDataCells;
-		int eitherWetted;
-	};
+    template<typename T>
+    class AsciiGridGeneral {
+    public:
 
-	template<typename T>
-	class AsciiGridGeneral{
+        //! Structure contains the data of an ARC/INFO ASCII GRID format file.
+        //! In the data pointer the (0,0) point is in the top/left corner.
+        Unsigned ncols;
+        Unsigned nrows;
+        double xllcorner;
+        double yllcorner;
+        double cellsize;
+        T nodata;
 
+        std::vector<T> data;
 
+        AsciiGridGeneral() {};
 
+        //! Read token and value pair from a line of the header of an ARC/INFO
+        //! ASCII GRID file.
+        virtual void readAsciiGridHeaderLine(const std::string& filename, std::ifstream& infile, T& value,
+            const char* check, bool substring = false) {
+            return;
+        };
 
-	public:
+        //! Read a ARC/INFO ASCII GRID format file
+        virtual void readAsciiGrid(const std::string& filename, bool print = false) { return; };
 
-		
-		//! Structure contains the data of an ARC/INFO ASCII GRID format file.
-		//! In the data pointer the (0,0) point is in the top/left corner.
-		Unsigned ncols;
-		Unsigned nrows;
-		double xllcorner;
-		double yllcorner;
-		double cellsize;
-		T nodata;
+        //! Read a ARC/INFO ASCII GRID format file without loading teh data.
+        virtual void readAsciiGridHeader(const std::string& filename, bool print = false) { return; };
 
-		std::vector<T> data;
-		
-		AsciiGridGeneral() {};
+        // compare this and other one....
+        //template<typename T>
+        //virtual double compareAsciiGrid(AsciiGrid<T>& grid1, AsciiGrid<T>& grid2, bool print = false);
 
-		
+        //! Write a ARC/INFO ASCII GRID format file
+        //template<typename T>
+        virtual void writeAsciiGrid(const std::string& filename,
+            int decimal_places = 6, bool print = false) {
+            return;
+        };
 
-
-		//! Read token and value pair from a line of the header of an ARC/INFO
-		//! ASCII GRID file.
-
-		virtual void readAsciiGridHeaderLine(const std::string& filename, std::ifstream& infile, T& value,
-			const char* check, bool substring = false) { return;} ;
-
-		//! Read a ARC/INFO ASCII GRID format file
-
-		virtual void readAsciiGrid(const std::string& filename, bool print = false) { return; };
-
-
-
-		//! Read a ARC/INFO ASCII GRID format file without loading teh data.
-
-		virtual void readAsciiGridHeader(const std::string& filename, bool print = false) { return; };
-
-
-
-		// compare this and other one....
-		//template<typename T>
-		//virtual double compareAsciiGrid(AsciiGrid<T>& grid1, AsciiGrid<T>& grid2, bool print = false);
-
-		//! Write a ARC/INFO ASCII GRID format file
-		//template<typename T>
-		virtual void writeAsciiGrid(const std::string& filename,
-			int decimal_places = 6, bool print = false) {return;};
-
-
-	};// end of ASCIIGrid class
-
-
-
+    };// end of ASCIIGrid class
 
 }// end of namespace
 
 
-#endif	// _CA_ASCIIGRID_HPP_
+#endif  // _CA_ASCIIGRID_HPP_

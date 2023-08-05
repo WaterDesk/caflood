@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -37,11 +37,11 @@ THE SOFTWARE.
 
 namespace CA {
 
-  /// ----- Static variables ----- ///
+    /// ----- Static variables ----- ///
 
-  //template<>
-  //std::vector<Real> CellBuff<Real>::mem_io = std::vector<Real>();
+    //template<>
+    //std::vector<Real> CellBuff<Real>::mem_io = std::vector<Real>();
 
-  //template<>
-  //std::vector<State> CellBuff<State>::mem_io = std::vector<State>();
+    //template<>
+    //std::vector<State> CellBuff<State>::mem_io = std::vector<State>();
 }

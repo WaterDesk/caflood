@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -50,12 +50,12 @@ THE SOFTWARE.
 //! value is represented in mm/hr.
 struct RainEvent
 {
-  std::string    name;		//!< Name of the event. 
+    std::string    name;            //!< Name of the event. 
 
-  std::vector<CA::Real> rains;	//!< The list of rain intensities in mm/hr 
-  std::vector<CA::Real> times;	//!< The times when the rain intensities stop in seconds.
-  std::vector<CA::Real> area;	//!< The area where the rain will fall (if empty all domain).  
-  std::vector<CA::Real> zone;	//!< The zone (x,y,w,h) where the rain will heppen (if empty all domain).
+    std::vector<CA::Real> rains;    //!< The list of rain intensities in mm/hr 
+    std::vector<CA::Real> times;    //!< The times when the rain intensities stop in seconds.
+    std::vector<CA::Real> area;     //!< The area where the rain will fall (if empty all domain).  
+    std::vector<CA::Real> zone;     //!< The zone (x,y,w,h) where the rain will heppen (if empty all domain).
 };
 
 //! Initialise the rain event structure usign a CSV file. 
@@ -73,89 +73,85 @@ int initRainEventFromCSV(const std::string& filename, RainEvent& re);
 class RainManager
 {
 private:
-  
-  //! The structure used during the model computation to store the rain
-  //! event data.
-  struct Data
-  {
-    size_t   index;	        //!< The index of the rain data (rains/times).
-    CA::Box  box_area;	 	//!< The box of the area where the rain fall.
-    CA::Real grid_area;		//!< Compute the exact grid area, it used for volume checking. 
 
-    CA::Real volume;	        //!< Compute the total volume of rain of the last period.
-    CA::Real rain;		//!< The amount of rain for each dt of the next period. 
+    //! The structure used during the model computation to store the rain
+    //! event data.
+    struct Data
+    {
+        size_t   index;         //!< The index of the rain data (rains/times).
+        CA::Box  box_area;      //!< The box of the area where the rain fall.
+        CA::Real grid_area;     //!< Compute the exact grid area, it used for volume checking. 
 
-    // These next variable are used to solve the problem of different
-    // volume when using float type for Real. The idea is to compute
-    // the amount of missing/extra rain  in comparison to the
-    // one expected and add/subtract this `one-off` rain. 
+        CA::Real volume;        //!< Compute the total volume of rain of the last period.
+        CA::Real rain;          //!< The amount of rain for each dt of the next period. 
 
-    double   total_rain;	//!< The total rain added during a update period.
-    double   expected_rain;	//!< The expected rain added during a update period.
+        // These next variable are used to solve the problem of different
+        // volume when using float type for Real. The idea is to compute
+        // the amount of missing/extra rain  in comparison to the
+        // one expected and add/subtract this `one-off` rain. 
 
-    double   one_off_rain;	//!< The rain to add/subtract.
-    
-    Data():
-      index(0), box_area(CA::Box::Empty()), grid_area(0.0), volume(0.0), rain(0.0),
-      total_rain(0.0), expected_rain(0.0), one_off_rain(0.0)
-    {}
-    
-    ~Data()
-  {}
-  };
+        double   total_rain;    //!< The total rain added during a update period.
+        double   expected_rain; //!< The expected rain added during a update period.
+
+        double   one_off_rain;  //!< The rain to add/subtract.
+
+        Data() :
+            index(0), box_area(CA::Box::Empty()), grid_area(0.0), volume(0.0), rain(0.0),
+            total_rain(0.0), expected_rain(0.0), one_off_rain(0.0)
+        {}
+
+        ~Data()
+        {}
+    };
 
 public:
+    //! Construct a Rain manager
+    RainManager(CA::Grid&  GRID, const std::vector<RainEvent>& res);
 
-  //! Construct a Rain manager
-  RainManager(CA::Grid&  GRID, const std::vector<RainEvent>& res);
+    //! Destroy a Rain Manager.
+    ~RainManager();
 
-  //! Destroy a Rain Manager.
-  ~RainManager();
+    //! Add the computational domain of the rain events into the given domain.
+    void addDomain(CA::BoxList& compdomain);
 
-  //! Add the computational domain of the rain events into the given domain.
-  void addDomain(CA::BoxList& compdomain);
+    //! Analyse the area where the various rain event will fall.
+    void analyseArea(CA::CellBuffReal& TMP, CA::CellBuffState& MASK, CA::BoxList&  domain);
 
-  //! Analyse the area where the various rain event will fall.
-  void analyseArea(CA::CellBuffReal& TMP, CA::CellBuffState& MASK, CA::BoxList&  domain);
+    //! Prepare the rain events for the next update step considering the
+    //! simulation time, the lenght of the update step and the next tim
+    //! step.
+    void prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_dt);
 
-  //! Prepare the rain events for the next update step considering the
-  //! simulation time, the lenght of the update step and the next tim
-  //! step.
-  void prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_dt);
+    //! Return the volume of rain of the last period_time_dt. 
+    //! \attention This is the PERIOD volume.
+    CA::Real volume();
 
-  //! Return the volume of rain of the last period_time_dt. 
-  //! \attention This is the PERIOD volume.
-  CA::Real volume();
+    //! Add the amount of rain 
+    void add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real t, CA::Real next_dt);
 
-  //! Add the amount of rain 
-  void add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real t, CA::Real next_dt);
+    //! Compute the potential velocity that could happen in the next
+    //! update/period step.
+    //! This is used to limit the time step.
+    CA::Real potentialVA(CA::Real t, CA::Real period_time_dt);
 
-  //! Compute the potential velocity that could happen in the next
-  //! update/period step.
-  //! This is used to limit the time step.
-  CA::Real potentialVA(CA::Real t, CA::Real period_time_dt); 
+    //! Return the simulation time when the events will not add any
+    //! further water.
+    CA::Real endTime();
 
-  //! Return the simulation time when the events will not add any
-  //! further water.
-  CA::Real endTime();
- 
 protected:
-
-  //! Initialise a single rain event data that is used during the
-  //! computation from the rain event configuration.
-  int initData(const RainEvent& re, Data& redata);
+    //! Initialise a single rain event data that is used during the
+    //! computation from the rain event configuration.
+    int initData(const RainEvent& re, Data& redata);
 
 private:
+    //! Reference to the grid.
+    CA::Grid& _grid;
 
-  //! Reference to the grid.
-  CA::Grid& _grid;
+    //! Reference to the List of rain events
+    const std::vector<RainEvent>& _res;
 
-  //! Reference to the List of rain events
-  const std::vector<RainEvent>& _res;
-
-  //! List of rain event data.
-  std::vector<Data> _datas;
-
+    //! List of rain event data.
+    std::vector<Data> _datas;
 };
 
 #endif

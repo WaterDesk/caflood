@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -29,23 +29,23 @@ THE SOFTWARE.
 //         0  if the main cell has nodata.
 
 
-CA_FUNCTION caFuncCreateSimplerCellMask(CA_GRID grid,CA_CELLBUFF_REAL_I SRC,CA_CELLBUFF_STATE_IO MASK,
-					CA_GLOB_REAL_I nd)
+CA_FUNCTION caFuncCreateSimplerCellMask(CA_GRID grid, CA_CELLBUFF_REAL_I SRC, CA_CELLBUFF_STATE_IO MASK,
+    CA_GLOB_REAL_I nd)
 {
-  // Initialise the grid		
-  CA_GRID_INIT(grid);
+    // Initialise the grid
+    CA_GRID_INIT(grid);
 
-  // Read the value of the main cell.
-  CA_REAL  value = caReadCellBuffReal(grid,SRC,0);
+    // Read the value of the main cell.
+    CA_REAL  value = caReadCellBuffReal(grid, SRC, 0);
 
-  // The value to insert into the mask buffer.
-  CA_STATE mask = 0;
+    // The value to insert into the mask buffer.
+    CA_STATE mask = 0;
 
-  // Set the mask depending on the data/nodata
-  if(value!=nd)
-    mask = 1;
+    // Set the mask depending on the data/nodata
+    if (value != nd)
+        mask = 1;
 
-  // Write the mask into the buffer.
-  caWriteCellBuffState(grid,MASK,mask);
+    // Write the mask into the buffer.
+    caWriteCellBuffState(grid, MASK, mask);
 }
 

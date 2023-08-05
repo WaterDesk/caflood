@@ -55,6 +55,5 @@ THE SOFTWARE.
 #include"Alarms.hpp"
 #include"Functions.hpp"
 
-
 // The rest is the same of the simple implementation
 #include"../simple/ca2D.hpp"

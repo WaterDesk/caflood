@@ -34,5 +34,4 @@ THE SOFTWARE.
 //! \date 2011-07
 
 
-
 #endif	// _CA_CAEMPTY_HPP_

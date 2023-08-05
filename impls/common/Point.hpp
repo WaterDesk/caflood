@@ -40,192 +40,187 @@ THE SOFTWARE.
 
 
 namespace CA {
-  
 
-  // Forward declaration
-  class Grid;
-
-
-  //! Identifies a cell point in the CA grid (X,Y).  A point contains
-  //! the respective coordinate value inside. However, this cannot be
-  //! directly set (the Coo object will be empty), it need to be set
-  //! by using the specific setCoo and Point::create methods with the
-  //! grid object.
-
-  //! \attention This differs from coordinate.  \warning The point
-  //! (0,0) in the Grid correspond to the top-left corner of the
-  //! grid. This is different than coordinate.
-
-  class Point
-  {
-
-  public:
+    // Forward declaration
+    class Grid;
 
 
-	  //default constructor, sets to zero's
-	  Point();
+    //! Identifies a cell point in the CA grid (X,Y).  A point contains
+    //! the respective coordinate value inside. However, this cannot be
+    //! directly set (the Coo object will be empty), it need to be set
+    //! by using the specific setCoo and Point::create methods with the
+    //! grid object.
 
-    //! Create a point in the grid.
-    //! \param x         The X position.
-    //! \param y         The Y position.
-    Point(Unsigned x, Unsigned y);
+    //! \attention This differs from coordinate.  \warning The point
+    //! (0,0) in the Grid correspond to the top-left corner of the
+    //! grid. This is different than coordinate.
 
+    class Point
+    {
+    public:
 
-    //! Destroy the point.
-    ~Point();
+        //default constructor, sets to zero's
+        Point();
 
-
-    //! Return the X position.
-    Unsigned x() const;
-    
-
-    //! Return the Y position.
-    Unsigned y() const;
-
-    
-    //! Return the coordinate. \attention This object could be empty
-    //! if it was not set by the setCoo method or the point object was
-    //! created by the Point::create method.
-    Coo coo() const;
+        //! Create a point in the grid.
+        //! \param x         The X position.
+        //! \param y         The Y position.
+        Point(Unsigned x, Unsigned y);
 
 
-    //! Set the X position.
-    //! \attention this action set the coo object to empty.
-    void setX(Unsigned x);
-    
-
-    //! Set the Y position.
-    //! \attention this action set the coo object to empty.
-    void setY(Unsigned y);
+        //! Destroy the point.
+        ~Point();
 
 
-    //! Set the coordinate of the given point depending
-    //! where the point is on the grid.
-    void setCoo(const Grid& grid) const;
+        //! Return the X position.
+        Unsigned x() const;
 
 
-    //! Static method that create a point depending on given
-    //! coordinate of the grid.
-    static Point create(const Grid& grid, Real x_coo, Real y_coo);
+        //! Return the Y position.
+        Unsigned y() const;
 
 
-    //! Return true if the given point is equal, 
-    //! i.e this (X,Y) = given (X,Y)
-    bool operator==(const Point& src) const;
+        //! Return the coordinate. \attention This object could be empty
+        //! if it was not set by the setCoo method or the point object was
+        //! created by the Point::create method.
+        Coo coo() const;
 
 
-    //! Return true if the given point is smaller, 
-    //! i.e this (X,Y) > given (X,Y)
-    bool operator>(const Point& src) const;
+        //! Set the X position.
+        //! \attention this action set the coo object to empty.
+        void setX(Unsigned x);
 
 
-    //! Return true if the given point is smaller or equal, 
-    //! i.e this (X,Y) >= given (X,Y)
-    bool operator>=(const Point& src) const;
+        //! Set the Y position.
+        //! \attention this action set the coo object to empty.
+        void setY(Unsigned y);
 
 
-    //! Return true if the given point is larger, 
-    //! i.e this (X,Y) < given (X,Y)
-    bool operator<(const Point& src) const;
+        //! Set the coordinate of the given point depending
+        //! where the point is on the grid.
+        void setCoo(const Grid& grid) const;
 
 
-    //! Return true if the given point is larger or equal, 
-    //! i.e this (X,Y) > given (X,Y)
-    bool operator<=(const Point& src) const;
+        //! Static method that create a point depending on given
+        //! coordinate of the grid.
+        static Point create(const Grid& grid, Real x_coo, Real y_coo);
 
 
-  private:
-    
-    //! X and Y position.
-    Unsigned _x;
-    Unsigned _y;
-    
-    //! Respective coordinates.
-    mutable Coo _coo;
-  };
+        //! Return true if the given point is equal, 
+        //! i.e this (X,Y) = given (X,Y)
+        bool operator==(const Point& src) const;
 
 
-  /// ----- Inline implementation ----- ///
-  inline Point::Point() :
-	  _x(0), _y(0), _coo()
-  {
-  }
+        //! Return true if the given point is smaller, 
+        //! i.e this (X,Y) > given (X,Y)
+        bool operator>(const Point& src) const;
 
 
-  inline Point::Point(Unsigned x, Unsigned y):
-    _x(x), _y(y), _coo()
-  {    
-  }
+        //! Return true if the given point is smaller or equal, 
+        //! i.e this (X,Y) >= given (X,Y)
+        bool operator>=(const Point& src) const;
 
 
-  inline Point::~Point()
-  {
-  }
+        //! Return true if the given point is larger, 
+        //! i.e this (X,Y) < given (X,Y)
+        bool operator<(const Point& src) const;
 
 
-  inline Unsigned Point::x() const
-  {
-    return _x;
-  }
+        //! Return true if the given point is larger or equal, 
+        //! i.e this (X,Y) > given (X,Y)
+        bool operator<=(const Point& src) const;
 
 
-  inline Unsigned Point::y() const
-  {
-    return _y;
-  }
+    private:
+
+        //! X and Y position.
+        Unsigned _x;
+        Unsigned _y;
+
+        //! Respective coordinates.
+        mutable Coo _coo;
+    };
 
 
-  inline Coo Point::coo() const
-  {
-    return _coo;
-  }
+    /// ----- Inline implementation ----- ///
+    inline Point::Point() :
+        _x(0), _y(0), _coo()
+    {
+    }
 
 
-  inline void Point::setX(Unsigned x)
-  {
-    _x = x;
-    _coo.clear();
-  }
-    
-
-  inline void Point::setY(Unsigned y)
-  {
-    _y = y;
-    _coo.clear();
-  }
+    inline Point::Point(Unsigned x, Unsigned y) :
+        _x(x), _y(y), _coo()
+    {
+    }
 
 
-  inline bool Point::operator==(const Point& src) const
-  {
-    return (_x == src._x) && (_y == src._y);
-  }
+    inline Point::~Point()
+    {
+    }
 
 
-  inline bool Point::operator>(const Point& src) const
-  {
-    return (_x > src._x) && (_y > src._y);
-  }
+    inline Unsigned Point::x() const
+    {
+        return _x;
+    }
 
 
-  inline bool Point::operator>=(const Point& src) const
-  {
-    return (_x >= src._x) && (_y >= src._y);
-  }
+    inline Unsigned Point::y() const
+    {
+        return _y;
+    }
 
 
-  inline bool Point::operator<(const Point& src) const
-  {
-    return (_x < src._x) && (_y < src._y);
-  }
+    inline Coo Point::coo() const
+    {
+        return _coo;
+    }
 
 
-  inline bool Point::operator<=(const Point& src) const
-  {
-    return (_x <= src._x) && (_y <= src._y);
-  }
+    inline void Point::setX(Unsigned x)
+    {
+        _x = x;
+        _coo.clear();
+    }
+
+
+    inline void Point::setY(Unsigned y)
+    {
+        _y = y;
+        _coo.clear();
+    }
+
+
+    inline bool Point::operator==(const Point& src) const
+    {
+        return (_x == src._x) && (_y == src._y);
+    }
+
+
+    inline bool Point::operator>(const Point& src) const
+    {
+        return (_x > src._x) && (_y > src._y);
+    }
+
+
+    inline bool Point::operator>=(const Point& src) const
+    {
+        return (_x >= src._x) && (_y >= src._y);
+    }
+
+
+    inline bool Point::operator<(const Point& src) const
+    {
+        return (_x < src._x) && (_y < src._y);
+    }
+
+
+    inline bool Point::operator<=(const Point& src) const
+    {
+        return (_x <= src._x) && (_y <= src._y);
+    }
 
 } // CA
 
-
-
-#endif	// _CA_POINT_HPP_
+#endif  // _CA_POINT_HPP_

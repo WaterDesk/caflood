@@ -1,8 +1,8 @@
 /*
 
 Copyright (c) 2016 - Centre for Water Systems,
-					 University of Exeter
-				   - EAWAG - Swiss Federal Institute of Water Science
+                     University of Exeter
+                   - EAWAG - Swiss Federal Institute of Water Science
                            and Technology
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

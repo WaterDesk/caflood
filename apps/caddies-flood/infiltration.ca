@@ -1,5 +1,5 @@
 /*
-    
+
 Copyright (c) 2013 Centre for Water Systems,
                    University of Exeter
 
@@ -22,32 +22,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>
 // Update the water depth by removing the water
 // that infiltrate into the ground.
 // ATTENTION, This version add the volume extracted into a buffer
-CA_FUNCTION infiltration(CA_GRID grid, CA_CELLBUFF_REAL_IO WD, CA_CELLBUFF_STATE_I MASK, 
-			 CA_CELLBUFF_REAL_IO VOL,
-			 CA_GLOB_REAL_I inf)
+CA_FUNCTION infiltration(CA_GRID grid, CA_CELLBUFF_REAL_IO WD, CA_CELLBUFF_STATE_I MASK,
+    CA_CELLBUFF_REAL_IO VOL,
+    CA_GLOB_REAL_I inf)
 {
-  // Initialise the grid
-  CA_GRID_INIT(grid);
+    // Initialise the grid
+    CA_GRID_INIT(grid);
 
-  // Read Mask.
-  CA_STATE mask  = caReadCellBuffState(grid,MASK,0);
-    
-  // If the infiltration is zero, do nothing.
-  if(inf==0.0)
-    return;
+    // Read Mask.
+    CA_STATE mask = caReadCellBuffState(grid, MASK, 0);
 
-  // Retrive the current value of the water depth.
-  CA_REAL  wd  = caReadCellBuffReal(grid,WD,0);
+    // If the infiltration is zero, do nothing.
+    if (inf == 0.0)
+        return;
 
-  // Retrive the area of the main cell.
-  CA_REAL  area = caArea(grid,0);
+    // Retrive the current value of the water depth.
+    CA_REAL  wd = caReadCellBuffReal(grid, WD, 0);
 
-  // Compute the amount of water to remove.  
-  CA_REAL  remove = caMinReal(wd,inf);
-  
-  // Update the water depth value with the removed amount.
-  caWriteCellBuffReal(grid,WD,wd-remove);
+    // Retrive the area of the main cell.
+    CA_REAL  area = caArea(grid, 0);
 
-  // Update the volume removed.
-  caWriteCellBuffReal(grid,VOL,remove*area);
+    // Compute the amount of water to remove.  
+    CA_REAL  remove = caMinReal(wd, inf);
+
+    // Update the water depth value with the removed amount.
+    caWriteCellBuffReal(grid, WD, wd - remove);
+
+    // Update the volume removed.
+    caWriteCellBuffReal(grid, VOL, remove*area);
 }

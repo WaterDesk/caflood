@@ -35,5 +35,3 @@ THE SOFTWARE.
 
 // The rest is the same of the simple implementation
 #include"../simple/caapi2D.hpp"
-
-

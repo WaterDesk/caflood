@@ -48,4 +48,4 @@ THE SOFTWARE.
 #include"Utilities.hpp"
 
 
-#endif	// _CA_COMMON_HPP_
+#endif  // _CA_COMMON_HPP_

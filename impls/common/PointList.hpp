@@ -42,162 +42,138 @@ THE SOFTWARE.
 
 
 namespace CA {
-  
 
-  //! A PointList contains a list of points. It can be used to identify a
-  //! series of points of the CA grid.
+    //! A PointList contains a list of points. It can be used to identify a
+    //! series of points of the CA grid.
 
-  //! \attention The list is ordered by insertion order and it can
-  //! contains be two similar points.
+    //! \attention The list is ordered by insertion order and it can
+    //! contains be two similar points.
 
-  //! \warning The position (0,0) in the Grid correspond to the
-  //! top-left corner of the grid.
+    //! \warning The position (0,0) in the Grid correspond to the
+    //! top-left corner of the grid.
 
-  class PointList
-  {
+    class PointList
+    {
+    private:
+        //! Identifies the container of Points.
+        typedef std::vector<Point> Points;
 
-  private:
+    public:
 
-    //! Identifies the container of Points.
-    typedef std::vector<Point> Points;
+        //! Indentifies the constant interator.
+        typedef Points::const_iterator ConstIter;
 
+        //! Create a PointList
+        PointList();
 
-  public:
+        //! Create a Pointlist from a single point.
+        PointList(const Point& p);
 
+        //! Destroy the PointList.
+        ~PointList();
 
-    //! Indentifies the constant interator.
-    typedef Points::const_iterator ConstIter;
+        // --- METHODS --- 
 
-    
-    //! Create a PointList
-    PointList();
+        //! Return the extent of the pointlist, i.e the largest box that
+        //! contain all the point in the list.
+        Box extent() const;
 
-    
-    //! Create a Pointlist from a single point.
-    PointList(const Point& p);
-    
+        //! Add a point into the list. The list should not contains two
+        //! equal points. 
+        void add(const Point& p);
 
-    //! Destroy the PointList.
-    ~PointList();
+        //! Clear all the Points in the list.
+        void clear();
 
+        //! Return the iterator to the first point in the list.
+        ConstIter begin() const;
 
-    // --- METHODS --- 
+        //! Return the iterator to the end of the list.
+        ConstIter end() const;
 
-    
-    //! Return the extent of the pointlist, i.e the largest box that
-    //! contain all the point in the list.
-    Box extent() const;
+        //! The number of points in the list.
+        Unsigned size() const;
 
+        //! Return the given element, \attention This does not check if it
+        //! is in range.
+        Point operator[](Unsigned n) const;
 
-    //! Add a point into the list. The list should not contains two
-    //! equal points. 
-    void add(const Point& p);
+    private:
+        //! The list of points.
+        Points  _points;
 
-    
-    //! Clear all the Points in the list.
-    void clear();
-
-
-    //! Return the iterator to the first point in the list.
-    ConstIter begin() const;
-
-    
-    //! Return the iterator to the end of the list.
-    ConstIter end() const;
-
-    
-    //! The number of points in the list.
-    Unsigned size() const;
-
-    
-    //! Return the given element, \attention This does not check if it
-    //! is in range.
-    Point operator[](Unsigned n) const;
+        //! The extent of the PointList, i.e the largest box that contains
+        //! all the  points in the list.
+        Box    _extent;
+    };
 
 
-  private:
-    
-    //! The list of points.
-    Points  _points;
+    /// ----- Inline implementation ----- ///
 
 
-    //! The extent of the PointList, i.e the largest box that contains
-    //! all the  points in the list.
-    Box    _extent;
-    
-
-  };
+    inline PointList::PointList() :
+        _points(), _extent(Box::Empty())
+    {
+    }
 
 
-  /// ----- Inline implementation ----- ///
-  
-
-  inline PointList::PointList():
-    _points(), _extent(Box::Empty())
-  {    
-  }
+    inline PointList::PointList(const Point& p) :
+        _points(), _extent(p, p)
+    {
+        _points.push_back(p);
+    }
 
 
-  inline PointList::PointList(const Point& p):
-    _points(), _extent(p,p)
-  {    
-    _points.push_back(p);
-  }
+    inline PointList::~PointList()
+    {
+    }
 
 
-  inline PointList::~PointList()
-  {
-  }
+    inline Box PointList::extent() const
+    {
+        return _extent;
+    }
 
 
-  inline Box PointList::extent() const
-  {
-    return _extent;
-  }
+    inline void PointList::add(const Point& p)
+    {
+        // Insert the point.
+        _points.push_back(p);
+
+        // Increse the extent.
+        _extent.include(p);
+    }
 
 
-  inline void PointList::add(const Point& p)
-  {
-    // Insert the point.
-    _points.push_back(p);
+    inline void PointList::clear()
+    {
+        _points.clear();
+    }
 
 
-    // Increse the extent.
-    _extent.include(p);
-  }
+    inline PointList::ConstIter PointList::begin() const
+    {
+        return _points.begin();
+    }
 
 
-  inline void PointList::clear()
-  {
-    _points.clear();
-  }
+    inline PointList::ConstIter PointList::end() const
+    {
+        return _points.end();
+    }
 
 
-  inline PointList::ConstIter PointList::begin() const
-  {
-    return _points.begin();
-  }
-
-      
-  inline PointList::ConstIter PointList::end() const
-  {
-    return _points.end();
-  }
+    inline Unsigned PointList::size() const
+    {
+        return _points.size();
+    }
 
 
-  inline Unsigned PointList::size() const
-  {
-    return _points.size();
-  }
-
-
-  inline Point PointList::operator[](Unsigned n) const
-  {
-    return _points[n];
-  }
-
+    inline Point PointList::operator[](Unsigned n) const
+    {
+        return _points[n];
+    }
 
 } // CA
 
-
-#endif	// _CA_POINTLIST_HPP_
+#endif  // _CA_POINTLIST_HPP_

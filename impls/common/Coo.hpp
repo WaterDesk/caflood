@@ -40,188 +40,169 @@ THE SOFTWARE.
 
 
 namespace CA {
-  
 
-  //! Identifies a coordinate in the CA grid (X,Y).
-  //! \attention This differs from a point.
-  //! \warning The coordinate (0.0,0.0) in the Grid correspond to the
-  //! bottom-left corner of the grid. This is different than point.
-  class Coo
-  {
+    //! Identifies a coordinate in the CA grid (X,Y).
+    //! \attention This differs from a point.
+    //! \warning The coordinate (0.0,0.0) in the Grid correspond to the
+    //! bottom-left corner of the grid. This is different than point.
+    class Coo
+    {
+    public:
+        //! Create a coordinate in the grid.
+        //! \param x         The X coordinate.
+        //! \param y         The Y coordinate.
+        Coo(Real x, Real y);
 
-  public:
+        //! Create an empty coordinate.
+        Coo();
 
-    //! Create a coordinate in the grid.
-    //! \param x         The X coordinate.
-    //! \param y         The Y coordinate.
-    Coo(Real x, Real y);
+        //! Destroy the coordinate.
+        ~Coo();
 
+        //! Return the X coordinate.
+        Real x() const;
 
-    //! Create an empty coordinate.
-    Coo();
+        //! Return the Y coordinate.
+        Real y() const;
 
+        //! Set the X coordinate.
+        void setX(Real x);
 
-    //! Destroy the coordinate.
-    ~Coo();
+        //! Set the Y coordinate.
+        void setY(Real y);
 
+        //! Return true if the given coordinate is equal, 
+        //! i.e this (X,Y) = given (X,Y)
+        bool operator==(const Coo& src) const;
 
-    //! Return the X coordinate.
-    Real x() const;
-    
+        //! Return true if the given coordinate is smaller, 
+        //! i.e this (X,Y) > given (X,Y)
+        bool operator>(const Coo& src) const;
 
-    //! Return the Y coordinate.
-    Real y() const;
+        //! Return true if the given coordinate is smaller or equal, 
+        //! i.e this (X,Y) >= given (X,Y)
+        bool operator>=(const Coo& src) const;
 
+        //! Return true if the given coordinate is larger, 
+        //! i.e this (X,Y) < given (X,Y)
+        bool operator<(const Coo& src) const;
 
-    //! Set the X coordinate.
-    void setX(Real x);
-    
+        //! Return true if the given coordinate is larger or equal, 
+        //! i.e this (X,Y) > given (X,Y)
+        bool operator<=(const Coo& src) const;
 
-    //! Set the Y coordinate.
-    void setY(Real y);
+        //! Returns the euclidian distance to another pair of coordinates.
+        Real distanceTo(Coo c);
 
+        //! Return true if the coordinate is empty,i.e. not in the grid.
+        bool isEmty() const;
 
-    //! Return true if the given coordinate is equal, 
-    //! i.e this (X,Y) = given (X,Y)
-    bool operator==(const Coo& src) const;
+        //! Clear the coordinate values ans set them to empty.
+        void clear();
 
+    private:
 
-    //! Return true if the given coordinate is smaller, 
-    //! i.e this (X,Y) > given (X,Y)
-    bool operator>(const Coo& src) const;
-
-
-    //! Return true if the given coordinate is smaller or equal, 
-    //! i.e this (X,Y) >= given (X,Y)
-    bool operator>=(const Coo& src) const;
-
-
-    //! Return true if the given coordinate is larger, 
-    //! i.e this (X,Y) < given (X,Y)
-    bool operator<(const Coo& src) const;
-
-
-    //! Return true if the given coordinate is larger or equal, 
-    //! i.e this (X,Y) > given (X,Y)
-    bool operator<=(const Coo& src) const;
-
-
-    //! Returns the euclidian distance to another pair of coordinates.
-    Real distanceTo(Coo c);
+        //! X and Y coordinates.
+        Real _x;
+        Real _y;
+    };
 
 
-    //! Return true if the coordinate is empty,i.e. not in the grid.
-    bool isEmty() const;
+    /// ----- Inline implementation ----- ///
 
 
-    //! Clear the coordinate values ans set them to empty.
-    void clear();
-
-  private:
-    
-    //! X and Y coordinates.
-    Real _x;
-    Real _y;
-  };
+    inline Coo::Coo(Real x, Real y) :
+        _x(x), _y(y)
+    {
+    }
 
 
-  /// ----- Inline implementation ----- ///
-  
-
-  inline Coo::Coo(Real x, Real y):
-    _x(x), _y(y)
-  {    
-  }
+    inline Coo::Coo() :
+        _x(std::numeric_limits<Real>::infinity()),
+        _y(std::numeric_limits<Real>::infinity())
+    {
+    }
 
 
-  inline Coo::Coo():
-    _x(std::numeric_limits<Real>::infinity()), 
-    _y(std::numeric_limits<Real>::infinity())
-  {    
-  }
+    inline Coo::~Coo()
+    {
+    }
 
 
-  inline Coo::~Coo()
-  {
-  }
+    inline Real Coo::x() const
+    {
+        return _x;
+    }
 
 
-  inline Real Coo::x() const
-  {
-    return _x;
-  }
+    inline Real Coo::y() const
+    {
+        return _y;
+    }
 
 
-  inline Real Coo::y() const
-  {
-    return _y;
-  }
+    inline void Coo::setX(Real x)
+    {
+        _x = x;
+    }
 
 
-  inline void Coo::setX(Real x)
-  {
-    _x = x;
-  }
-    
-
-  inline void Coo::setY(Real y)
-  {
-    _y = y;
-  }
+    inline void Coo::setY(Real y)
+    {
+        _y = y;
+    }
 
 
-  inline bool Coo::operator==(const Coo& src) const
-  {
-    return (_x == src._x) && (_y == src._y);
-  }
+    inline bool Coo::operator==(const Coo& src) const
+    {
+        return (_x == src._x) && (_y == src._y);
+    }
 
 
-  inline bool Coo::operator>(const Coo& src) const
-  {
-    return (_x > src._x) && (_y > src._y);
-  }
+    inline bool Coo::operator>(const Coo& src) const
+    {
+        return (_x > src._x) && (_y > src._y);
+    }
 
 
-  inline bool Coo::operator>=(const Coo& src) const
-  {
-    return (_x >= src._x) && (_y >= src._y);
-  }
+    inline bool Coo::operator>=(const Coo& src) const
+    {
+        return (_x >= src._x) && (_y >= src._y);
+    }
 
 
-  inline bool Coo::operator<(const Coo& src) const
-  {
-    return (_x < src._x) && (_y < src._y);
-  }
+    inline bool Coo::operator<(const Coo& src) const
+    {
+        return (_x < src._x) && (_y < src._y);
+    }
 
 
-  inline bool Coo::operator<=(const Coo& src) const
-  {
-    return (_x <= src._x) && (_y <= src._y);
-  }
+    inline bool Coo::operator<=(const Coo& src) const
+    {
+        return (_x <= src._x) && (_y <= src._y);
+    }
 
 
-	inline Real Coo::distanceTo(Coo c)
-	{
-		  return sqrt(pow((_x - c.x()), 2) + pow((_y - c.y()), 2));
-	}
+    inline Real Coo::distanceTo(Coo c)
+    {
+        return sqrt(pow((_x - c.x()), 2) + pow((_y - c.y()), 2));
+    }
 
 
-  inline bool Coo::isEmty() const
-  {
-    return 
-      (_x == std::numeric_limits<Real>::infinity()) ||
-      (_y == std::numeric_limits<Real>::infinity());
-  }
+    inline bool Coo::isEmty() const
+    {
+        return
+            (_x == std::numeric_limits<Real>::infinity()) ||
+            (_y == std::numeric_limits<Real>::infinity());
+    }
 
 
-  inline void Coo::clear()
-  {
-    _x = std::numeric_limits<Real>::infinity(); 
-    _y = std::numeric_limits<Real>::infinity();
-  }
+    inline void Coo::clear()
+    {
+        _x = std::numeric_limits<Real>::infinity();
+        _y = std::numeric_limits<Real>::infinity();
+    }
 
 } // CA
 
-
-
-#endif	// _CA_COO_HPP_
+#endif  // _CA_COO_HPP_

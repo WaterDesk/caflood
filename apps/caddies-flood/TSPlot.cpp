@@ -36,39 +36,38 @@ THE SOFTWARE.
 #include<fstream>
 
 
-TSPlot::TSPlot(std::string name, bool plot):
-_file()
+TSPlot::TSPlot(std::string name, bool plot) :
+    _file()
 {
-  if(plot)
-  {
-    // Create file
-    _file.reset( new std::ofstream(name.c_str()) );
-    
-    if(_file->good())
+    if (plot)
     {
-      
-      // Set  manipulators 
-      _file->setf(std::ios::fixed, std::ios::floatfield);
-      _file->precision(6); 
-      
-      // Write the header
-      (*_file)<<"t (s),  dt (s)"<<std::endl;
+        // Create file
+        _file.reset(new std::ofstream(name.c_str()));
+
+        if (_file->good())
+        {
+
+            // Set  manipulators 
+            _file->setf(std::ios::fixed, std::ios::floatfield);
+            _file->precision(6);
+
+            // Write the header
+            (*_file) << "t (s),  dt (s)" << std::endl;
+        }
     }
-  }
 }
-  
+
 
 TSPlot::~TSPlot()
 {
-
 }
 
 
 void TSPlot::output(CA::Real t, CA::Real dt)
 {
-  if(_file && _file->good())
-  {
-    // Write line
-    (*_file)<<t<<", "<<dt<<std::endl;
-  }
+    if (_file && _file->good())
+    {
+        // Write line
+        (*_file) << t << ", " << dt << std::endl;
+    }
 }

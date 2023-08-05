@@ -49,122 +49,105 @@ THE SOFTWARE.
 
 namespace CA {
 
-
-  //! Identifies the buffer which contains a real value for each cell in
-  //! the grid. 
-  class CellBuffReal: public CellBuff<Real>
-  {
-  public:
-    CellBuffReal(Grid& grid, const Options& options = Options()):
-      CellBuff<Real>(grid, options)
+    //! Identifies the buffer which contains a real value for each cell in
+    //! the grid. 
+    class CellBuffReal : public CellBuff<Real>
     {
+    public:
+        CellBuffReal(Grid& grid, const Options& options = Options()) :
+            CellBuff<Real>(grid, options)
+        {
+        }
 
-    }
-    
-    virtual ~CellBuffReal(){}
+        virtual ~CellBuffReal() {}
 
-    
-  private:
-    
+    private:
 
-  };
-  
+    };
 
-  //! Identifies the buffer which contains a state value for each cell in
-  //! the grid.  
-  class CellBuffState: public CellBuff<State>
-  {
-  public:
-    CellBuffState(Grid& grid, const Options& options = Options()):
-      CellBuff<State>(grid, options)
+
+    //! Identifies the buffer which contains a state value for each cell in
+    //! the grid.  
+    class CellBuffState : public CellBuff<State>
     {
-  
-    }
-    
-    virtual ~CellBuffState(){}
+    public:
+        CellBuffState(Grid& grid, const Options& options = Options()) :
+            CellBuff<State>(grid, options)
+        {
+        }
+
+        virtual ~CellBuffState() {}
+
+    private:
+
+    };
 
 
-  private:
-    
-  };
-  
-
-  //! Identifies the buffer which contains a real value for each edge
-  //! of each cell in the grid.
-  class EdgeBuffReal: public EdgeBuff<Real>
-  {
-  public:
-    EdgeBuffReal(Grid& grid, const Options& options = Options()):
-      EdgeBuff<Real>(grid, options)
+    //! Identifies the buffer which contains a real value for each edge
+    //! of each cell in the grid.
+    class EdgeBuffReal : public EdgeBuff<Real>
     {
+    public:
+        EdgeBuffReal(Grid& grid, const Options& options = Options()) :
+            EdgeBuff<Real>(grid, options)
+        {
+        }
 
-    }
-    
-    virtual ~EdgeBuffReal(){}
+        virtual ~EdgeBuffReal() {}
+
+    private:
+
+    };
 
 
-  private:
-    
-
-  };
-  
-
-  //! Identifies the buffer which contains a state value for each
-  //! edge of each cell in the grid.
-  class EdgeBuffState: public EdgeBuff<State>
-  {
-  public:
-    EdgeBuffState(Grid& grid, const Options& options = Options()):
-      EdgeBuff<State>(grid, options)
+    //! Identifies the buffer which contains a state value for each
+    //! edge of each cell in the grid.
+    class EdgeBuffState : public EdgeBuff<State>
     {
+    public:
+        EdgeBuffState(Grid& grid, const Options& options = Options()) :
+            EdgeBuff<State>(grid, options)
+        {
+        }
 
-    }
-    
-    virtual ~EdgeBuffState(){}
+        virtual ~EdgeBuffState() {}
 
-  
-  private:
-    
-  };
+    private:
+
+    };
 
 
-  //! Identifies the tabel which contains multiple real values for
-  //! multiple indices.
-  class TableReal: public Table<Real>
-  {
-  public:
-    TableReal(Grid& grid, Unsigned num, const Options& options = Options()):
-      Table<Real>(grid,num,options)
+    //! Identifies the tabel which contains multiple real values for
+    //! multiple indices.
+    class TableReal : public Table<Real>
     {
+    public:
+        TableReal(Grid& grid, Unsigned num, const Options& options = Options()) :
+            Table<Real>(grid, num, options)
+        {
+        }
 
-    }
-    
-    virtual ~TableReal(){}
+        virtual ~TableReal() {}
 
+    private:
 
-  private:
-    
+    };
 
-  };
-
-  //! Identifies the tabel which contains multiple real values for
-  //! multiple indices.
-  class TableState: public Table<State>
-  {
-  public:
-    TableState(Grid& grid, Unsigned num, const Options& options = Options()):
-      Table<State>(grid,num,options)
+    //! Identifies the tabel which contains multiple real values for
+    //! multiple indices.
+    class TableState : public Table<State>
     {
+    public:
+        TableState(Grid& grid, Unsigned num, const Options& options = Options()) :
+            Table<State>(grid, num, options)
+        {
+        }
 
-    }
-    
-    virtual ~TableState(){}
+        virtual ~TableState() {}
 
-  private:
-    
-  };
-  
-    
+    private:
+
+    };
 
 } // Namespace CA
 
@@ -174,4 +157,4 @@ namespace CA {
 #endif // _MSC_VER
 
 
-#endif	// _CABUFFS2D_HPP_
+#endif  // _CABUFFS2D_HPP_
