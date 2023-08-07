@@ -57,11 +57,11 @@ namespace CA {
         //! Identifies the container of Boxes.
         typedef std::list<Box> Boxes;
 
-        //! Indentifies the interator.
+        //! Identifies the interator.
         typedef Boxes::iterator Iter;
 
     public:
-        //! Indentifies the constant interator.
+        //! Identifies the constant interator.
         typedef Boxes::const_iterator ConstIter;
 
         //! Create a BoxList
@@ -75,11 +75,11 @@ namespace CA {
 
         // --- METHODS --- 
 
-        //! Return the extent of the boxlist, i.e the largest box that
+        //! Return the extent of the boxlist, i.e. the largest box that
         //! contain all the boxes in the list.
         Box extent() const;
 
-        //! Add a box into the list. The list should not contains two
+        //! Add a box into the list. The list should not contain two
         //! boxes that overlap (intersect). Thus when a box is added, the
         //! method checks if it is overlapping with an existing box. If
         //! there is overlap between two boxes, the algorithm substitute
@@ -108,7 +108,7 @@ namespace CA {
         //! The list of boxes.
         Boxes  _boxes;
 
-        //! The extent of the BoxList, i.e the largest box that contains
+        //! The extent of the BoxList, i.e. the largest box that contains
         //! all the boxes in the list.
         Box    _extent;
     };
@@ -142,7 +142,7 @@ namespace CA {
 
     inline void BoxList::add(const Box& src)
     {
-        // If the widht or heigh is zero then there is nothing to add
+        // If the width or height is zero then there is nothing to add
         if (src.empty())
             return;
 
@@ -154,25 +154,25 @@ namespace CA {
         // Add the given box to the list.
         toadd.push_back(src);
 
-        // Cycle trough all the boxes in the existing list.
+        // Cycle through all the boxes in the existing list.
         for (Boxes::iterator iorg = _boxes.begin(); iorg != _boxes.end(); ++iorg)
         {
-            // Cycle trough all the boxes to add.
-            for (Boxes::iterator iadd = toadd.begin(); iadd != toadd.end() && !toadd.empty(); ++iadd)
+            // Cycle through all the boxes to add.
+            for (Boxes::iterator iadd = toadd.begin(); iadd != toadd.end() && !toadd.empty();)
             {
                 // if box to add is completely within an existing box, then remove it from the list to add, and move on
-                if ((*iorg).Union((*iadd), (*iorg)) == (*iorg)) {
-                    toadd.remove(*iadd);
+                if ((*iorg).Union((*iadd), (*iorg)) == (*iorg))
+                {
+                    iadd = toadd.erase(iadd);
                     continue;
                 }
 
                 // Check if they intersect.
-                if ((*iorg).intersect((*iadd))
-                    )
+                if ((*iorg).intersect((*iadd)))
                 {
                     // The boxes can be defined in terms of their spans on each
                     // axis - It is possible find the interesting points on each
-                    // axis where a box starts or ends. This give the
+                    // axis where a box starts or ends. This gives the
                     // possibility of 9 possible sub-boxes of which between 7 to
                     // 9 might exist. The boxes 2, 4, 5, 6 and 8 always exist.
 
@@ -229,7 +229,7 @@ namespace CA {
                     if ((*iorg).inside(cg) || (*iadd).inside(cg))
                         toadd.push_back(Box(cg, dh)); // Box 9
 
-                      // Step (3)
+                    // Step (3)
                     iadd = toadd.erase(iadd);
 
                     // Step (4)
@@ -238,8 +238,11 @@ namespace CA {
                     (*iorg).setW(c - b);
                     (*iorg).setH(g - f);
                 }
-
-                // If does not intersect do nothing.
+                else
+                {
+                    // If does not intersect do nothing.
+                    ++iadd;
+                }
             }
         }
 
