@@ -193,7 +193,7 @@ void InflowManager::prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_d
     // Loop through the inflow event(s).
     for (size_t i = 0; i < _ies.size(); ++i)
     {
-        // Compute the difference of inflow betwenn the expected and the
+        // Compute the difference of inflow between the expected and the
         // added. This inflow should be added/subtracted as one off when it
         // reaches high value.
         _datas[i].one_off_inflow = (_datas[i].expected_inflow - _datas[i].total_inflow);
@@ -291,7 +291,7 @@ void InflowManager::add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real 
             volume = 0.5*(t1 - t0)*(yt1 - yt0) + (t1 - t0)*(yt0);
         }
 
-        // Increse the amount of inflow added into the period.
+        // Increase the amount of inflow added into the period.
         // It needs to be added before the correction.
         _datas[i].total_inflow += volume;
 
@@ -300,12 +300,12 @@ void InflowManager::add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real 
         _datas[i].one_off_inflow = 0.0; // Reset the one of inflow.
 
 
-        // ATTENTION The volume is the total volume, it need to be
+        // ATTENTION The volume is the total volume, it needs to be
         // divided by the number of cells that are going to receive the
         // inflow. 
         volume = volume / (_datas[i].grid_area / (_grid.area()));
 
-        // Add (or subtract) the given volume into the water detph of the
+        // Add (or subtract) the given volume into the water depth of the
         // given area.
         // Do not add it if it is zero.
         if (volume >= SMALL_INFLOW)
@@ -329,8 +329,8 @@ CA::Real InflowManager::potentialVA(CA::Real t, CA::Real period_time_dt)
     CA::Real potential_va = 0.0;
 
     // Compute the total amount of volume that is going to be added into
-    // each cell for the time period. Calculate the extra amout of
-    // water depth taht would be added in a second. Compute the possible velocity
+    // each cell for the time period. Calculate the extra amount of
+    // water depth that would be added in a second. Compute the possible velocity
     // using the critical velocity.
     for (size_t i = 0; i < _ies.size(); ++i)
     {
@@ -357,8 +357,8 @@ CA::Real InflowManager::potentialVA(CA::Real t, CA::Real period_time_dt)
         }
 
         // ATTENTION The volume is the total volume, to get the volume per
-        // cell it need to be divided by the number of cells that are
-        // going to receive the inflow. Then it need to be divided by the
+        // cell it needs to be divided by the number of cells that are
+        // going to receive the inflow. Then it needs to be divided by the
         // cell area.
         CA::Real wd = volume / (_datas[i].grid_area*period_time_dt);
 
@@ -383,7 +383,7 @@ CA::Real InflowManager::endTime()
         for (size_t j = 1; j < _ies[i].times.size(); j++)
         {
             // Check if there is no inflow at this time but there was at
-            // previous time updated end_t.
+            // previous time updated t_end.
             if (_ies[i].ins[j - 1] > 0.0 && _ies[i].ins[j] == 0)
                 t_end = std::max(t_end, _ies[i].times[j]);
         }

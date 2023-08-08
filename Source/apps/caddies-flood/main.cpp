@@ -64,7 +64,7 @@ inline void version()
 //! \param[in] ad       The arguments data.
 //! \param[in] setup    The setup of the simulation.
 //! \param[in] ele_file The elevation file.
-//! \return A non zero value if there was an error.
+//! \return A non-zero value if there was an error.
 int preProc(const ArgsData& ad, const Setup& setup, const std::string& ele_file);
 
 
@@ -74,14 +74,14 @@ int preProc(const ArgsData& ad, const Setup& setup, const std::string& ele_file)
 //! \param[in] eg       The elevation grid.
 //! \param[in] tps      The list of time plot outputs.
 //! \param[in] rgs      The list of raster grid outputs.
-//! \return A non zero value if there was an error.
+//! \return A non-zero value if there was an error.
 int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg,
     const std::vector<TimePlot>& tps, const std::vector<RasterGrid>& rgs);
 
 
 //! Perform the CADDIES2D flood modelling algorithm using the given
 //! parameters (see CADDIES2D.cpp).
-//!  This function perform the following models:
+//!  This function performs the following models:
 //! 1) WCA2Dv1
 //! 2) WCA2Dv2
 //! \param[in] ad       The arguments data.
@@ -92,14 +92,14 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
 //! \param[in] ies      The list of inflow event inputs.
 //! \param[in] tps      The list of time plot outputs.
 //! \param[in] rgs      The list of raster grid outputs.
-//! \return A non zero value if there was an error.
+//! \return A non-zero value if there was an error.
 int CADDIES2D(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg,
     const std::vector<RainEvent>& res, const std::vector<WLEvent>& wles,
     const std::vector<IEvent>& ies,
     const std::vector<TimePlot>& tps, const std::vector<RasterGrid>& rgs);
 
 
-//! Return the terrrain info of the CA2D model to simulate. 
+//! Return the terrain info of the CA2D model to simulate. 
 //! \attention The preProc function should be called before this one.
 //! \warning If "Remove Pre-proc data is true, this function remove them."
 int terrainInfo(const ArgsData& ad, Setup& setup, const CA::AsciiGrid<CA::Real>& eg);
@@ -122,11 +122,11 @@ int main(int argc, char* argv[])
     // Create the argument structure.
     ArgsData ad;
 
-    // The number of argument.
+    // The number of arguments.
     CA::Unsigned na = 0;
 
-    // There is only three compulsory arguments which are the directory
-    // where the configuration files and data is found, the initial
+    // There are only three compulsory arguments which are the directory
+    // where the configuration files and data are found, the initial
     // setup file of the given CA algorithm, and the directory where the
     // output data is saved. The setup file should be in the working
     // directory.
@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    // Cycle throught the arguments that were activated
+    // Cycle through the arguments that were activated
     for (CA::Arguments::List::const_iterator i = ad.args.active().begin(); i != ad.args.active().end(); ++i)
     {
         if ((*i)->tag == 0)     // Input dir.
@@ -323,7 +323,7 @@ int main(int argc, char* argv[])
     std::string ele_file = ad.working_dir + ad.sdir + setup.elevation_ASCII;
     CA::AsciiGrid<CA::Real> eg;
 
-    // ATTENTION. Load only the header here .. not the actual data
+    // ATTENTION. Load only the header here, not the actual data
     eg.readAsciiGridHeader(ele_file);
 
     if (ad.info)

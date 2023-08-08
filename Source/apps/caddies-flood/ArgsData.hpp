@@ -89,7 +89,7 @@ struct ArgsData
     //! files are located.
     std::string working_dir;
 
-    //! The setup file which contain the initial configuration of the ca
+    //! The setup file which contains the initial configuration of the ca
     //! algorithm.
     std::string setup_file;
 
@@ -99,7 +99,7 @@ struct ArgsData
     //! Contain the string used as separator of directory.
     std::string sdir;
 
-    //! The direcotry where temporary GRID/BUFFER data is saved/loaded.
+    //! The directory where temporary GRID/BUFFER data is saved/loaded.
     std::string data_dir;
 
     //! If true, print any information into console.
@@ -108,7 +108,7 @@ struct ArgsData
     //! If true, perform preprocessing.
     bool pre_proc;
 
-    //! If true, do not perform the preprocessing. This take precedence
+    //! If true, do not perform the preprocessing. This takes precedence
     //! over pre-proc argument.
     bool no_pre_proc;
 
@@ -118,7 +118,7 @@ struct ArgsData
     //! Which Model (is a string).
     std::string model;
 
-    //! If true, display the terrrain info and exit.
+    //! If true, display the terrain info and exit.
     bool terrain_info;
 
     // Constructor
@@ -155,7 +155,7 @@ struct PV
         UNKNOWN = 0,
         WD,             //!< The water depth. 
         WL,             //!< The water level (depth + elv).
-        VEL,            //!< The velocity saved as Vertical, Horizonatl.
+        VEL,            //!< The velocity saved as Vertical, Horizontal.
     };
 };
 

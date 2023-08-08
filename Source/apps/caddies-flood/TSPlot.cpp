@@ -47,7 +47,7 @@ TSPlot::TSPlot(std::string name, bool plot) :
         if (_file->good())
         {
 
-            // Set  manipulators 
+            // Set manipulators
             _file->setf(std::ios::fixed, std::ios::floatfield);
             _file->precision(6);
 

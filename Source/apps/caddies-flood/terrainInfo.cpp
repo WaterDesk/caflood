@@ -38,9 +38,9 @@ THE SOFTWARE.
 #include CA_2D_INCLUDE(computeDataCells)
 #include CA_2D_INCLUDE(computeSlope)
 
-// Return the terrrain info of the CA2D model to simulate. 
+// Return the terrain info of the CA2D model to simulate. 
 // \attention The preProc function should be called before this one.
-// \warning If "Remove Pre-proc data is true, this function remove them."
+// \warning If "Remove Pre-proc data is true, this function removes them."
 int terrainInfo(const ArgsData& ad, Setup& setup, const CA::AsciiGrid<CA::Real>& eg)
 {
     // ----  Timer ----
@@ -134,7 +134,7 @@ int terrainInfo(const ArgsData& ad, Setup& setup, const CA::AsciiGrid<CA::Real>&
     // Create temporary buffers
     CA::CellBuffReal TMP1(GRID);
 
-    // Create the MASK cell buffer. The mask is usefull to check wich
+    // Create the MASK cell buffer. The mask is useful to check which
     // cell has data and nodata and which cell has neighbourhood with
     // data.
     CA::CellBuffState MASK(GRID);
@@ -171,14 +171,14 @@ int terrainInfo(const ArgsData& ad, Setup& setup, const CA::AsciiGrid<CA::Real>&
     // are called boundary cells and they are ignored by the computation
     // (not visited), i.e. the rain is not added into them, the outflow
     // are not computed. However, these boundary cells are used as
-    // neighbour cell thus the bouandary cell can have inflow (outflow
-    // from the data cell). Thus the elevation value in these bounday
+    // neighbour cell thus the boundary cell can have inflow (outflow
+    // from the data cell). Thus the elevation value in these boundary
     // cell is changed with the Boundary Elevation value. If this value
-    // is very high the global baundary is a CLOSED one, if it is VERY
+    // is very high the global boundary is a CLOSED one, if it is VERY
     // negative the global boundary is an OPEN one.
 
     // ATTENTION The water that finish in the boundary cell (open
-    // boundary case) is not removed (it stay in the WD buffer). 
+    // boundary case) is not removed (it stays in the WD buffer). 
 
     // Set the boundary cell elevation to the given boundary_elv value.
     CA::Execute::function(fulldomain, setBoundaryEle, GRID, ELV, MASK, setup.boundary_elv);

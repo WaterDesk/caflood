@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 
 //! \file Rain.hpp
-//!  Contains the structure(s) and classe(s) that are used to manage a rain event.
+//!  Contains the structure(s) and class(es) that are used to manage a rain event.
 //! \author Michele Guidolin, University of Exeter, 
 //! contact: m.guidolin [at] exeter.ac.uk
 //! \date 2013-03
@@ -45,7 +45,7 @@ THE SOFTWARE.
 
 //! Structure with the configuration value that define a rain event in
 //! the CA2D model. A rain event is the amount of rain intensity
-//! falling over time. The time is represented the end onf the
+//! falling over time. The time is represented the end of the
 //! intensity from t=0 of the rain in second while the rain intensity
 //! value is represented in mm/hr.
 struct RainEvent
@@ -55,21 +55,21 @@ struct RainEvent
     std::vector<CA::Real> rains;    //!< The list of rain intensities in mm/hr 
     std::vector<CA::Real> times;    //!< The times when the rain intensities stop in seconds.
     std::vector<CA::Real> area;     //!< The area where the rain will fall (if empty all domain).  
-    std::vector<CA::Real> zone;     //!< The zone (x,y,w,h) where the rain will heppen (if empty all domain).
+    std::vector<CA::Real> zone;     //!< The zone (x,y,w,h) where the rain will happen (if empty all domain).
 };
 
-//! Initialise the rain event structure usign a CSV file. 
+//! Initialise the rain event structure using a CSV file. 
 //! Each row represents a new "variable" where the 
 //! first column is the name of the element 
 //! and the following columns have the multiple/single values.
 //! \attention The order of elements is not important.
 //! \param[in]  filename This is the file where the data is read.
 //! \param[out] setup    The structure containing the read data.
-//! \return A non zero value if there was an error.
+//! \return A non-zero value if there was an error.
 int initRainEventFromCSV(const std::string& filename, RainEvent& re);
 
 
-//! Class that manage all Rain events
+//! Class that manages all Rain events
 class RainManager
 {
 private:
@@ -87,7 +87,7 @@ private:
 
         // These next variable are used to solve the problem of different
         // volume when using float type for Real. The idea is to compute
-        // the amount of missing/extra rain  in comparison to the
+        // the amount of missing/extra rain in comparison to the
         // one expected and add/subtract this `one-off` rain. 
 
         double   total_rain;    //!< The total rain added during a update period.
@@ -118,7 +118,7 @@ public:
     void analyseArea(CA::CellBuffReal& TMP, CA::CellBuffState& MASK, CA::BoxList&  domain);
 
     //! Prepare the rain events for the next update step considering the
-    //! simulation time, the lenght of the update step and the next tim
+    //! simulation time, the length of the update step and the next time
     //! step.
     void prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_dt);
 

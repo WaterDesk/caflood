@@ -178,7 +178,7 @@ void RainManager::prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_dt)
     // Loop through the rain event(s).
     for (size_t i = 0; i < _res.size(); ++i)
     {
-        // Compute the difference of rain betwenn the expected and the
+        // Compute the difference of rain between the expected and the
         // added. This rain should be added/subtracted as one off when it
         // reaches high value.
         _datas[i].one_off_rain = (_datas[i].expected_rain - _datas[i].total_rain);
@@ -248,7 +248,7 @@ void RainManager::add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real t,
 
             CA::Execute::function(_datas[i].box_area, addRain, _grid, WD, MASK, rain);
 
-            // Increse the amount of rain added into the period.
+            // Increase the amount of rain added into the period.
             _datas[i].total_rain += _datas[i].rain;
         }
     }
@@ -329,7 +329,7 @@ int RainManager::initData(const RainEvent& re, Data& data)
         {
             data.box_area = CA::Box::create(_grid, re.area[0], re.area[1], re.area[2], re.area[3]);
         }
-        // This is new. The are could have been identified as a zone, i.e. x,y,w,h/
+        // This is new. They could have been identified as a zone, i.e. x,y,w,h/
         if (re.zone.size() == 4)
         {
             // Compute the given box area from the zone.

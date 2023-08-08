@@ -48,7 +48,7 @@ THE SOFTWARE.
 //! nearest action and the period of the possible new action, find the
 //! possible NEW simulation time of possible new nearest action.
 //! \attention An action is: the simulation finished, output to
-//! console, raster, timeplot, or rain event change, etc..
+//! console, raster, timeplot, or rain event change, etc.
 inline CA::Real nextTimeNearestAction(CA::Real t, CA::Real t_nearest, CA::Real period)
 {
     return std::min(t_nearest, t + period - std::fmod(t, period));
@@ -71,12 +71,12 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
         std::cout << "------------------------------------------" << std::endl;
     }
 
-    // ----  Timer ----
+    // ---- Timer ----
 
     // Get starting time.
     CA::Clock total_timer;
 
-    // ----  CA GRID ----
+    // ---- CA GRID ----
 
     // Load the CA Grid from the DataDir. 
     // ATTENTION this should have an extra set of cells in each
@@ -119,7 +119,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
     CA::AsciiGrid<CA::Real>& agtmp1 = eg;
     CA::AsciiGrid<CA::Real>  agtmp2 = eg;
 
-    // -- INITIALISE ELEVATION ---
+    // --- INITIALISE ELEVATION ---
 
     // Create the elevation cell buffer.
     // It contains a "real" value in each cell of the grid.
@@ -146,25 +146,25 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
     if (setup.output_console)
         std::cout << "Loaded Elevation data" << std::endl;
 
-    // ----  CELL BUFFERS ----
+    // ---- CELL BUFFERS ----
 
     // Create two temporary Cell buffer
     CA::CellBuffReal TMP1(GRID);
     CA::CellBuffReal TMP2(GRID);
 
-    // Create the MASK cell buffer. The mask is usefull to check wich
+    // Create the MASK cell buffer. The mask is useful to check which
     // cell has data and nodata and which cell has neighbourhood with
     // data.
     CA::CellBuffState MASK(GRID);
 
-    // ----  SCALAR VALUES ----
+    // ---- SCALAR VALUES ----
 
     CA::Unsigned iter = 0;                      // The actual iteration number.
     CA::Real     t = setup.time_start;          // The actual time in seconds
     CA::Real     t_nearest = setup.time_end;    // The next time step
     CA::Real     nodata = agtmp1.nodata;
 
-    // -- CREATE FULL MASK ---
+    // --- CREATE FULL MASK ---
 
     CA::createCellMask(fulldomain, GRID, ELV, MASK, nodata);
 
@@ -176,7 +176,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
     // Peak buffers.
     RGPeak rgpeak;
 
-    // Allocate temporary Ascii file data to ouptut raster.
+    // Allocate temporary Ascii file data to output raster.
     if (rgs.size() > 0)
     {
         agtmp1.data.resize(agtmp1.ncols * agtmp1.nrows, agtmp1.nodata);
@@ -232,7 +232,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
                         continue;
                     }
 
-                    // Set the water depth to zero if it less than tollerance.
+                    // Set the water depth to zero if it less than tolerance.
                     CA::State boundary = (setup.rast_boundary) ? 1 : 0;
                     CA::Execute::function(fulldomain, zeroedWD, GRID, WD, MASK, setup.rast_wd_tol, boundary);
 
@@ -280,7 +280,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
                         continue;
                     }
 
-                    // Set the V and A to zero if water depth is less than tollerance.
+                    // Set the V and A to zero if water depth is less than tolerance.
                     CA::Execute::function(fulldomain, zeroedVA, GRID, TMP1, TMP2, WD, MASK, setup.rast_wd_tol);
 
                     // Retrieve the velocity and angle data
@@ -305,7 +305,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
                         //file<<"X, Y, Speed, Angle_RAD, Angle_DEG, Angle_QGIS"<<std::endl;
                         fprintf(fout, "X, Y, Speed, Angle_RAD, Angle_DEG, Angle_QGIS\n");
 
-                        // Loop thourhg the grid points.
+                        // Loop through the grid points.
                         for (CA::Unsigned j_reg = realbox.y(), j_mem = 0; j_reg < realbox.h() + realbox.y(); ++j_reg, ++j_mem)
                         {
                             for (CA::Unsigned i_reg = realbox.x(), i_mem = 0; i_reg < realbox.w() + realbox.x(); ++i_reg, ++i_mem)
@@ -323,7 +323,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
                                 // Compute the angle needed by QGis.
                                 CA::Real AQ = -AR * 180 / PI + 90;
 
-                                // Write the results if the veclocity is more than zero.
+                                // Write the results if the velocity is more than zero.
                                 if (V > 0)
                                 {
                                     //file<<p.coo().x()<<","<<p.coo().y()<<","<<V<<","<<AR<<","<<AD<<","<<AQ<<","<<std::endl;
@@ -399,7 +399,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
                 rgdatas[i].time_next += rgs[i].period;
             }
 
-            // Its time to find the possible next time of interest.
+            // It's time to find the possible next time of interest.
             t_nearest = nextTimeNearestAction(t, t_nearest, rgs[i].period);
         }
 
@@ -407,7 +407,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
         if (t == setup.time_end)
             break;
 
-        // Set the nearest important time as the enxt time and set the
+        // Set the nearest important time as the next time and set the
         // possible nearest important time as the end of the simulation.
         t = t_nearest;
         t_nearest = setup.time_end;
@@ -415,7 +415,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
 
     // ----  PEAK RASTER GRID ----
 
-    // Need to realod WD only once for PEAK.
+    // Need to reload WD only once for PEAK.
     WDloaded = false;
 
     for (size_t i = 0; i < rgdatas.size(); ++i)
@@ -436,7 +436,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
                     continue;
                 }
 
-                // Set the water depth to zero if it less than tollerance.
+                // Set the water depth to zero if it less than tolerance.
                 CA::State boundary = (setup.rast_boundary) ? 1 : 0;
                 CA::Execute::function(fulldomain, zeroedWD, GRID, WD, MASK, setup.rast_wd_tol, boundary);
 
@@ -464,7 +464,7 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
                     continue;
                 }
 
-                // Set the V and A to zero if water depth is less than tollerance.
+                // Set the V and A to zero if water depth is less than tolerance.
                 CA::Execute::function(fulldomain, zeroedVA, GRID, TMP1, TMP2, WD, MASK, setup.rast_wd_tol);
 
                 // Retrieve the data

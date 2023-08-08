@@ -43,7 +43,7 @@ THE SOFTWARE.
 #include<fstream>
 
 
-//! Class that manage all Time Steps Plots outputs
+//! Class that manages all Time Steps Plots outputs
 class TSPlot
 {
 public:

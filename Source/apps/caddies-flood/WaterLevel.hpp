@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 
 //! \file WaterLevel.hpp
-//!  Contains the structure(s) and classe(s) that are used to manage a WaterLevel event.
+//!  Contains the structure(s) and class(es) that are used to manage a WaterLevel event.
 //! \author Michele Guidolin, University of Exeter, 
 //! contact: m.guidolin [at] exeter.ac.uk
 //! \date 2013-03
@@ -59,7 +59,7 @@ struct WLEvent
     CA::Real              n;    //!< Used to compute the Analytical solution.
 };
 
-//! Initialise the water level event structure usign a CSV file. 
+//! Initialise the water level event structure using a CSV file. 
 //! Each row represents a new "variable" where the 
 //! first column is the name of the element 
 //! and the following columns have the multiple/single values.
@@ -70,7 +70,7 @@ struct WLEvent
 int initWLEventFromCSV(const std::string& filename, WLEvent& wle);
 
 
-//! Class that manage all WaterLevel events
+//! Class that manages all WaterLevel events
 class WaterLevelManager
 {
 private:
@@ -112,7 +112,7 @@ public:
     void getElevation(CA::CellBuffReal& Ele);
 
     //! Prepare the WaterLevel events for the next update step considering the
-    //! simulation time, the lenght of the update step and the next tim
+    //! simulation time, the lenght of the update step and the next time
     //! step.
     void prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_dt);
 

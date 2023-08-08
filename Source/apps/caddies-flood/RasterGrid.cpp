@@ -43,7 +43,7 @@ THE SOFTWARE.
 #include CA_2D_INCLUDE(updatePEAKE)
 
 
-// Initialise the RasterGrid structure usign a CSV file. 
+// Initialise the RasterGrid structure using a CSV file. 
 int initRasterGridFromCSV(const std::string& filename, RasterGrid& rg)
 {
     std::ifstream ifile(filename.c_str());
@@ -68,7 +68,7 @@ int initRasterGridFromCSV(const std::string& filename, RasterGrid& rg)
 
         std::vector<std::string> tokens(CA::getLineTokens(ifile, ','));
 
-        // If the tokens vector is empty we reached the eof or an
+        // If the tokens vector is empty, we reached the eof or an
         // empty line... continue.
         if (tokens.empty())
             continue;
@@ -99,7 +99,7 @@ int initRasterGridFromCSV(const std::string& filename, RasterGrid& rg)
         if (CA::compareCaseInsensitive("Period", tokens[0], true))
             READ_TOKEN(found_tok, rg.period, tokens[1], tokens[0]);
 
-        // If the token was not identified stop!
+        // If the token was not identified, stop!
         if (!found_tok)
         {
             std::cerr << "Element '" << CA::trimToken(tokens[0]) << "' not identified" << std::endl; \
@@ -171,7 +171,7 @@ RGManager::~RGManager()
 bool RGManager::updatePeak(const CA::BoxList&  domain,
     CA::CellBuffReal& WD, CA::CellBuffReal& V, CA::CellBuffState& MASK)
 {
-    // This variable make sure that the peak are updated only once.
+    // This variable make sure that the peak values are updated only once.
     bool VAPEAKupdated = false;
     bool WDPEAKupdated = false;
 
@@ -215,7 +215,7 @@ bool RGManager::updatePeak(const CA::BoxList&  domain,
 bool RGManager::outputPeak(CA::Real t, CA::CellBuffReal& WD, CA::CellBuffReal& V,
     const std::string& saveid, bool output)
 {
-    // This variables is used to indicates if the output to console
+    // This variable is used to indicate if the output to console
     // happen in the case of time plot.
     bool outputed = false;
 
@@ -283,7 +283,7 @@ bool RGManager::output(CA::Real t, CA::CellBuffReal& WD,
     const std::string& saveid,
     bool output, bool final)
 {
-    // This variables is used to indicates if the output to console
+    // This variable is used to indicates if the output to console
     // happen in the case of time plot.
     bool outputed = false;
 

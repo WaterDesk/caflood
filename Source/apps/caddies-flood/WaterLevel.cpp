@@ -313,7 +313,7 @@ CA::Real WaterLevelManager::potentialVA(CA::Real t, CA::Real period_time_dt)
 {
     CA::Real potential_va = 0.0;
 
-    // Use the differnce in water level between the previous water level
+    // Use the difference in water level between the previous water level
     // set and the new one that is going to happen. If it is the first
     // call then the previous level is the elevation value.
 

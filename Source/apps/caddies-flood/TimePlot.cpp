@@ -36,7 +36,7 @@ THE SOFTWARE.
 #include<fstream>
 
 
-// Initialise the TimePlot structure usign a CSV file. 
+// Initialise the TimePlot structure using a CSV file.
 int initTimePlotFromCSV(const std::string& filename, TimePlot& tp)
 {
     std::ifstream ifile(filename.c_str());
@@ -59,7 +59,7 @@ int initTimePlotFromCSV(const std::string& filename, TimePlot& tp)
 
         std::vector<std::string> tokens(CA::getLineTokens(ifile, ','));
 
-        // If the tokens vector is empty we reached the eof or an
+        // If the tokens vector is empty, we reached the eof or an
         // empty line... continue.
         if (tokens.empty())
             continue;
@@ -149,7 +149,7 @@ TPManager::~TPManager()
 
 void TPManager::output(CA::Real t, CA::Unsigned iter, CA::CellBuffReal& WD, CA::CellBuffReal& V, bool output)
 {
-    // This variables is used to indicates if the output to console
+    // This variable is used to indicate if the output to console
     // happen in the case of time plot.
     bool outputed = false;
 
@@ -239,7 +239,7 @@ int TPManager::initData(const std::string& filename, const TimePlot& tp, Data& t
     if (!tpdata.file->good())
         return 1;
 
-    // Set  manipulators 
+    // Set manipulators
     tpdata.file->setf(std::ios::fixed, std::ios::floatfield);
     tpdata.file->precision(6);
 
@@ -263,8 +263,7 @@ int TPManager::initData(const std::string& filename, const TimePlot& tp, Data& t
     }
     (*tpdata.file) << std::endl;
 
-
-    // Loop through coordinates,
+    // Loop through coordinates
     for (size_t p = 0; p < tp.pnames.size(); p++)
     {
         tpdata.pl.add(CA::Point::create(_grid, tp.xcoos[p], tp.ycoos[p]));
@@ -273,7 +272,7 @@ int TPManager::initData(const std::string& filename, const TimePlot& tp, Data& t
     // Create buffer where to store the point data.
     tpdata.pvals.resize(tpdata.pl.size());
 
-    // If we need to save the weater level.
+    // If we need to save the water level.
     if (tp.pv == PV::WL)
     {
         // Create buffer where to store the elevation data.

@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 
 //! \file Inflow.hpp
-//!  Contains the structure(s) and classe(s) that are used to manage an inflow event.
+//!  Contains the structure(s) and class(es) that are used to manage an inflow event.
 //! \author Michele Guidolin, University of Exeter, 
 //! contact: m.guidolin [at] exeter.ac.uk
 //! \date 2013-03
@@ -55,14 +55,14 @@ struct IEvent
 
     std::vector<CA::Real> ins;  //!< The list of inflows in cubic meters per second.
     std::vector<CA::Real> times;    //!< The times in seconds.
-    std::vector<CA::Real> area; //!< The area (tl,tr,bl,br) where the inflow will heppen in the border.
-    std::vector<CA::Real> zone; //!< The zone (x,y,w,h) where the inflow will heppen in the border.
+    std::vector<CA::Real> area; //!< The area (tl,tr,bl,br) where the inflow will happen in the border.
+    std::vector<CA::Real> zone; //!< The zone (x,y,w,h) where the inflow will happen in the border.
     CA::Real              u;    //!< Used to compute the Analytical solution.
     CA::Real              n;    //!< Used to compute the Analytical solution.
 };
 
 
-//! Initialise the inflow event structure usign a CSV file. 
+//! Initialise the inflow event structure using a CSV file. 
 //! Each row represents a new "variable" where the 
 //! first column is the name of the element 
 //! and the following columns have the multiple/single values.
@@ -73,7 +73,7 @@ struct IEvent
 int initIEventFromCSV(const std::string& filename, IEvent& ie);
 
 
-//! Class that manage all Inflow events
+//! Class that manages all Inflow events
 class InflowManager
 {
 private:
@@ -88,9 +88,9 @@ private:
 
         CA::Real volume;        //!< Compute the total volume of inflow of the last update period.
 
-        // These next variable are used to solve the problem of different
+        // These next variables are used to solve the problem of different
         // volume when using float type for Real. The idea is to compute
-        // the amount of missing/extra inflow  in comparison to the
+        // the amount of missing/extra inflow in comparison to the
         // one expected and add/subtract this `one-off` inflow. 
 
         double   total_inflow;  //!< The total inflow added during a update period.
@@ -110,20 +110,20 @@ private:
 
 public:
 
-    //! Construct a Inflow manager
+    //! Construct an Inflow manager
     InflowManager(CA::Grid&  GRID, const std::vector<IEvent>& ies);
 
-    //! Destroy a Inflow Manager.
+    //! Destroy an Inflow Manager.
     ~InflowManager();
 
     //! Add the computational domain of the inflow events into the given domain.
     void addDomain(CA::BoxList& compdomain);
 
-    //! Analyse the area where the various inflow event will heppen.
+    //! Analyse the area where the various inflow event will happen.
     void analyseArea(CA::CellBuffReal& TMP, CA::CellBuffState& MASK, CA::BoxList&  domain);
 
     //! Prepare the inflow events for the next update step considering the
-    //! simulation time, the lenght of the update step and the next time
+    //! simulation time, the length of the update step and the next time
     //! step.
     void prepare(CA::Real t, CA::Real period_time_dt, CA::Real next_dt);
 

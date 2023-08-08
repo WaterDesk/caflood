@@ -58,7 +58,7 @@ struct TimePlot
 };
 
 
-//! Initialise the time plot structure usign a CSV file. 
+//! Initialise the time plot structure using a CSV file. 
 //! Each row represents a new "variable" where the 
 //! first column is the name of the element 
 //! and the following columns have the multiple/single values.
@@ -69,7 +69,7 @@ struct TimePlot
 int initTimePlotFromCSV(const std::string& filename, TimePlot& tp);
 
 
-//! Class that manage all Time Plots outputs
+//! Class that manages all Time Plots outputs
 class TPManager
 {
 private:
@@ -89,7 +89,7 @@ public:
 
     //! Construct a Time Plot manager
     //! \param base  This is the base for all the output filenames of the various time plots.
-    //! \param names This is a list of the names for the time plot outut files.
+    //! \param names This is a list of the names for the time plot output files.
     TPManager(CA::Grid&  GRID, CA::CellBuffReal&  ELV,
         const std::vector<TimePlot>& tps,
         const std::string& base, std::vector<std::string> names);

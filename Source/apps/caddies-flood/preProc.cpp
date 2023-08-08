@@ -45,7 +45,7 @@ int preProc(const ArgsData& ad, const Setup& setup, const std::string& ele_file)
         std::cout << "------------------------------------------" << std::endl;
     }
 
-    // ----  Timer ----
+    // ---- Timer ----
 
     // Get starting time.
     CA::Clock total_timer;
@@ -75,7 +75,7 @@ int preProc(const ArgsData& ad, const Setup& setup, const std::string& ele_file)
         grid.cellsize = eg.cellsize;
         grid.nodata = eg.nodata;
 
-        // ----  CA GRID ----
+        // ---- CA GRID ----
 
         // Create the square regular CA grid of the extended size of the DEM.
         // The internal implementation could be different than a square regular grid.

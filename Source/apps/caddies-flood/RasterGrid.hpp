@@ -68,7 +68,7 @@ struct RGPeak
     cpp11::shared_ptr<CA::CellBuffReal> V;   //!< Cell buffer with velocity peak values.
 };
 
-//! Initialise the raster grid structure usign a CSV file. 
+//! Initialise the raster grid structure using a CSV file. 
 //! Each row represents a new "variable" where the 
 //! first column is the name of the element 
 //! and the following columns have the multiple/single values.
@@ -86,7 +86,7 @@ int initRGData(const std::string& filename, CA::Grid& GRID, double nodata, const
     RGData& rgdata, RGPeak& rgpeak);
 
 
-//! Class that manage all Raster grid outputs
+//! Class that manages all Raster grid outputs
 class RGManager
 {
 private:
@@ -110,7 +110,7 @@ public:
 
     //! Construct a Raster Grid manager
     //! \param base  This is the base for all the output filenames of the various raster grid.
-    //! \param names This is a list of the names for the raster grid outut files.
+    //! \param names This is a list of the names for the raster grid output files.
     RGManager(CA::Grid&  GRID, const std::vector<RasterGrid>& rgs,
         const std::string& base, std::vector<std::string> names);
 
@@ -131,7 +131,7 @@ public:
     //! \params V          The cell buffer with the velocity magnitude.
     //! \params saveid     The id to use to save the buffers.
     //! \params output     If true, output information to console.
-    //! \return True if the rasters were outputed.
+    //! \return True if the rasters were outputted.
     bool outputPeak(CA::Real t, CA::CellBuffReal& WD, CA::CellBuffReal& V, const std::string& saveid, bool output);
 
     //! Output all the raster grids 
@@ -142,7 +142,7 @@ public:
     //! \params saveid     The id to use to save the buffers.
     //! \params output     If true, output information to console.
     //! \param  final      If true, this is the final iteration.
-    //! \return True if the rasters were outputed.
+    //! \return True if the rasters were outputted.
     bool output(CA::Real t, CA::CellBuffReal& WD, CA::CellBuffReal& V, CA::CellBuffReal& A,
         const std::string& saveid, bool output, bool final = false);
 

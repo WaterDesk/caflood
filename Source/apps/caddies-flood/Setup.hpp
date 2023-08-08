@@ -66,7 +66,7 @@ struct Setup
     CA::Real      tol_slope;        //!< The slope difference (in %) between cell used to compute dt.
 
 
-    //! The elevation of boundary cell, a high value represent a CLOSED
+    //! The elevation of boundary cell, a high value represents a CLOSED
     //! boundary a low value represents an OPEN boundary.
     CA::Real      boundary_elv;
 
@@ -104,13 +104,13 @@ struct Setup
 
     //  --- OUTPUT  ---  
     bool output_console;        //!< If true output info into console.
-    CA::Real output_period;     //!< The period to ouput in seconds.
-    bool output_computation;    //!< If true ouput computation time.
+    CA::Real output_period;     //!< The period to output in seconds.
+    bool output_computation;    //!< If true output computation time.
     bool terrain_info;          //!< If true print terrain info, like slope.
     bool ts_plot;               //!< If true create a file that plot the time step.
 
     //  --- CHEKS  ---
-    bool check_vols;            //!< If true compute the various input/ouput volumes. 
+    bool check_vols;            //!< If true compute the various input/output volumes. 
 
     //  --- REMOVE  ---
     bool remove_data;           //!< If true remove the data created by the model (no pre-proc).
@@ -132,7 +132,7 @@ struct Setup
 };
 
 
-//! Initialise the setup structure usign a CSV file. 
+//! Initialise the setup structure using a CSV file. 
 //! Each row represents a new "variable" where the 
 //! first column is the name of the element 
 //! and the following columns have the multiple/single values.

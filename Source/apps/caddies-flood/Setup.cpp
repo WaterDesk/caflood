@@ -35,7 +35,7 @@ THE SOFTWARE.
 #include<fstream>
 
 
-// Initialise the setup structure usign a CSV file. 
+// Initialise the setup structure using a CSV file. 
 int initSetupFromCSV(const std::string& filename, Setup& setup)
 {
     // Default values
@@ -162,7 +162,7 @@ int initSetupFromCSV(const std::string& filename, Setup& setup)
 
         if (CA::compareCaseInsensitive("Slope Tol", tokens[0], true))
         {
-            // Attention the tollerance must be passed in percentile.
+            // Attention the tolerance must be passed in percentile.
             std::string str = CA::trimToken(tokens[1]);
             READ_TOKEN(found_tok, setup.tol_slope, str, tokens[0]);
         }
