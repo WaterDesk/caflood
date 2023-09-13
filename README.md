@@ -28,6 +28,6 @@ The original source code:
     - specify the build directory, e.g. `E:/Code/caflood/build/simple`
     - make sure the entry value `CAAPI_SPECIFIC_IMPL_DIR` to be the opencl implementation directory, e.g. `E:/Code/caflood/Source/impls/square-cell/vn-neighbours/1-levels/opencl`
     - make sure the entry value `OPENCL_LIBRARIES` to be OpenCL.lib file, e.g. `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.2/lib/x64/OpenCL.lib`
-    - make sure the entry value `_OPENCL_CPP_INCLUDE_DIRS` to be the OpenCL include directory, e.g. `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.2/lib/x64/OpenCL.lib`
+    - make sure the entry value `_OPENCL_CPP_INCLUDE_DIRS` to be the OpenCL include directory, e.g. `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.2/include`
 
 - reference: [CADDIES_Build_instructions.docx](https://engineering.exeter.ac.uk/media/universityofexeter/emps/research/cws/downloads/caddies/CADDIES_Build_instructions.docx)

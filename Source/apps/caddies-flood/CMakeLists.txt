@@ -5,8 +5,13 @@
 
 ### Set up the application configuration
 
+if(EXISTS "${CAAPI_SPECIFIC_IMPL_DIR}/extra/DllPostfix.txt")
+  file(STRINGS "${CAAPI_SPECIFIC_IMPL_DIR}/extra/DllPostfix.txt" DLL_POSTFIX)
+endif()
+
 # The exe name of the app.
-set(CAAPI_APP_EXE  "caflood")
+set(CAAPI_APP_DLL "caflood${DLL_POSTFIX}")
+set(CAAPI_APP_EXE "run-caflood")
 
 # The main source of the app.
 set(CAAPI_APP_MAIN "main.cpp")
@@ -45,10 +50,18 @@ set(CAAPI_APP_CUSTOM_TARGET "${CAAPI_APP_EXE}_do_impl_headers")
 add_custom_target(${CAAPI_APP_CUSTOM_TARGET} DEPENDS 
   ${CAAPI_IMPL_HEADERS} ${CAAPI_HEADERS} ${CAAPI_APP_CAFUNCTIONS})
 
-# Add the executable to the project using the specified source files.
-add_executable("${CAAPI_APP_EXE}" "${CAAPI_APP_MAIN}"
-  ${CAAPI_APP_SOURCES} ${CAAPI_SOURCES} 
+if(MSVC)
+  SET(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+endif(MSVC)
+
+# Add the dll to the project using the specified source files.
+add_library("${CAAPI_APP_DLL}" SHARED ${CAAPI_APP_SOURCES} ${CAAPI_SOURCES} 
   ${CAAPI_APP_CAFUNCTIONS} ${CAAPI_HEADERS} ${CAAPI_APP_HEADERS})
+
+# Add the executable to the project using the specified source files.
+add_executable("${CAAPI_APP_EXE}" "${CAAPI_APP_MAIN}")
+target_link_libraries("${CAAPI_APP_EXE}" LINK_PUBLIC "${CAAPI_APP_DLL}")
+
 add_dependencies("${CAAPI_APP_EXE}" ${CAAPI_APP_CUSTOM_TARGET})
 target_link_libraries("${CAAPI_APP_EXE}" ${CAAPI_IMPL_LIBRARIES} )
 
