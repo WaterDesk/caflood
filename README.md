@@ -9,7 +9,7 @@ The original source code:
 
 ## compiling & building (windows only)
 
-- launch `cmake-gui.exe` through Visual Studion Developer Command Prompt window
+- launch `cmake-gui.exe` through Visual Studio Developer Command Prompt window
   - Open `Developer Command Prompt for VS2017`
   - go to the CMake bin directory, e.g. run `cd /d C:\"Program Files\CMake\bin"`
   - run `cmake-gui.exe`
@@ -18,14 +18,15 @@ The original source code:
   - simple
     - specify the source code directory, e.g. `E:/Code/caflood/Source`
     - specify the build directory, e.g. `E:/Code/caflood/build/simple`
-    - make sure the entry value 'CAAPI_SPECIFIC_IMPL_DIR' to be `E:/Code/caflood/Source/impls/square-cell/vn-neighbours/1-levels/simple`
+    - make sure the entry value `CAAPI_SPECIFIC_IMPL_DIR` to be `E:/Code/caflood/Source/impls/square-cell/vn-neighbours/1-levels/simple`
   - openmp
     - specify the source code directory, e.g. `E:/Code/caflood/Source`
-    - specify the build directory, e.g. `E:/Code/caflood/build/simple`
+    - specify the build directory, e.g. `E:/Code/caflood/build/openmp`
     - make sure the entry value `CAAPI_SPECIFIC_IMPL_DIR` to be `E:/Code/caflood/Source/impls/square-cell/vn-neighbours/1-levels/openmp`
   - opencl
+    - make sure the [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads) has been installed
     - specify the source code directory, e.g. `E:/Code/caflood/Source`
-    - specify the build directory, e.g. `E:/Code/caflood/build/simple`
+    - specify the build directory, e.g. `E:/Code/caflood/build/opencl`
     - make sure the entry value `CAAPI_SPECIFIC_IMPL_DIR` to be the opencl implementation directory, e.g. `E:/Code/caflood/Source/impls/square-cell/vn-neighbours/1-levels/opencl`
     - make sure the entry value `OPENCL_LIBRARIES` to be OpenCL.lib file, e.g. `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.2/lib/x64/OpenCL.lib`
     - make sure the entry value `_OPENCL_CPP_INCLUDE_DIRS` to be the OpenCL include directory, e.g. `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.2/include`
