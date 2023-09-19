@@ -79,16 +79,6 @@ int terrainInfo(const ArgsData& ad, Setup& setup, const CA::AsciiGrid<CA::Real>&
     // corners of the grid.
     CA::Borders borders;
 
-    borders.addSegment(CA::Top);
-    borders.addSegment(CA::Bottom);
-    borders.addSegment(CA::Right);
-    borders.addSegment(CA::Left);
-
-    borders.addCorner(CA::TopLeft);
-    borders.addCorner(CA::TopRight);
-    borders.addCorner(CA::BottomLeft);
-    borders.addCorner(CA::BottomRight);
-
     // Create the real computational domain of CA grid, i.e. the
     // original DEM size not the extended one.
     CA::BoxList  realdomain;

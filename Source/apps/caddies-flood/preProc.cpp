@@ -106,16 +106,6 @@ int preProc(const ArgsData& ad, const Setup& setup, const std::string& ele_file)
         // corners of the grid.
         CA::Borders borders;
 
-        borders.addSegment(CA::Top);
-        borders.addSegment(CA::Bottom);
-        borders.addSegment(CA::Right);
-        borders.addSegment(CA::Left);
-
-        borders.addCorner(CA::TopLeft);
-        borders.addCorner(CA::TopRight);
-        borders.addCorner(CA::BottomLeft);
-        borders.addCorner(CA::BottomRight);
-
         // Create the real computational domain of CA grid, i.e. the
         // original DEM size not the extended one.
         CA::BoxList  realdomain;
@@ -218,16 +208,6 @@ int preProc2(const std::string& data_dir, const Setup& setup, const CA::AsciiGri
         // Create a borders object that contains all the borders and
         // corners of the grid.
         CA::Borders borders;
-
-        borders.addSegment(CA::Top);
-        borders.addSegment(CA::Bottom);
-        borders.addSegment(CA::Right);
-        borders.addSegment(CA::Left);
-
-        borders.addCorner(CA::TopLeft);
-        borders.addCorner(CA::TopRight);
-        borders.addCorner(CA::BottomLeft);
-        borders.addCorner(CA::BottomRight);
 
         // Create the real computational domain of CA grid, i.e. the
         // original DEM size not the extended one.

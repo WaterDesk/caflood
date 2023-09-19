@@ -106,8 +106,8 @@ namespace CA {
         //! Define the type of a container of Corner.
         typedef std::vector<Corner>  CornersList;
 
-        //! Create a empty borders
-        Borders();
+        //! Create a border, full by default
+        Borders(bool full = true);
 
         //! Destroy the borders.
         ~Borders();
@@ -149,9 +149,21 @@ namespace CA {
     /// ----- Inline implementation ----- ///
 
 
-    inline Borders::Borders() :
+    inline Borders::Borders(bool full) :
         _segments(), _corners()
     {
+        if (full)
+        {
+            addSegment(CA::Top);
+            addSegment(CA::Bottom);
+            addSegment(CA::Right);
+            addSegment(CA::Left);
+
+            addCorner(CA::TopLeft);
+            addCorner(CA::TopRight);
+            addCorner(CA::BottomLeft);
+            addCorner(CA::BottomRight);
+        }
     }
 
 

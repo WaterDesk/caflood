@@ -99,16 +99,6 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
     // corners of the grid.
     CA::Borders borders;
 
-    borders.addSegment(CA::Top);
-    borders.addSegment(CA::Bottom);
-    borders.addSegment(CA::Right);
-    borders.addSegment(CA::Left);
-
-    borders.addCorner(CA::TopLeft);
-    borders.addCorner(CA::TopRight);
-    borders.addCorner(CA::BottomLeft);
-    borders.addCorner(CA::BottomRight);
-
     // Create the real computational domain of CA grid, i.e. the
     // original DEM size not the extended one.
     CA::BoxList  realdomain;
@@ -598,16 +588,6 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
     // Create a borders object that contains all the borders and
     // corners of the grid.
     CA::Borders borders;
-
-    borders.addSegment(CA::Top);
-    borders.addSegment(CA::Bottom);
-    borders.addSegment(CA::Right);
-    borders.addSegment(CA::Left);
-
-    borders.addCorner(CA::TopLeft);
-    borders.addCorner(CA::TopRight);
-    borders.addCorner(CA::BottomLeft);
-    borders.addCorner(CA::BottomRight);
 
     // Create the real computational domain of CA grid, i.e. the
     // original DEM size not the extended one.
