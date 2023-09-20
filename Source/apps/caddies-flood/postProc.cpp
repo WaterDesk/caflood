@@ -553,29 +553,15 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
 }
 
 
-int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg, const std::vector<RasterGrid>& rgs)
+int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA::Real>& eg, const std::vector<RasterGrid>& rgs)
 {
-    if (setup.output_computation)
-    {
-        std::cout << "Post-processing : " << setup.sim_name << std::endl;
-        std::cout << "------------------------------------------" << std::endl;
-    }
-
-    // ---- Timer ----
-
-    // Get starting time.
-    CA::Clock total_timer;
-
     // ---- CA GRID ----
 
     // Load the CA Grid from the DataDir. 
     // ATTENTION this should have an extra set of cells in each
     // direction.  The internal implementation could be different than a
     // square regular grid.
-    CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0");
-
-    if (setup.output_console)
-        std::cout << "Loaded Grid data" << std::endl;
+    CA::Grid  GRID(data_dir, setup.preproc_name + "_Grid", "0");
 
     // Set if to print debug information on CA function.
     GRID.setCAPrint(false);
@@ -623,9 +609,6 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
         return 1;
     }
 
-    if (setup.output_console)
-        std::cout << "Loaded Elevation data" << std::endl;
-
     // ---- CELL BUFFERS ----
 
     // Create two temporary Cell buffer
@@ -665,7 +648,7 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
 
     for (size_t i = 0; i < rgs.size(); ++i)
     {
-        std::string filename = ad.output_dir + ad.sdir + setup.short_name + "_" + setup.rastergrid_files[i];
+        std::string filename = data_dir + setup.short_name + "_" + setup.rastergrid_files[i];
         initRGData(filename, GRID, nodata, rgs[i], rgdatas[i], rgpeak);
     }
 
@@ -726,21 +709,8 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
                 {
                 case PV::VEL:
                 {
-                    std::string filenameV;
-                    std::string filenameA;
-
-                    // Create the name of the files if it is going to output a
-                    // velocity field or simply rasters.
-                    if (setup.rast_vel_as_vect == true)
-                    {
-                        filenameV = removeExtension(rgdatas[i].filename) + "_" + strtime + ".csv";
-                        filenameA = removeExtension(rgdatas[i].filename) + "_" + strtime + ".csvt";
-                    }
-                    else
-                    {
-                        filenameV = removeExtension(rgdatas[i].filename) + "_V_" + strtime;
-                        filenameA = removeExtension(rgdatas[i].filename) + "_A_" + strtime;
-                    }
+                    std::string filenameV = removeExtension(rgdatas[i].filename) + "_V_" + strtime;
+                    std::string filenameA = removeExtension(rgdatas[i].filename) + "_A_" + strtime;
 
                     // Reset the buffer
                     TMP1.fill(fulldomain, agtmp1.nodata);
@@ -767,65 +737,9 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
                     TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
                     TMP2.retrieveData(realbox, &agtmp2.data[0], agtmp2.ncols, agtmp2.nrows);
 
-                    // check if we need to output a velocity field
-                    if (setup.rast_vel_as_vect)
-                    {
-                        if (setup.output_console)
-                            std::cout << "Write Raster Grid: " << filenameV << std::endl;
-
-                        // Create the CSV file
-                        //std::ofstream file( filenameV.c_str() ); 
-                        FILE* fout = fopen(filenameV.c_str(), "w");
-
-                        // Set  manipulators 
-                        //file.setf(std::ios::fixed, std::ios::floatfield);
-                        //file.precision(6); 
-
-                        // Write the header
-                        //file<<"X, Y, Speed, Angle_RAD, Angle_DEG, Angle_QGIS"<<std::endl;
-                        fprintf(fout, "X, Y, Speed, Angle_RAD, Angle_DEG, Angle_QGIS\n");
-
-                        // Loop through the grid points.
-                        for (CA::Unsigned j_reg = realbox.y(), j_mem = 0; j_reg < realbox.h() + realbox.y(); ++j_reg, ++j_mem)
-                        {
-                            for (CA::Unsigned i_reg = realbox.x(), i_mem = 0; i_reg < realbox.w() + realbox.x(); ++i_reg, ++i_mem)
-                            {
-                                // Create the point and find the coordinates.
-                                CA::Point p(i_reg, j_reg);
-                                p.setCoo(GRID);
-
-                                // Retrieve the speed and angle values (in radians),
-                                // the compute the angle value in degrees.
-                                CA::Real V = agtmp1.data[j_mem * agtmp1.ncols + i_mem];
-                                CA::Real AR = agtmp2.data[j_mem * agtmp2.ncols + i_mem];
-                                CA::Real AD = AR * 180 / PI;
-
-                                // Compute the angle needed by QGis.
-                                CA::Real AQ = -AR * 180 / PI + 90;
-
-                                // Write the results if the velocity is more than zero.
-                                if (V > 0)
-                                {
-                                    //file<<p.coo().x()<<","<<p.coo().y()<<","<<V<<","<<AR<<","<<AD<<","<<AQ<<","<<std::endl;
-                                    fprintf(fout, "%.12f,%.12f,%.6f,%.6f,%.6f,%.6f,\n", p.coo().x(), p.coo().y(), V, AR, AD, AQ);
-                                }
-                            }
-                        }
-
-                        // Close the file.
-                        //file.close();
-                        fclose(fout);
-                    }
-                    // NOPE, simply output the rasters.
-                    else
-                    {
-                        if (setup.output_console)
-                            std::cout << "Write Raster Grid: " << filenameV << " " << filenameA << std::endl;
-
-                        // Write the  data.
-                        agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
-                        agtmp2.writeAsciiGrid(filenameA, setup.rast_places);
-                    }
+                    // Write the  data.
+                    agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
+                    agtmp2.writeAsciiGrid(filenameA, setup.rast_places);
 
                     // Add the ID to remove.
                     removeIDsCB.push_back(std::make_pair(setup.short_name + "_V", strtime));
@@ -847,9 +761,6 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
                     // Retrieve the data
                     TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
-                    if (setup.output_console)
-                        std::cout << "Write Raster Grid: " << filename << std::endl;
-
                     // Write the data.
                     agtmp1.writeAsciiGrid(filename, setup.rast_places);
                 }
@@ -863,9 +774,6 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
 
                     // Retrieve the data
                     WD.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
-
-                    if (setup.output_console)
-                        std::cout << "Write Raster Grid: " << filename << std::endl;
 
                     // Write the data.
                     agtmp1.writeAsciiGrid(filename, setup.rast_places);
@@ -950,9 +858,6 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
                 // Retrieve the data
                 TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
-                if (setup.output_console)
-                    std::cout << "Write Raster Grid: " << filenameV << std::endl;
-
                 // Write the data.
                 agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
 
@@ -975,9 +880,6 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
                 // Retrieve the data
                 TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
-                if (setup.output_console)
-                    std::cout << "Write Raster Grid: " << filename << std::endl;
-
                 // Write the data.
                 agtmp1.writeAsciiGrid(filename, setup.rast_places);
             }
@@ -993,9 +895,6 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
                 // Retrieve the data
                 WD.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
-                if (setup.output_console)
-                    std::cout << "Write Raster Grid: " << filename << std::endl;
-
                 // Write the data.
                 agtmp1.writeAsciiGrid(filename, setup.rast_places);
             }
@@ -1006,38 +905,22 @@ int postProc2(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& e
         }
     }
 
-    if (setup.remove_data)
+    for (size_t i = 0; i < removeIDsCB.size(); i++)
     {
-        for (size_t i = 0; i < removeIDsCB.size(); i++)
-        {
-            std::pair <std::string, std::string>& ID = removeIDsCB[i];;
-            CA::CellBuffReal::removeData(ad.data_dir, ID.first, ID.second);
-        }
-        for (size_t i = 0; i < removeIDsEB.size(); i++)
-        {
-            std::pair <std::string, std::string>& ID = removeIDsEB[i];;
-            CA::EdgeBuffReal::removeData(ad.data_dir, ID.first, ID.second);
-        }
+        std::pair <std::string, std::string>& ID = removeIDsCB[i];;
+        CA::CellBuffReal::removeData(data_dir, ID.first, ID.second);
+    }
+    for (size_t i = 0; i < removeIDsEB.size(); i++)
+    {
+        std::pair <std::string, std::string>& ID = removeIDsEB[i];;
+        CA::EdgeBuffReal::removeData(data_dir, ID.first, ID.second);
     }
 
-    if (setup.remove_prec_data)
-    {
-        // Remove Elevation data.
-        CA::CellBuffReal::removeData(ad.data_dir, setup.preproc_name + "_ELV", "0");
+    // Remove Elevation data.
+    CA::CellBuffReal::removeData(data_dir, setup.preproc_name + "_ELV", "0");
 
-        // Remove Grid data.
-        CA::Grid::remove(ad.data_dir, setup.preproc_name + "_Grid", "0");
-    }
-
-    if (setup.output_console)
-        std::cout << "Cleaned data" << std::endl;
-
-    if (setup.output_computation)
-    {
-        std::cout << "-----------------" << std::endl;
-        std::cout << "Total run time taken (s) = " << total_timer.millisecond() / 1000.0 << std::endl;
-        std::cout << "-----------------" << std::endl;
-    }
+    // Remove Grid data.
+    CA::Grid::remove(data_dir, setup.preproc_name + "_Grid", "0");
 
     return 0;
 }
