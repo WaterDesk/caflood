@@ -60,6 +60,16 @@ inline CA::Real nextTimeNearestAction(CA::Real t, CA::Real t_nearest, CA::Real p
 // -------------------------//
 #include CA_2D_INCLUDE(makeWL)
 
+typedef void(*SaveCaResultFileCallbackFuncPtr)(void* owner, int mode, int time, const char* file);
+
+void(*SaveCAResultFileCallbackFunc) (void* owner, int mode, int time, const char* file);
+void*      SaveCAResultFileCallbackOwner;  // The owner pointer which call the callback function
+
+void setSaveResultFileCallback(SaveCaResultFileCallbackFuncPtr funcPtr, void* owner)
+{
+    SaveCAResultFileCallbackFunc = funcPtr;
+    SaveCAResultFileCallbackOwner = owner;
+}
 
 //! Perform the post processing of the data for a CA 2D model. 
 int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg,
@@ -553,6 +563,24 @@ int postProc(const ArgsData& ad, const Setup& setup, CA::AsciiGrid<CA::Real>& eg
 }
 
 
+void writeGridData(const std::string& filename, const CA::AsciiGrid<CA::Real>& grid, int mode, int time)
+{
+    std::string _filename = filename + ".hs2d";
+    std::ofstream file(_filename.c_str(), std::ofstream::out | std::ofstream::binary | std::ofstream::trunc);
+
+    unsigned int magic = CAAPI_2D_MAGIC;
+    file.write(reinterpret_cast<char*>(&magic), sizeof(unsigned int));
+
+    // Write the data in a go!
+    file.write(reinterpret_cast<const char*>(grid.data.data()), sizeof(CA::Real) * grid.data.size());
+
+    if (SaveCAResultFileCallbackFunc != nullptr && SaveCAResultFileCallbackOwner != nullptr)
+    {
+        SaveCAResultFileCallbackFunc(SaveCAResultFileCallbackOwner, mode, time, _filename.c_str());
+    }
+}
+
+
 int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA::Real>& eg, const std::vector<RasterGrid>& rgs)
 {
     // ---- CA GRID ----
@@ -741,6 +769,9 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
                     agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
                     agtmp2.writeAsciiGrid(filenameA, setup.rast_places);
 
+                    writeGridData(filenameV, agtmp1, 2, (int)t);
+                    writeGridData(filenameA, agtmp2, 3, (int)t);
+
                     // Add the ID to remove.
                     removeIDsCB.push_back(std::make_pair(setup.short_name + "_V", strtime));
                     removeIDsCB.push_back(std::make_pair(setup.short_name + "_A", strtime));
@@ -763,6 +794,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
 
                     // Write the data.
                     agtmp1.writeAsciiGrid(filename, setup.rast_places);
+                    writeGridData(filename, agtmp1, 1, (int)t);
                 }
                 break;
                 case PV::WD:
@@ -777,6 +809,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
 
                     // Write the data.
                     agtmp1.writeAsciiGrid(filename, setup.rast_places);
+                    writeGridData(filename, agtmp1, 0, (int)t);
                 }
                 break;
                 default:
@@ -860,6 +893,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
 
                 // Write the data.
                 agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
+                writeGridData(filenameV, agtmp1, 6, 0);
 
                 // Add the ID to remove.
                 removeIDsCB.push_back(std::make_pair(setup.short_name + "_V", "PEAK"));
@@ -882,6 +916,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
 
                 // Write the data.
                 agtmp1.writeAsciiGrid(filename, setup.rast_places);
+                writeGridData(filename, agtmp1, 5, 0);
             }
             break;
 
@@ -897,6 +932,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
 
                 // Write the data.
                 agtmp1.writeAsciiGrid(filename, setup.rast_places);
+                writeGridData(filename, agtmp1, 4, 0);
             }
             break;
             default:
