@@ -581,7 +581,7 @@ void writeGridData(const std::string& filename, const CA::AsciiGrid<CA::Real>& g
 }
 
 
-int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA::Real>& eg, const std::vector<RasterGrid>& rgs)
+int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA::Real>& eg, const std::vector<RasterGrid>& rgs)
 {
     // ---- CA GRID ----
 
@@ -766,8 +766,8 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
                     TMP2.retrieveData(realbox, &agtmp2.data[0], agtmp2.ncols, agtmp2.nrows);
 
                     // Write the  data.
-                    agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
-                    agtmp2.writeAsciiGrid(filenameA, setup.rast_places);
+                    //agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
+                    //agtmp2.writeAsciiGrid(filenameA, setup.rast_places);
 
                     writeGridData(filenameV, agtmp1, 2, (int)t);
                     writeGridData(filenameA, agtmp2, 3, (int)t);
@@ -793,7 +793,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
                     TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
                     // Write the data.
-                    agtmp1.writeAsciiGrid(filename, setup.rast_places);
+                    //agtmp1.writeAsciiGrid(filename, setup.rast_places);
                     writeGridData(filename, agtmp1, 1, (int)t);
                 }
                 break;
@@ -808,7 +808,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
                     WD.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
                     // Write the data.
-                    agtmp1.writeAsciiGrid(filename, setup.rast_places);
+                    //agtmp1.writeAsciiGrid(filename, setup.rast_places);
                     writeGridData(filename, agtmp1, 0, (int)t);
                 }
                 break;
@@ -892,7 +892,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
                 TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
                 // Write the data.
-                agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
+                //agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
                 writeGridData(filenameV, agtmp1, 6, 0);
 
                 // Add the ID to remove.
@@ -915,7 +915,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
                 TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
                 // Write the data.
-                agtmp1.writeAsciiGrid(filename, setup.rast_places);
+                //agtmp1.writeAsciiGrid(filename, setup.rast_places);
                 writeGridData(filename, agtmp1, 5, 0);
             }
             break;
@@ -931,7 +931,7 @@ int postProc2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA:
                 WD.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
                 // Write the data.
-                agtmp1.writeAsciiGrid(filename, setup.rast_places);
+                //agtmp1.writeAsciiGrid(filename, setup.rast_places);
                 writeGridData(filename, agtmp1, 4, 0);
             }
             break;

@@ -153,7 +153,7 @@ int preProc(const ArgsData& ad, const Setup& setup, const std::string& ele_file)
 }
 
 
-int preProc2(const std::string& data_dir, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg)
+int preProc_2(const std::string& data_dir, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg)
 {
     // ---- Timer ----
 
