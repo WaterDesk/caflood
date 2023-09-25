@@ -1062,7 +1062,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
         return 1;
     }
 
-    setRunStatus("Loadng grid data ...");
+    setRunStatus("Loading grid data ...");
 
     // ---- Timer ----
 
