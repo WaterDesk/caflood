@@ -51,6 +51,18 @@ void setRunStatusCallback(SetRunStatusCallbackFuncPtr funcPtr, void* owner)
     SetRunStatusCallbackOwner = owner;
 }
 
+
+typedef bool(*SetForceStoppedCallbackFuncPtr)(void* owner);
+bool(*ForceStoppedCallbackFunc)(void* owner);
+void*      ForceStoppedCallbackOwner;  // The owner pointer which call the callback function
+
+void setForceStoppedCallback(SetForceStoppedCallbackFuncPtr funcPtr, void* owner)
+{
+    ForceStoppedCallbackFunc = funcPtr;
+    ForceStoppedCallbackOwner = owner;
+}
+
+
 // WCA2Dv2 model base on:
 // CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 //
@@ -1045,6 +1057,15 @@ void setRunStatus(std::string status)
 }
 
 
+bool isForceStopped()
+{
+    if (ForceStoppedCallbackFunc != nullptr && ForceStoppedCallbackOwner != nullptr)
+        return ForceStoppedCallbackFunc(ForceStoppedCallbackOwner);
+
+    return false;
+}
+
+
 int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg,
     const std::vector<RainEvent>& res, const std::vector<WLEvent>& wles,
     const std::vector<IEvent>& ies,
@@ -1479,6 +1500,9 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     // ------------------------- MAIN LOOP -------------------------------
     while (iter < setup.time_maxiters && t < setup.time_end)
     {
+        // force stop by callback
+        if (isForceStopped()) break;
+
         // Set this to false. This will be set to the right value during an
         // update step or before the update itself.
         UpdatePEAK = false;
