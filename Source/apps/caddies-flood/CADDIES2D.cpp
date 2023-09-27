@@ -1066,10 +1066,41 @@ bool isForceStopped()
 }
 
 
+void outputConsole_2(CA::Unsigned iter, CA::Unsigned oiter, CA::Real t, CA::Real dt,
+    CA::Real avgodt, CA::Real minodt, CA::Real maxodt,
+    CA::Real vamax, CA::Real upstr_elv, const CA::BoxList& domain,
+    const Setup& setup,
+    FILE* rptFile)
+{
+    if (rptFile == nullptr)
+        return;
+
+    fprintf(rptFile, "-----\n");
+
+    // additional output requested by CIRP
+    CA::Real percentage = t / ((CA::Real)(setup.time_end - setup.time_start));
+    percentage *= 100.0;
+
+    fprintf(rptFile, "Progress (%%): %0.2f\n", percentage);
+
+    fprintf(rptFile, "Total iterations = %d Simulation time (MIN) = %f Last DT = %f\n", iter, t / 60, dt);
+    fprintf(rptFile, "Last iterations  = %d Average DT =%f Min DT = %f Max DT = %f\n", oiter, avgodt /oiter, minodt, maxodt);
+    fprintf(rptFile, "UPSTRELV = %f\n", upstr_elv);
+    fprintf(rptFile, "VAMAX    = %f\n", vamax);
+    if (setup.expand_domain)
+    {
+        CA::Box B(domain.extent());
+        fprintf(rptFile, "DOMAIN   = (%d,%d):(%d,%d)\n", B.x(), B.y(), B.w(), B.h());
+    }
+    fprintf(rptFile, "-----\n");
+}
+
+
 int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg,
     const std::vector<RainEvent>& res, const std::vector<WLEvent>& wles,
     const std::vector<IEvent>& ies,
-    const std::vector<RasterGrid>& rgs)
+    const std::vector<RasterGrid>& rgs,
+    FILE* rptFile)
 {
     // Check the model.
     switch (setup.model_type)
@@ -1081,6 +1112,16 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     default:
         std::cerr << "Error the simulation does not support the model: " << setup.model_type << std::endl;
         return 1;
+    }
+
+    if (rptFile)
+    {
+        time_t t = time(0);   // get time now
+        struct tm * now = localtime(&t);
+        fprintf(rptFile, "Simulation : %s\n", setup.sim_name.c_str());
+        fprintf(rptFile, "Model      : WCA2Dv2\n");
+        fprintf(rptFile, "Date Start : %d-%d-%d %d:%d:%d\n", now->tm_year + 1900, now->tm_mon + 1, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec);
+        fprintf(rptFile, "------------------------------------------\n");
     }
 
     setRunStatus("Loading grid data ...");
@@ -1097,6 +1138,25 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     // direction. The internal implementation could be different than a
     // square regular grid.
     CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0", ad.args.active());
+
+    if (rptFile)
+        fprintf(rptFile, "Loaded Grid data\n");
+
+    // Print the Grid Information.
+    if (rptFile)
+    {
+        fprintf(rptFile, "-----------------\n");
+        fprintf(rptFile, "CA API Version     : %d\n", caVersion);
+        fprintf(rptFile, "       Impl Name   : %s\n", caImplName);
+        fprintf(rptFile, "       Impl Version: %d\n", caImplVersion);
+        fprintf(rptFile, "Grid               : \n");
+        fprintf(rptFile, "       xNum        : %d\n", GRID.xNum());
+        fprintf(rptFile, "       yNum        : %d\n", GRID.yNum());
+        fprintf(rptFile, "       length      : %d\n", GRID.length());
+        fprintf(rptFile, "       xCoo        : %d\n", GRID.xCoo());
+        fprintf(rptFile, "       yCoo        : %d\n", GRID.yCoo());
+        fprintf(rptFile, "-----------------\n");
+    }
 
     // Set if to print debug information on CA function.
     GRID.setCAPrint(false);
@@ -1150,10 +1210,10 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     // Find highest elevation
     ELV.sequentialOp(fulldomain, high_elv, CA::Seq::Max);
 
-    if (setup.output_console)
+    if (rptFile)
     {
-        std::cout << "Loaded Elevation data" << std::endl;
-        std::cout << "Highest elevation = " << high_elv << std::endl;
+        fprintf(rptFile, "Loaded Elevation data\n");
+        fprintf(rptFile, "Highest elevation = %f\n", high_elv);
     }
     // ---- CELL BUFFERS ----
 
@@ -1340,18 +1400,17 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     // Transform from meter to mm and from hour to update_dt
     inf_updatedt = (setup.infrate_global * 0.001) * (period_time_dt / 3600.0);
 
-    if (setup.output_console)
+    if (rptFile)
     {
-        std::cout << "--------------------------------------------------------" << std::endl;
+        fprintf(rptFile, "--------------------------------------------------------\n");
         if (useInfiltration)
         {
-            std::cout << "Infiltration computation     : yes" << std::endl;
-            std::cout << "Amount during an update step : " << inf_updatedt << std::endl;
-            std::cout << "Attention                    : Beta code" << std::endl;
+            fprintf(rptFile, "Infiltration computation     : yes\n");
+            fprintf(rptFile, "Amount during an update step : %f\n", inf_updatedt);
         }
         else
-            std::cout << "Infiltration computation     : no" << std::endl;
-        std::cout << "--------------------------------------------------------" << std::endl;
+            fprintf(rptFile, "Infiltration computation     : no\n");
+        fprintf(rptFile, "--------------------------------------------------------\n");
     }
 
     // ---- INIT WATER LEVEL EVENT ----
@@ -1479,23 +1538,29 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     t_end_events = std::max(t_end_events, inflow_manager.endTime());
     t_end_events = std::max(t_end_events, wl_manager.endTime());
 
-    if (setup.output_console)
+    if (rptFile)
     {
-        std::cout << "The events will end at " << t_end_events << " (s) simulation time" << std::endl;
-        std::cout << "------------------------------------------" << std::endl;
+        fprintf(rptFile, "The events will end at %f (s) simulation time\n", t_end_events);
+        fprintf(rptFile, "------------------------------------------\n");
     }
 
-    if (setup.output_console && setup.output_computation)
+    if (rptFile)
     {
-        std::cout << "-----------------" << std::endl;
-        std::cout << "Initialisation time taken (s) = " << total_timer.millisecond() / 1000.0 << std::endl;
-        std::cout << "-----------------" << std::endl;
+        fprintf(rptFile, "-----------------\n");
+        fprintf(rptFile, "Initialisation time taken (s) = %f\n", total_timer.millisecond() / 1000.0);
+        fprintf(rptFile, "-----------------\n");
     }
-    if (setup.output_console)
+    if (rptFile)
     {
-        std::cout << "Start main loop" << std::endl;
-        std::cout << "-----------------" << std::endl;
+        fprintf(rptFile, "Start main loop\n");
+        fprintf(rptFile, "-----------------\n");
     }
+
+    std::stringstream startStatus;
+    startStatus << "Run flood simulation at 0:00/"
+        << ((int)setup.time_end / 3600) << ":" << std::setw(2) << std::setfill('0') << ((int)setup.time_end / 60 % 60)
+        << " ...";
+    setRunStatus(startStatus.str());
 
     // ------------------------- MAIN LOOP -------------------------------
     while (iter < setup.time_maxiters && t < setup.time_end)
@@ -1519,10 +1584,15 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
         }
 
         // --- CONSOLE OUTPUT ---
-
-        // update run status
         if (t >= time_output)
         {
+            if (rptFile)
+                outputConsole_2(iter, oiter, t, dt, avgodt, minodt, maxodt, vamax, upstr_elv, compdomain, setup, rptFile);
+            oiter = 0;
+            avgodt = 0.0;
+            minodt = setup.time_maxdt;  // Output step minimum dt.
+            maxodt = 0.0;               // Output step maximum dt.
+
             std::stringstream status;
             status << "Run flood simulation at "
                 << ((int)time_output / 3600) << ":" << std::setw(2) << std::setfill('0') << ((int)time_output / 60 % 60)
@@ -1533,6 +1603,24 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
 
             // Compute the next output time.
             time_output += setup.output_period;
+
+            if (setup.check_vols == true && rptFile)
+            {
+                // Compute the total volume of water that is in the water
+                // depth (included the boundary cell).
+                WD.sequentialOp(fulldomain, wd_volume, CA::Seq::Add);
+                wd_volume *= GRID.area();
+
+                fprintf(rptFile, "Volume check:\n");
+                fprintf(rptFile, "RAIN = %f INFLOW = %f INFILT = %f WD = %f\n", rain_volume, inflow_volume, -inf_volume, wd_volume);
+                fprintf(rptFile, "-----------------\n");
+            }
+
+            if (rptFile)
+            {
+                fprintf(rptFile, "Partial run time taken (s) = %f\n", total_timer.millisecond() / 1000.0);
+                fprintf(rptFile, "-----------------\n");
+            }
         }
 
         // --- SIMULATION TIME ---
@@ -1833,9 +1921,9 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     // --- CONSOLE OUTPUT ---
 
     // Check if it is time to output to console.
-    if (setup.output_console && t >= time_output)
+    if (rptFile && t >= time_output)
     {
-        outputConsole(iter, oiter, t, dt, avgodt, minodt, maxodt, vamax, upstr_elv, compdomain, setup);
+        outputConsole_2(iter, oiter, t, dt, avgodt, minodt, maxodt, vamax, upstr_elv, compdomain, setup, rptFile);
 
         if (setup.check_vols == true)
         {
@@ -1844,11 +1932,28 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
             WD.sequentialOp(fulldomain, wd_volume, CA::Seq::Add);
             wd_volume *= GRID.area();
 
-            std::cout << "Volume check:" << std::endl;
-            std::cout << "RAIN = " << rain_volume << " INFLOW = " << inflow_volume << " INFILT = " << -inf_volume
-                << " WD = " << wd_volume << std::endl;
-            std::cout << "-----------------" << std::endl;
+            fprintf(rptFile, "Volume check:\n");
+            fprintf(rptFile, "RAIN = %f INFLOW = %f INFILT = %f WD = \n", rain_volume, inflow_volume, -inf_volume, wd_volume);
+            fprintf(rptFile, "-----------------\n");
         }
+    }
+
+    // ---- TIME OUTPUT ----
+
+    if (rptFile)
+    {
+        fprintf(rptFile, "-----------------\n");
+        fprintf(rptFile, "Total run time taken (s) = %f\n", total_timer.millisecond() / 1000.0);
+        fprintf(rptFile, "-----------------\n");
+    }
+
+    if (rptFile)
+    {
+        time_t t = time(0);   // get time now
+        struct tm * now = localtime(&t);
+        fprintf(rptFile, "Simulation : %s\n", setup.sim_name.c_str());
+        fprintf(rptFile, "Date End   : %d-%d-%d %d:%d:%d\n", now->tm_year + 1900, now->tm_mon + 1, now->tm_mday, now->tm_hour, now->tm_min, now->tm_sec);
+        fprintf(rptFile, "------------------------------------------\n");
     }
 
     return 0;

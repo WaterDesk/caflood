@@ -581,8 +581,19 @@ void writeGridData(const std::string& filename, const CA::AsciiGrid<CA::Real>& g
 }
 
 
-int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA::Real>& eg, const std::vector<RasterGrid>& rgs)
+int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA::Real>& eg, const std::vector<RasterGrid>& rgs, FILE* rptFile)
 {
+    if (rptFile)
+    {
+        fprintf(rptFile, "Post-processing : %s\n", setup.sim_name.c_str());
+        fprintf(rptFile, "------------------------------------------\n");
+    }
+
+    // ---- Timer ----
+
+    // Get starting time.
+    CA::Clock total_timer;
+
     // ---- CA GRID ----
 
     // Load the CA Grid from the DataDir. 
@@ -590,6 +601,9 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
     // direction.  The internal implementation could be different than a
     // square regular grid.
     CA::Grid  GRID(data_dir, setup.preproc_name + "_Grid", "0");
+
+    if (rptFile)
+        fprintf(rptFile, "Loaded Grid data\n");
 
     // Set if to print debug information on CA function.
     GRID.setCAPrint(false);
@@ -636,6 +650,9 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
         std::cerr << "Error while loading the Elevation pre-processed file" << std::endl;
         return 1;
     }
+
+    if (rptFile)
+        fprintf(rptFile, "Loaded Elevation data\n");
 
     // ---- CELL BUFFERS ----
 
@@ -769,6 +786,9 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
                     //agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
                     //agtmp2.writeAsciiGrid(filenameA, setup.rast_places);
 
+                    if (rptFile)
+                        fprintf(rptFile, "Write Raster Grid: %s %s\n", filenameV.c_str(), filenameA.c_str());
+
                     writeGridData(filenameV, agtmp1, 2, (int)t);
                     writeGridData(filenameA, agtmp2, 3, (int)t);
 
@@ -792,6 +812,9 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
                     // Retrieve the data
                     TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
+                    if (rptFile)
+                        fprintf(rptFile, "Write Raster Grid: %s\n", filename.c_str());
+
                     // Write the data.
                     //agtmp1.writeAsciiGrid(filename, setup.rast_places);
                     writeGridData(filename, agtmp1, 1, (int)t);
@@ -806,6 +829,9 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
 
                     // Retrieve the data
                     WD.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
+
+                    if (rptFile)
+                        fprintf(rptFile, "Write Raster Grid: %s\n", filename.c_str());
 
                     // Write the data.
                     //agtmp1.writeAsciiGrid(filename, setup.rast_places);
@@ -891,6 +917,9 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
                 // Retrieve the data
                 TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
+                if (rptFile)
+                    fprintf(rptFile, "Write Raster Grid: %s\n", filenameV.c_str());
+
                 // Write the data.
                 //agtmp1.writeAsciiGrid(filenameV, setup.rast_places);
                 writeGridData(filenameV, agtmp1, 6, 0);
@@ -914,6 +943,9 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
                 // Retrieve the data
                 TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
+                if (rptFile)
+                    fprintf(rptFile, "Write Raster Grid: %s/n", filename.c_str());
+
                 // Write the data.
                 //agtmp1.writeAsciiGrid(filename, setup.rast_places);
                 writeGridData(filename, agtmp1, 5, 0);
@@ -929,6 +961,9 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
 
                 // Retrieve the data
                 WD.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
+
+                if (rptFile)
+                    fprintf(rptFile, "Write Raster Grid: %s\n", filename.c_str());
 
                 // Write the data.
                 //agtmp1.writeAsciiGrid(filename, setup.rast_places);
@@ -958,5 +993,14 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
     // Remove Grid data.
     CA::Grid::remove(data_dir, setup.preproc_name + "_Grid", "0");
 
+    if (rptFile)
+        fprintf(rptFile, "Cleaned data\n");
+
+    if (rptFile)
+    {
+        fprintf(rptFile, "-----------------\n");
+        fprintf(rptFile, "Total run time taken (s) = %f\n", total_timer.millisecond() / 1000.0);
+        fprintf(rptFile, "-----------------\n");
+    }
     return 0;
 }

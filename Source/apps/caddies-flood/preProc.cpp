@@ -153,8 +153,14 @@ int preProc(const ArgsData& ad, const Setup& setup, const std::string& ele_file)
 }
 
 
-int preProc_2(const std::string& data_dir, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg)
+int preProc_2(const std::string& data_dir, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg, FILE* rptFile)
 {
+    if (rptFile)
+    {
+        fprintf(rptFile, "Pre-processing : %s\n", setup.sim_name.c_str());
+        fprintf(rptFile, "------------------------------------------\n");
+    }
+
     // ---- Timer ----
 
     // Get starting time.
@@ -200,6 +206,9 @@ int preProc_2(const std::string& data_dir, const Setup& setup, const CA::AsciiGr
             return 1;
         }
 
+        if (rptFile)
+            fprintf(rptFile, "Saved Grid information\n");
+
         // Create the full (extended) computational domain of CA grid. 
         CA::BoxList  fulldomain;
         CA::Box      fullbox = GRID.box();
@@ -239,17 +248,16 @@ int preProc_2(const std::string& data_dir, const Setup& setup, const CA::AsciiGr
             return 1;
         }
 
-        if (setup.output_console)
-            std::cout << "Saved Elevation data" << std::endl;
+        if (rptFile)
+            fprintf(rptFile, "Saved Elevation data\n");
     }
 
     // ---- TIME OUTPUT ----
 
-    if (setup.output_computation)
+    if (rptFile)
     {
-        std::cout << "-----------------" << std::endl;
-        std::cout << "Total run time taken (s) = " << total_timer.millisecond() / 1000.0 << std::endl;
-        std::cout << "-----------------" << std::endl;
+        fprintf(rptFile, "Total run time taken (s) = %f\n", total_timer.millisecond() / 1000.0);
+        fprintf(rptFile, "-----------------\n");
     }
 
     return 0;
