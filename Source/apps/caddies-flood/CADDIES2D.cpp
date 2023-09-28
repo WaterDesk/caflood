@@ -1152,9 +1152,9 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
         fprintf(rptFile, "Grid               : \n");
         fprintf(rptFile, "       xNum        : %d\n", GRID.xNum());
         fprintf(rptFile, "       yNum        : %d\n", GRID.yNum());
-        fprintf(rptFile, "       length      : %d\n", GRID.length());
-        fprintf(rptFile, "       xCoo        : %d\n", GRID.xCoo());
-        fprintf(rptFile, "       yCoo        : %d\n", GRID.yCoo());
+        fprintf(rptFile, "       length      : %f\n", GRID.length());
+        fprintf(rptFile, "       xCoo        : %f\n", GRID.xCoo());
+        fprintf(rptFile, "       yCoo        : %f\n", GRID.yCoo());
         fprintf(rptFile, "-----------------\n");
     }
 
