@@ -1558,8 +1558,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
 
     std::stringstream startStatus;
     startStatus << "Run flood simulation at 0:00/"
-        << ((int)setup.time_end / 3600) << ":" << std::setw(2) << std::setfill('0') << ((int)setup.time_end / 60 % 60)
-        << " ...";
+        << ((int)setup.time_end / 3600) << ":" << std::setw(2) << std::setfill('0') << ((int)setup.time_end / 60 % 60);
     setRunStatus(startStatus.str());
 
     // ------------------------- MAIN LOOP -------------------------------
@@ -1597,8 +1596,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
             status << "Run flood simulation at "
                 << ((int)time_output / 3600) << ":" << std::setw(2) << std::setfill('0') << ((int)time_output / 60 % 60)
                 << "/"
-                << ((int)setup.time_end / 3600) << ":" << std::setw(2) << std::setfill('0') << ((int)setup.time_end / 60 % 60)
-                << " ...";
+                << ((int)setup.time_end / 3600) << ":" << std::setw(2) << std::setfill('0') << ((int)setup.time_end / 60 % 60);
             setRunStatus(status.str());
 
             // Compute the next output time.
