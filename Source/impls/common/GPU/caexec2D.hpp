@@ -315,7 +315,7 @@ namespace CA {
             // events to finish.
 
             g.queue().enqueueMarker(e);
-            g.queue().enqueueMarkerWithWaitList(e);
+            const_cast<cl::CommandQueue&>(g.queue()).enqueueMarkerWithWaitList(wait_events, e);
 #endif  
         }
 
@@ -323,14 +323,14 @@ namespace CA {
         template<typename Func, typename A1>
         void function(const BoxList& bl, Func& f, Grid& g, A1& a1)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
             setEventArg(event, a1);
@@ -343,15 +343,15 @@ namespace CA {
         template<typename Func, typename A1, typename A2>
         void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -367,16 +367,16 @@ namespace CA {
         template<typename Func, typename A1, typename A2, typename A3>
         void function(const BoxList& bl, Func &f, Grid& g, A1& a1, A2& a2, A3& a3)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -393,17 +393,17 @@ namespace CA {
         template<typename Func, typename A1, typename A2, typename A3, typename A4>
         void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -421,18 +421,18 @@ namespace CA {
         template<typename Func, typename A1, typename A2, typename A3, typename A4, typename A5>
         void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -451,19 +451,19 @@ namespace CA {
         template<typename Func, typename A1, typename A2, typename A3, typename A4, typename A5, typename A6>
         void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -484,20 +484,20 @@ namespace CA {
             typename A7>
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -520,21 +520,21 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -559,22 +559,22 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -600,23 +600,23 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9, A10& a10)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
-            setKernelArg(kernel, 10, a10, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
+            setKernelArg(kernel, 10, a10, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -643,24 +643,24 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9, A10& a10, A11& a11)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
-            setKernelArg(kernel, 10, a10, wait_events);
-            setKernelArg(kernel, 11, a11, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
+            setKernelArg(kernel, 10, a10, &wait_events);
+            setKernelArg(kernel, 11, a11, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -688,25 +688,25 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9, A10& a10, A11& a11, A12& a12)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
-            setKernelArg(kernel, 10, a10, wait_events);
-            setKernelArg(kernel, 11, a11, wait_events);
-            setKernelArg(kernel, 12, a12, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
+            setKernelArg(kernel, 10, a10, &wait_events);
+            setKernelArg(kernel, 11, a11, &wait_events);
+            setKernelArg(kernel, 12, a12, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -736,26 +736,26 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9, A10& a10, A11& a11, A12& a12, A13& a13)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
-            setKernelArg(kernel, 10, a10, wait_events);
-            setKernelArg(kernel, 11, a11, wait_events);
-            setKernelArg(kernel, 12, a12, wait_events);
-            setKernelArg(kernel, 13, a13, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
+            setKernelArg(kernel, 10, a10, &wait_events);
+            setKernelArg(kernel, 11, a11, &wait_events);
+            setKernelArg(kernel, 12, a12, &wait_events);
+            setKernelArg(kernel, 13, a13, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -785,27 +785,27 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9, A10& a10, A11& a11, A12& a12, A13& a13, A14& a14)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
-            setKernelArg(kernel, 10, a10, wait_events);
-            setKernelArg(kernel, 11, a11, wait_events);
-            setKernelArg(kernel, 12, a12, wait_events);
-            setKernelArg(kernel, 13, a13, wait_events);
-            setKernelArg(kernel, 14, a14, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
+            setKernelArg(kernel, 10, a10, &wait_events);
+            setKernelArg(kernel, 11, a11, &wait_events);
+            setKernelArg(kernel, 12, a12, &wait_events);
+            setKernelArg(kernel, 13, a13, &wait_events);
+            setKernelArg(kernel, 14, a14, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -836,28 +836,28 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9, A10& a10, A11& a11, A12& a12, A13& a13, A14& a14, A15& a15)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
-            setKernelArg(kernel, 10, a10, wait_events);
-            setKernelArg(kernel, 11, a11, wait_events);
-            setKernelArg(kernel, 12, a12, wait_events);
-            setKernelArg(kernel, 13, a13, wait_events);
-            setKernelArg(kernel, 14, a14, wait_events);
-            setKernelArg(kernel, 15, a15, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
+            setKernelArg(kernel, 10, a10, &wait_events);
+            setKernelArg(kernel, 11, a11, &wait_events);
+            setKernelArg(kernel, 12, a12, &wait_events);
+            setKernelArg(kernel, 13, a13, &wait_events);
+            setKernelArg(kernel, 14, a14, &wait_events);
+            setKernelArg(kernel, 15, a15, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -892,29 +892,29 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9, A10& a10, A11& a11, A12& a12, A13& a13, A14& a14, A15& a15, A16& a16)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
-            setKernelArg(kernel, 10, a10, wait_events);
-            setKernelArg(kernel, 11, a11, wait_events);
-            setKernelArg(kernel, 12, a12, wait_events);
-            setKernelArg(kernel, 13, a13, wait_events);
-            setKernelArg(kernel, 14, a14, wait_events);
-            setKernelArg(kernel, 15, a15, wait_events);
-            setKernelArg(kernel, 16, a16, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
+            setKernelArg(kernel, 10, a10, &wait_events);
+            setKernelArg(kernel, 11, a11, &wait_events);
+            setKernelArg(kernel, 12, a12, &wait_events);
+            setKernelArg(kernel, 13, a13, &wait_events);
+            setKernelArg(kernel, 14, a14, &wait_events);
+            setKernelArg(kernel, 15, a15, &wait_events);
+            setKernelArg(kernel, 16, a16, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);
@@ -949,30 +949,30 @@ namespace CA {
             void function(const BoxList& bl, Func& f, Grid& g, A1& a1, A2& a2, A3& a3, A4& a4, A5& a5, A6& a6, A7& a7,
                 A8& a8, A9& a9, A10& a10, A11& a11, A12& a12, A13& a13, A14& a14, A15& a15, A16& a16, A17& a17)
         {
-            std::vector<cl::Event>* wait_events = NULL;
+            std::vector<cl::Event> wait_events;
 #ifdef  CA_OCL_USE_EVENTS 
             cl::Event event;
 #endif
 
             cl::Kernel kernel(getKernel(f, g));
 
-            setKernelArg(kernel, 1, a1, wait_events);
-            setKernelArg(kernel, 2, a2, wait_events);
-            setKernelArg(kernel, 3, a3, wait_events);
-            setKernelArg(kernel, 4, a4, wait_events);
-            setKernelArg(kernel, 5, a5, wait_events);
-            setKernelArg(kernel, 6, a6, wait_events);
-            setKernelArg(kernel, 7, a7, wait_events);
-            setKernelArg(kernel, 8, a8, wait_events);
-            setKernelArg(kernel, 9, a9, wait_events);
-            setKernelArg(kernel, 10, a10, wait_events);
-            setKernelArg(kernel, 11, a11, wait_events);
-            setKernelArg(kernel, 12, a12, wait_events);
-            setKernelArg(kernel, 13, a13, wait_events);
-            setKernelArg(kernel, 14, a14, wait_events);
-            setKernelArg(kernel, 15, a15, wait_events);
-            setKernelArg(kernel, 16, a16, wait_events);
-            setKernelArg(kernel, 17, a17, wait_events);
+            setKernelArg(kernel, 1, a1, &wait_events);
+            setKernelArg(kernel, 2, a2, &wait_events);
+            setKernelArg(kernel, 3, a3, &wait_events);
+            setKernelArg(kernel, 4, a4, &wait_events);
+            setKernelArg(kernel, 5, a5, &wait_events);
+            setKernelArg(kernel, 6, a6, &wait_events);
+            setKernelArg(kernel, 7, a7, &wait_events);
+            setKernelArg(kernel, 8, a8, &wait_events);
+            setKernelArg(kernel, 9, a9, &wait_events);
+            setKernelArg(kernel, 10, a10, &wait_events);
+            setKernelArg(kernel, 11, a11, &wait_events);
+            setKernelArg(kernel, 12, a12, &wait_events);
+            setKernelArg(kernel, 13, a13, &wait_events);
+            setKernelArg(kernel, 14, a14, &wait_events);
+            setKernelArg(kernel, 15, a15, &wait_events);
+            setKernelArg(kernel, 16, a16, &wait_events);
+            setKernelArg(kernel, 17, a17, &wait_events);
 
 #ifdef  CA_OCL_USE_EVENTS 
             execute(bl, f().fourth, g, kernel, &wait_events, &event);

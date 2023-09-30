@@ -58,6 +58,8 @@ endif(MSVC)
 add_library("${CAAPI_APP_DLL}" SHARED ${CAAPI_APP_SOURCES} ${CAAPI_SOURCES} 
   ${CAAPI_APP_CAFUNCTIONS} ${CAAPI_HEADERS} ${CAAPI_APP_HEADERS})
 
+target_link_libraries("${CAAPI_APP_DLL}" ${CAAPI_IMPL_LIBRARIES} )
+
 # Add the executable to the project using the specified source files.
 add_executable("${CAAPI_APP_EXE}" "${CAAPI_APP_MAIN}")
 target_link_libraries("${CAAPI_APP_EXE}" LINK_PUBLIC "${CAAPI_APP_DLL}")
