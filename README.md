@@ -28,7 +28,12 @@ The original source code:
     - specify the source code directory, e.g. `E:/Code/caflood/Source`
     - specify the build directory, e.g. `E:/Code/caflood/build/opencl`
     - make sure the entry value `CAAPI_SPECIFIC_IMPL_DIR` to be the opencl implementation directory, e.g. `E:/Code/caflood/Source/impls/square-cell/vn-neighbours/1-levels/opencl`
+    - click <b>Configure</b> button
     - make sure the entry value `OPENCL_LIBRARIES` to be OpenCL.lib file, e.g. `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.2/lib/x64/OpenCL.lib`
-    - make sure the entry value `_OPENCL_CPP_INCLUDE_DIRS` to be the OpenCL include directory, e.g. `C:/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.2/include`
+    - make sure the entry value `_OPENCL_CPP_INCLUDE_DIRS` to be the OpenCL include directory, e.g. `E:/Code/caflood/Source/impls/square-cell/vn-neighbours/1-levels/opencl/extra`
+    - click <b>Configure</b> button again, make sure there is no error or warning
+    - click <b>Generate</b> button, and then click <b>Open Project</b> button
+    - build the project first, it will run convertCA2HPP. !!!IMPORTANT
+    - reference ![cmake_gui_setting](build-opencl.png)
 
 - reference: [CADDIES_Build_instructions.docx](https://engineering.exeter.ac.uk/media/universityofexeter/emps/research/cws/downloads/caddies/CADDIES_Build_instructions.docx)

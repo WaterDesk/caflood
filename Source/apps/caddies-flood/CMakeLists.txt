@@ -62,7 +62,7 @@ target_link_libraries("${CAAPI_APP_DLL}" ${CAAPI_IMPL_LIBRARIES} )
 
 # Add the executable to the project using the specified source files.
 add_executable("${CAAPI_APP_EXE}" "${CAAPI_APP_MAIN}")
-target_link_libraries("${CAAPI_APP_EXE}" LINK_PUBLIC "${CAAPI_APP_DLL}")
+target_link_libraries("${CAAPI_APP_EXE}" "${CAAPI_APP_DLL}")
 
 add_dependencies("${CAAPI_APP_EXE}" ${CAAPI_APP_CUSTOM_TARGET})
 target_link_libraries("${CAAPI_APP_EXE}" ${CAAPI_IMPL_LIBRARIES} )
