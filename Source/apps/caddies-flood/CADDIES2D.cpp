@@ -1146,15 +1146,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     if (rptFile)
     {
         fprintf(rptFile, "-----------------\n");
-        fprintf(rptFile, "CA API Version     : %d\n", caVersion);
-        fprintf(rptFile, "       Impl Name   : %s\n", caImplName);
-        fprintf(rptFile, "       Impl Version: %d\n", caImplVersion);
-        fprintf(rptFile, "Grid               : \n");
-        fprintf(rptFile, "       xNum        : %d\n", GRID.xNum());
-        fprintf(rptFile, "       yNum        : %d\n", GRID.yNum());
-        fprintf(rptFile, "       length      : %f\n", GRID.length());
-        fprintf(rptFile, "       xCoo        : %f\n", GRID.xCoo());
-        fprintf(rptFile, "       yCoo        : %f\n", GRID.yCoo());
+        GRID.printInfo(rptFile);
         fprintf(rptFile, "-----------------\n");
     }
 

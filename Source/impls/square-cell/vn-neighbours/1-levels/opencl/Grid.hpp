@@ -154,6 +154,7 @@ namespace CA {
 
         //! Print information about the local implementation.
         void printInfo(std::ostream& out);
+        void printInfo(FILE* rptFile);
 
         //! If set to true, the print methods in the ca function will
         //! work. If set to false there will be no printing.
@@ -831,6 +832,62 @@ namespace CA {
         */
 
         out << std::endl;
+    }
+
+
+    inline void Grid::printInfo(FILE* rptFile)
+    {
+        if (!rptFile)
+            return;
+
+        fprintf(rptFile, "CA API Version     : %d\n", caVersion);
+        fprintf(rptFile, "       Impl Name   : %s\n", caImplName);
+        fprintf(rptFile, "       Impl Version: %d\n", caImplVersion);
+        fprintf(rptFile, "Grid               : \n");
+        fprintf(rptFile, "       xNum        : %d\n", xNum());
+        fprintf(rptFile, "       yNum        : %d\n", yNum());
+        fprintf(rptFile, "       length      : %f\n", length());
+        fprintf(rptFile, "       xCoo        : %f\n", xCoo());
+        fprintf(rptFile, "       yCoo        : %f\n", yCoo());
+
+        // Loop through the platforms and print the information.
+        fprintf(rptFile, "OpenCL Platform    : \n");
+        fprintf(rptFile, "       Requested   : %s\n", _platform_name.c_str());
+        fprintf(rptFile, "       Name        : %s\n", _platforms[_platforms_num].getInfo<CL_PLATFORM_NAME>().c_str());
+        fprintf(rptFile, "       Vendor      : %s\n", _platforms[_platforms_num].getInfo<CL_PLATFORM_VENDOR>().c_str());
+        fprintf(rptFile, "       Version     : %s\n", _platforms[_platforms_num].getInfo<CL_PLATFORM_VERSION>().c_str());
+        fprintf(rptFile, "       Warp Size   : %d\n", _warp);
+        fprintf(rptFile, "OpenCL Device      : \n");
+        fprintf(rptFile, "       Name        : %s\n", _devices[0].getInfo<CL_DEVICE_NAME>().c_str());
+        fprintf(rptFile, "       Device Num  : %d\n", _devices_num);
+        fprintf(rptFile, "       ComputeUnits: %d\n", _devices[0].getInfo<CL_DEVICE_MAX_COMPUTE_UNITS>());
+        fprintf(rptFile, "       Fission     : %d\n", _device_fission ? 1 : 0);
+        fprintf(rptFile, "       Device Type : ");
+        switch (_device_type)
+        {
+        case CL_DEVICE_TYPE_GPU: fprintf(rptFile, "GPU\n");  break;
+        case CL_DEVICE_TYPE_CPU: fprintf(rptFile, "CPU\n");  break;
+        default: fprintf(rptFile, "UNKNOWN\n");
+        }
+        fprintf(rptFile, "       Mem         : %lu\n", _devices[0].getInfo<CL_DEVICE_GLOBAL_MEM_SIZE>());
+        fprintf(rptFile, "       Max Mem Buff: %lu\n", _devices[0].getInfo<CL_DEVICE_MAX_MEM_ALLOC_SIZE>());
+
+        // Show extra configuration options.
+        if (!_config_filename.empty())
+        {
+            fprintf(rptFile, "Configuration file : %s\n", _config_filename.c_str());
+
+            typedef std::map<std::string, cl::NDRange>::iterator it_type;
+            for (it_type iterator = _hash_ranges.begin(); iterator != _hash_ranges.end(); ++iterator)
+            {
+                const size_t* range = iterator->second;
+                fprintf(rptFile, "CA Function Range  : %s (%d,%d)\n", iterator->first.c_str(), range[0], range[1]);
+            }
+        }
+        else
+        {
+            fprintf(rptFile, "Configuration file : NO CONFIGURATION FILE\n");
+        }
     }
 
 

@@ -120,6 +120,7 @@ namespace CA {
 
         //! Print information about the local implementation.
         void printInfo(std::ostream& out);
+        void printInfo(FILE* rptFile);
 
         //! If set to true, the print methods in the ca function will
         //! work. If set to false there will be no printing.
@@ -393,6 +394,24 @@ namespace CA {
         out << "       xCoo        : " << xCoo() << std::endl;
         out << "       yCoo        : " << yCoo() << std::endl;
     }
+
+
+    inline void Grid::printInfo(FILE* rptFile)
+    {
+        if (!rptFile)
+            return;
+
+        fprintf(rptFile, "CA API Version     : %d\n", caVersion);
+        fprintf(rptFile, "       Impl Name   : %s\n", caImplName);
+        fprintf(rptFile, "       Impl Version: %d\n", caImplVersion);
+        fprintf(rptFile, "Grid               : \n");
+        fprintf(rptFile, "       xNum        : %d\n", xNum());
+        fprintf(rptFile, "       yNum        : %d\n", yNum());
+        fprintf(rptFile, "       length      : %f\n", length());
+        fprintf(rptFile, "       xCoo        : %f\n", xCoo());
+        fprintf(rptFile, "       yCoo        : %f\n", yCoo());
+    }
+
 
     inline const _caGrid Grid::caGrid() const
     {

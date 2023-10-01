@@ -568,7 +568,7 @@ void writeGridData(const std::string& filename, const CA::AsciiGrid<CA::Real>& g
     std::string _filename = filename + ".hs2d";
     std::ofstream file(_filename.c_str(), std::ofstream::out | std::ofstream::binary | std::ofstream::trunc);
 
-    unsigned int magic = CAAPI_2D_MAGIC;
+    unsigned int magic = 0xFFFB;    // HS_CAAPI_2D_MAGIC
     file.write(reinterpret_cast<char*>(&magic), sizeof(unsigned int));
 
     // Write the data in a go!
@@ -944,7 +944,7 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
                 TMP1.retrieveData(realbox, &agtmp1.data[0], agtmp1.ncols, agtmp1.nrows);
 
                 if (rptFile)
-                    fprintf(rptFile, "Write Raster Grid: %s/n", filename.c_str());
+                    fprintf(rptFile, "Write Raster Grid: %s\n", filename.c_str());
 
                 // Write the data.
                 //agtmp1.writeAsciiGrid(filename, setup.rast_places);
