@@ -117,7 +117,8 @@ namespace CA {
         //! \param subid   The main id of the Grid to load.
         //! \param options The list of implementation specific options.
         Grid(const std::string& datadir, const std::string& mainid, const std::string& subid,
-            const Options& options = Options());
+            const Options& options = Options(),
+            int platform_index = 9999);
 
         //! Destroy the grid.
         ~Grid();
@@ -616,7 +617,8 @@ namespace CA {
 
 
     inline Grid::Grid(const std::string& datadir, const std::string& mainid, const std::string& subid,
-        const Options& options) :
+        const Options& options,
+        int platform_index) :
         _cagrid(),
         _cagrid_short(),
         // former static variables.
@@ -624,7 +626,7 @@ namespace CA {
         _warp(32),
         _context(),
         _platforms(),
-        _platforms_num(),
+        _platforms_num(platform_index),
         _devices(),
         _platform_name(),
         _device_type(CL_DEVICE_TYPE_GPU),
@@ -1760,26 +1762,34 @@ namespace CA {
 
             if (_platform_name.empty())
             {
-                // If there was no specific request of a OpenCL platform.
-                // Loop through the platforms and until a device of the chosen
-                // type is found.
-                std::vector<cl::Platform>::iterator iter = _platforms.begin();
-                while (_devices.empty() && iter != _platforms.end())
+                if (_platforms_num < _platforms.size())
                 {
-                    try
-                    {
-                        iter->getDevices(_device_type, &_devices);
-                        version = iter->getInfo<CL_PLATFORM_VERSION>();
-                        break;
-                    }
-                    catch (cl::Error err)
-                    {
-                    }
-                    ++iter;
+                    _platforms[_platforms_num].getDevices(_device_type, &_devices);
+                    version = _platforms[_platforms_num].getInfo<CL_PLATFORM_VERSION>();
                 }
+                else
+                {
+                    // If there was no specific request of a OpenCL platform.
+                    // Loop through the platforms and until a device of the chosen
+                    // type is found.
+                    std::vector<cl::Platform>::iterator iter = _platforms.begin();
+                    while (_devices.empty() && iter != _platforms.end())
+                    {
+                        try
+                        {
+                            iter->getDevices(_device_type, &_devices);
+                            version = iter->getInfo<CL_PLATFORM_VERSION>();
+                            break;
+                        }
+                        catch (cl::Error err)
+                        {
+                        }
+                        ++iter;
+                    }
 
-                // Memorize which platform is going to be used.
-                _platforms_num = std::distance(_platforms.begin(), iter);
+                    // Memorize which platform is going to be used.
+                    _platforms_num = std::distance(_platforms.begin(), iter);
+                }
             }
             else
             {

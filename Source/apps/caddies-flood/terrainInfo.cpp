@@ -54,7 +54,7 @@ int terrainInfo(const ArgsData& ad, Setup& setup, const CA::AsciiGrid<CA::Real>&
     // ATTENTION this should have an extra set of cells in each
     // direction.  The internal implementation could be different than a
     // square regular grid.
-    CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0", ad.args.active());
+    CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0", ad.args.active(), 9999);
 
     if (setup.output_console)
         std::cout << "Loaded Grid data" << std::endl;

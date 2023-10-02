@@ -233,7 +233,7 @@ int CADDIES2D(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::Re
     // ATTENTION this should have an extra set of cells in each
     // direction. The internal implementation could be different than a
     // square regular grid.
-    CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0", ad.args.active());
+    CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0", ad.args.active(), 9999);
 
     if (setup.output_console)
         std::cout << "Loaded Grid data" << std::endl;
@@ -1100,6 +1100,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     const std::vector<RainEvent>& res, const std::vector<WLEvent>& wles,
     const std::vector<IEvent>& ies,
     const std::vector<RasterGrid>& rgs,
+    int platform_index,
     FILE* rptFile)
 {
     // Check the model.
@@ -1137,7 +1138,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     // ATTENTION this should have an extra set of cells in each
     // direction. The internal implementation could be different than a
     // square regular grid.
-    CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0", ad.args.active());
+    CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0", ad.args.active(), platform_index);
 
     if (rptFile)
         fprintf(rptFile, "Loaded Grid data\n");

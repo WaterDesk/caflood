@@ -83,7 +83,8 @@ namespace CA {
         //! \param subid   The main id of the Grid to load.
         //! \param options The list of implementation specific options.
         Grid(const std::string& datadir, const std::string& mainid, const std::string& subid,
-            const Options& options = Options());
+            const Options& options = Options(),
+            int platform_index = 9999);
 
         //! Destroy the grid.
         ~Grid();
@@ -280,7 +281,8 @@ namespace CA {
 
 
     inline Grid::Grid(const std::string& datadir, const std::string& mainid, const std::string& subid,
-        const Options& options) :
+        const Options& options,
+        int platform_index) :
         _cagrid(),
         _datadir(datadir)
     {
