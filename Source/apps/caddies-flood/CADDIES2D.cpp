@@ -1271,7 +1271,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
 
     CA::Unsigned iter = 0;              // The actual iteration number.
     CA::Real     t = setup.time_start;  // The actual time in seconds
-    CA::Real     dt = setup.time_maxdt; // Starting delta time.
+    CA::Real     dt = std::min(setup.time_maxdt, setup.output_period); // Starting delta time.
     CA::Real     dtn1 = 0.0;
     CA::Real     nodata = eg.nodata;
 

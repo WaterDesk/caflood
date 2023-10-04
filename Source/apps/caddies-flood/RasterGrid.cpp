@@ -309,7 +309,8 @@ bool RGManager::output(CA::Real t, CA::CellBuffReal& WD,
 
             // Retrieve the string of the time.
             std::string strtime;
-            CA::toString(strtime, std::floor(t + 0.5));
+            // make sure the result is always by the periods
+            CA::toString(strtime, std::floor(_datas[i].time_next + 0.5));
 
             // Save the buffer using direct I/O where the main ID is the
             // buffer name and the subID is the timestep.

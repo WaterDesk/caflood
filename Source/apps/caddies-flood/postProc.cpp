@@ -737,6 +737,11 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
                     if (!WD.loadData(setup.short_name + "_WD", strtime))
                     {
                         std::cerr << "Missing water depth data: " << strtime << std::endl;
+
+                        // Update the next time to process a raster grid.
+                        rgdatas[i].time_next += rgs[i].period;
+                        // It's time to find the possible next time of interest.
+                        t_nearest = nextTimeNearestAction(t, t_nearest, rgs[i].period);
                         continue;
                     }
 
@@ -765,14 +770,14 @@ int postProc_2(const std::string& data_dir, const Setup& setup, CA::AsciiGrid<CA
                     if (!TMP1.loadData(setup.short_name + "_V", strtime))
                     {
                         std::cerr << "Missing velocity data to create file: " << filenameV << std::endl;
-                        continue;
+                        break;
                     }
 
                     // Load the angle data on TMP2.
                     if (!TMP2.loadData(setup.short_name + "_A", strtime))
                     {
                         std::cerr << "Missing angle data to create file: " << filenameA << std::endl;
-                        continue;
+                        break;
                     }
 
                     // Set the V and A to zero if water depth is less than tolerance.
