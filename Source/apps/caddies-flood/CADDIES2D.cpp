@@ -32,6 +32,7 @@ THE SOFTWARE.
 #include"ca2D.hpp"
 #include"Masks.hpp"
 #include"ArgsData.hpp"
+#include"Arguments.hpp"
 #include"Setup.hpp"
 #include"Rain.hpp"
 #include"Inflow.hpp"
@@ -1096,7 +1097,7 @@ void outputConsole_2(CA::Unsigned iter, CA::Unsigned oiter, CA::Real t, CA::Real
 }
 
 
-int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg,
+int CADDIES2D_2(const std::string& data_dir, const Setup& setup, const CA::AsciiGrid<CA::Real>& eg,
     const std::vector<RainEvent>& res, const std::vector<WLEvent>& wles,
     const std::vector<IEvent>& ies,
     const std::vector<RasterGrid>& rgs,
@@ -1138,7 +1139,8 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
     // ATTENTION this should have an extra set of cells in each
     // direction. The internal implementation could be different than a
     // square regular grid.
-    CA::Grid  GRID(ad.data_dir, setup.preproc_name + "_Grid", "0", ad.args.active(), platform_index);
+    CA::Arguments args;
+    CA::Grid  GRID(data_dir, setup.preproc_name + "_Grid", "0", args.active(), platform_index);
 
     if (rptFile)
         fprintf(rptFile, "Loaded Grid data\n");
@@ -1450,7 +1452,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
 
     // ---- INIT TIME PLOTS AND RASTER GRID ----
 
-    std::string basefilename = ad.output_dir + ad.sdir + setup.short_name;
+    std::string basefilename = data_dir + setup.short_name;
 
     // Initialise the object that manages the time plots.
     RGManager rg_manager(GRID, rgs, basefilename, setup.rastergrid_files);
@@ -1463,7 +1465,7 @@ int CADDIES2D_2(const ArgsData& ad, const Setup& setup, const CA::AsciiGrid<CA::
 
     for (size_t i = 0; i < rgs.size(); ++i)
     {
-        std::string filename = ad.output_dir + ad.sdir + setup.short_name + "_" + setup.rastergrid_files[i];
+        std::string filename = data_dir + setup.short_name + "_" + setup.rastergrid_files[i];
         initRGData(filename, GRID, nodata, rgs[i], rgdatas[i], rgpeak);
     }
 
