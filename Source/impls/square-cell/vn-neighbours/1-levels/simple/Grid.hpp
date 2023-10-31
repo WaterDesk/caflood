@@ -407,8 +407,8 @@ namespace CA {
         fprintf(rptFile, "       Impl Name   : %s\n", caImplName);
         fprintf(rptFile, "       Impl Version: %d\n", caImplVersion);
         fprintf(rptFile, "Grid               : \n");
-        fprintf(rptFile, "       xNum        : %d\n", xNum());
-        fprintf(rptFile, "       yNum        : %d\n", yNum());
+        fprintf(rptFile, "       xNum        : %u\n", xNum());
+        fprintf(rptFile, "       yNum        : %u\n", yNum());
         fprintf(rptFile, "       length      : %f\n", length());
         fprintf(rptFile, "       xCoo        : %f\n", xCoo());
         fprintf(rptFile, "       yCoo        : %f\n", yCoo());
