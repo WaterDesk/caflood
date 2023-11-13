@@ -315,7 +315,7 @@ void InflowManager::add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real 
 
         // Check if the simulation time now is equal or higher than the
         // time of the NEXT index.
-        if (t >= _ies[i].times[index + 1])
+        if (index < _ies[i].times.size() - 1 && t >= _ies[i].times[index + 1])
             index++;
 
         // Update index.

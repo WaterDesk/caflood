@@ -300,7 +300,7 @@ void WaterLevelManager::add(CA::CellBuffReal& WD, CA::CellBuffReal& ELV,
 
         // Check if the simulation time now is equal or higher than the
         // time of the NEXT index.
-        if (t >= _wles[i].times[index + 1])
+        if (index < _wles[i].times.size() - 1 && t >= _wles[i].times[index + 1])
             index++;
 
         // Update index.
