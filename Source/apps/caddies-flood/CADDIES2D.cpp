@@ -1447,7 +1447,7 @@ int CADDIES2D_2(const std::string& data_dir, const Setup& setup, const CA::Ascii
 
     // Analyse the area where it will inflow to use for volume
     // checking. WD is used as temporary buffer.
-    if (setup.check_vols)
+    //if (setup.check_vols)
         inflow_manager.analyseArea(WD, MASK, fulldomain);
 
     // ---- INIT TIME PLOTS AND RASTER GRID ----
