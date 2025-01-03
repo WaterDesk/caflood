@@ -1331,7 +1331,7 @@ int CADDIES2D_2(const std::string& data_dir, const Setup& setup, const CA::Ascii
 
     // Possible dt for WCA2Dv2 model. This is used to compute the
     // possible dt create by an event and created by the outflow.
-    CA::Real     possible_dt;
+    CA::Real     possible_dt = setup.time_maxdt;
 
     // Upstream elevation value. This value is the elevation where the
     // water "probably cannot reach anymore".
@@ -1558,7 +1558,9 @@ int CADDIES2D_2(const std::string& data_dir, const Setup& setup, const CA::Ascii
 
     // ------------------------- MAIN LOOP -------------------------------
     while (iter < setup.time_maxiters && t < setup.time_end)
-    {
+    {      
+        CA::Real previous_possible_dt = possible_dt;
+
         // force stop by callback
         if (isForceStopped()) break;
 
@@ -1820,6 +1822,12 @@ int CADDIES2D_2(const std::string& data_dir, const Setup& setup, const CA::Ascii
                 // Retrieve the possible dt using the WCA2Dv2 diffusive formula.
                 // This is very similar to the LISFLOOD-FP diffusive formula.
                 (*PDT).sequentialOp(seqdomain, possible_dt, CA::Seq::Min);
+
+                if (possible_dt < setup.time_mindt)
+                {
+                    if (previous_possible_dt * alpha > possible_dt)
+                        possible_dt = previous_possible_dt;
+                }
 
                 // I Don't like using alpha. But at the moment this is the
                 // simplest way to find the potential impact of events.

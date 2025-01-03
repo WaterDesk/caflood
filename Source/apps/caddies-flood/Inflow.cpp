@@ -303,6 +303,8 @@ void InflowManager::add(CA::CellBuffReal& WD, CA::CellBuffState& MASK, CA::Real 
         // ATTENTION The volume is the total volume, it needs to be
         // divided by the number of cells that are going to receive the
         // inflow. 
+        if (_datas[i].grid_area == 0.0)
+            continue;
         volume = volume / (_datas[i].grid_area / (_grid.area()));
 
         // Add (or subtract) the given volume into the water depth of the
@@ -360,6 +362,8 @@ CA::Real InflowManager::potentialVA(CA::Real t, CA::Real period_time_dt)
         // cell it needs to be divided by the number of cells that are
         // going to receive the inflow. Then it needs to be divided by the
         // cell area.
+        if (_datas[i].grid_area == 0.0)
+            continue;
         CA::Real wd = volume / (_datas[i].grid_area*period_time_dt);
 
         // Compute the potential velocity.
