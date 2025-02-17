@@ -54,7 +54,6 @@ namespace CA {
 
     inline Point Point::create(const Grid& grid, Real x_coo, Real y_coo)
     {
-        /* original code, x_coo, y_coo could be negative
         Unsigned x = static_cast<Unsigned>(std::floor((x_coo - grid.xCoo()) / grid.length()));
         Unsigned y = static_cast<Unsigned>(std::floor((y_coo - grid.yCoo()) / grid.length()));
 
@@ -63,9 +62,6 @@ namespace CA {
         y = std::max(grid.yNum() - y - 1, static_cast<Unsigned>(1));
         /// X cannot be zero!
         x = std::max(x, static_cast<Unsigned>(1));
-        */
-        _caReal x = static_cast<_caReal>(std::floor((x_coo - grid.xCoo()) / grid.length()));
-        _caReal y = static_cast<_caReal>(std::floor((y_coo - grid.yCoo()) / grid.length()));
 
         Point p(x, y);
         p._coo.setX(x_coo);
